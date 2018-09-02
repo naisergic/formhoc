@@ -71,7 +71,7 @@ export default class formHoc extends PureComponent {
   render() {
     const {isRedux, inputProps} = this.props
     const {classNameForErrorSpan, classNameForErrorSpanParagraph} = inputProps
-    const {type} = inputProps
+    const {type, selectedValue} = inputProps
     /**
      * isRedux will check that is Application using Redux or not
      */
@@ -85,6 +85,7 @@ export default class formHoc extends PureComponent {
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
+              value={this.state.vlaue || selectedValue}
             />
             <span className={classNameForErrorSpan}>
               <p className={classNameForErrorSpanParagraph}>{this.state.errorMsg}</p>
@@ -93,7 +94,7 @@ export default class formHoc extends PureComponent {
         )
       }
       if (type === 'select') {
-        const {options, selectedValue} = inputProps
+        const {options} = inputProps
         let optionsVal
         if (Array.isArray(options)) {
           optionsVal = optionsVal.map(item => {
@@ -106,7 +107,12 @@ export default class formHoc extends PureComponent {
         }
         return (
           <Fragment>
-            <select value={selectedValue}>
+            <select
+              {...inputProps}
+              onChange={(e) => { this.handleOnChange(e) }}
+              onBlur={(e) => { this.handleOnBlur(e) }}
+              value={this.state.vlaue || selectedValue}
+            >
               {optionsVal}
             </select>
           </Fragment>
