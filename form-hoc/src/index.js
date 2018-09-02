@@ -71,24 +71,53 @@ export default class formHoc extends PureComponent {
   render() {
     const {isRedux, inputProps} = this.props
     const {classNameForErrorSpan, classNameForErrorSpanParagraph} = inputProps
+    const {type} = inputProps
     /**
      * isRedux will check that is Application using Redux or not
      */
-    if (isRedux) {
+    if (isRedux && type) {
       return null
-    } else {
-      return (
-        <Fragment>
-          <input
-            {...inputProps}
-            onChange={(e) => { this.handleOnChange(e) }}
-            onBlur={(e) => { this.handleOnBlur(e) }}
-          />
-          <span className={classNameForErrorSpan}>
-            <p className={classNameForErrorSpanParagraph}>{this.state.errorMsg}</p>
-          </span>
-        </Fragment>
-      )
+    } else if (type) {
+      if (type !== 'select') {
+        return (
+          <Fragment>
+            <input
+              {...inputProps}
+              onChange={(e) => { this.handleOnChange(e) }}
+              onBlur={(e) => { this.handleOnBlur(e) }}
+            />
+            <span className={classNameForErrorSpan}>
+              <p className={classNameForErrorSpanParagraph}>{this.state.errorMsg}</p>
+            </span>
+          </Fragment>
+        )
+      }
+      if (type === 'select') {
+        const {options, selectedValue} = inputProps
+        let optionsVal
+        if (Array.isArray(options)) {
+          optionsVal = optionsVal.map(item => {
+            return (
+              <option value={item.value}>
+                {item.label}
+              </option>
+            )
+          })
+        }
+        return (
+          <Fragment>
+            <select value={selectedValue}>
+              {optionsVal}
+            </select>
+          </Fragment>
+        )
+      } else {
+        return (
+          <div>
+            <p>type is not defined</p>
+          </div>
+        )
+      }
     }
   }
 }
