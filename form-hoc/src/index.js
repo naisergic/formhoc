@@ -18,6 +18,20 @@ export default class formHoc extends PureComponent {
     this.handleOnBlur = this.handleOnBlur.bind(this)
     this.checkValidations = this.checkValidations.bind(this)
     this.renderErrorMsg = this.renderErrorMsg.bind(this)
+    this.renderLabel = this.renderLabel.bind(this)
+  }
+
+  renderLabel() {
+    const {inputProps} = this.props
+    const {labelProps} = inputProps
+    const {labelInputProps, label} = labelProps
+    return (
+      <Fragment>
+        {label && <label {...labelInputProps}>
+          {label}
+        </label>}
+      </Fragment>
+    )
   }
 
   renderErrorMsg() {
@@ -85,7 +99,7 @@ export default class formHoc extends PureComponent {
   }
 
   render() {
-    const {isRedux, inputProps} = this.props
+    const {isRedux, inputProps, renerLabelAfterInput} = this.props
 
     const {type, selectedValue} = inputProps
 
@@ -98,12 +112,14 @@ export default class formHoc extends PureComponent {
       if (type !== 'select') {
         return (
           <Fragment>
+            {!renerLabelAfterInput && this.renderLabel()}
             <input
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
               value={this.state.vlaue || selectedValue}
             />
+            {renerLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg()}
           </Fragment>
         )
@@ -122,6 +138,7 @@ export default class formHoc extends PureComponent {
         }
         return (
           <Fragment>
+            {!renerLabelAfterInput && this.renderLabel()}
             <select
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
@@ -130,6 +147,7 @@ export default class formHoc extends PureComponent {
             >
               {optionsVal}
             </select>
+            {renerLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg()}
           </Fragment>
         )
