@@ -88,6 +88,7 @@ export default class formHoc extends PureComponent {
     const {isRedux, inputProps} = this.props
 
     const {type, selectedValue} = inputProps
+
     /**
      * isRedux will check that is Application using Redux or not
      */
