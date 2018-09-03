@@ -132,13 +132,13 @@ export default class formHoc extends PureComponent {
             {this.renderErrorMsg()}
           </Fragment>
         )
-      } else {
-        return (
-          <div>
-            <p>type is not defined</p>
-          </div>
-        )
       }
+    } else {
+      return (
+        <div>
+          <p>type is not defined</p>
+        </div>
+      )
     }
   }
 }
