@@ -17,6 +17,20 @@ export default class formHoc extends PureComponent {
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnBlur = this.handleOnBlur.bind(this)
     this.checkValidations = this.checkValidations.bind(this)
+    this.renderErrorMsg = this.renderErrorMsg.bind(this)
+  }
+
+  renderErrorMsg() {
+    const {inputProps} = this.props
+    const {classNameForErrorSpan, classNameForErrorSpanParagraph} = inputProps
+    if (this.state.errorMsg) {
+      return (
+        <span className={classNameForErrorSpan}>
+          <p className={classNameForErrorSpanParagraph}>{this.state.errorMsg}</p>
+        </span>
+      )
+    }
+    return null
   }
 
   checkValidations(value, checkValidation) {
@@ -62,7 +76,9 @@ export default class formHoc extends PureComponent {
     if (typeof onChange === 'function') {
       this.props.onChange(e)
     }
-    // please take value from this call back
+    /**
+     * please catch value from this call back
+     */
     if (typeof getValue === 'function') {
       this.props.getValue(e.target.value)
     }
@@ -70,7 +86,7 @@ export default class formHoc extends PureComponent {
 
   render() {
     const {isRedux, inputProps} = this.props
-    const {classNameForErrorSpan, classNameForErrorSpanParagraph} = inputProps
+
     const {type, selectedValue} = inputProps
     /**
      * isRedux will check that is Application using Redux or not
@@ -87,9 +103,7 @@ export default class formHoc extends PureComponent {
               onBlur={(e) => { this.handleOnBlur(e) }}
               value={this.state.vlaue || selectedValue}
             />
-            <span className={classNameForErrorSpan}>
-              <p className={classNameForErrorSpanParagraph}>{this.state.errorMsg}</p>
-            </span>
+            {this.renderErrorMsg()}
           </Fragment>
         )
       }
@@ -115,6 +129,7 @@ export default class formHoc extends PureComponent {
             >
               {optionsVal}
             </select>
+            {this.renderErrorMsg()}
           </Fragment>
         )
       } else {
