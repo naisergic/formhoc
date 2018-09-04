@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-import ExampleComponent from 'form-hoc'
+import formHoc from 'form-hoc'
 
 export default class App extends Component {
   render () {
     return (
       <div>
-        <ExampleComponent text='Modern React component module' />
+        <formHoc text='Modern React component module' />
       </div>
     )
   }
