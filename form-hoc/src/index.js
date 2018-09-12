@@ -125,12 +125,14 @@ export default class formHoc extends PureComponent {
         )
       }
       if (type === 'select') {
-        const {options} = inputProps
+        const {options, optionProps} = inputProps
         let optionsVal
         if (Array.isArray(options)) {
           optionsVal = optionsVal.map(item => {
+            const isItemSelected = (item.value === selectedValue || item.value === this.state.vlaue)
+            const ariaLabel = isItemSelected ? `Selected ${item.label}` : item.label
             return (
-              <option value={item.value}>
+              <option value={item.value} aria-label={ariaLabel} {...optionProps}>
                 {item.label}
               </option>
             )
