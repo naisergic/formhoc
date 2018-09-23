@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-import ExampleComponent from 'formhoc'
+import FormHOC from 'formhoc'
 
 export default class App extends Component {
   render () {
     return (
       <div>
-        <ExampleComponent text='Modern React component module' />
+        <FormHOC inputProps={{type: 'input'}} />
       </div>
     )
   }
