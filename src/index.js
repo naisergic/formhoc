@@ -36,8 +36,14 @@ export default class FormHOC extends Component {
 
   renderLabel() {
     const { inputProps } = this.props
-    const { labelProps } = inputProps
-    const { labelInputProps, label } = labelProps
+    let labelProps, labelInputProps, label
+    if (inputProps) {
+      labelProps = inputProps.labelProps
+    }
+    if (labelProps) {
+      labelInputProps = labelProps.labelInputProps
+      label = labelProps.label
+    }
     return (
       <Fragment>
         {label && <label {...labelInputProps}>
@@ -107,8 +113,13 @@ export default class FormHOC extends Component {
 
   render() {
     const { isRedux, inputProps, renerLabelAfterInput } = this.props
-
-    const { type, selectedValue } = inputProps
+    let type, selectedValue, options, optionProps
+    if (inputProps) {
+      type = inputProps.type
+      selectedValue = inputProps.selectedValue
+      options = inputProps.options
+      optionProps = inputProps.optionProps
+    }
 
     /**
      * isRedux will check that is Application using Redux or not
@@ -117,7 +128,6 @@ export default class FormHOC extends Component {
       return null
     } else if (type) {
       if (type !== 'select') {
-        console.log('I am calledjewejk')
         return (
           <Fragment>
             {!renerLabelAfterInput && this.renderLabel()}
@@ -133,7 +143,6 @@ export default class FormHOC extends Component {
         )
       }
       if (type === 'select') {
-        const { options, optionProps } = inputProps
         let optionsVal
         if (Array.isArray(options)) {
           optionsVal = optionsVal.map(item => {
