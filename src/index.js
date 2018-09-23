@@ -31,7 +31,6 @@ export default class FormHOC extends Component {
     this.checkValidations = this.checkValidations.bind(this)
     this.renderErrorMsg = this.renderErrorMsg.bind(this)
     this.renderLabel = this.renderLabel.bind(this)
-    console.log('I am calledjewejk')
   }
 
   renderLabel() {
@@ -68,15 +67,15 @@ export default class FormHOC extends Component {
 
   checkValidations(value, checkValidation) {
     const { inputProps } = this.props
-    let isError
+    let isValidFormat
     const { validationsToCheck } = inputProps
     if (Array.isArray(validationsToCheck) && validationsToCheck.length > 0 && checkValidation) {
       validationsToCheck.some(item => {
-        const { regexVal, errorVal } = item
-        isError = checkRegex(regexVal, value)
-        if (isError) {
+        const { regexToCheck, errorMsg } = item
+        isValidFormat = checkRegex(regexToCheck, value)
+        if (!isValidFormat) {
           this.setState({
-            errorMsg: errorVal
+            errorMsg: errorMsg
           })
           return true
         }
@@ -87,7 +86,11 @@ export default class FormHOC extends Component {
 
   handleOnBlur(e) {
     const { inputProps } = this.props
-    const { checkValidationOnBlur, onBlur } = { inputProps }
+    let checkValidationOnBlur, onBlur
+    if (inputProps) {
+      checkValidationOnBlur = inputProps.checkValidationOnBlur
+      onBlur = inputProps.onBlur
+    }
     this.checkValidations(this.state.value, checkValidationOnBlur)
     if (typeof onBlur === 'function') {
       this.props.onBlur(e)
