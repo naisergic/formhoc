@@ -1,12 +1,24 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import {checkRegex} from './validation'
+import { checkRegex } from './validation'
 
 export default class formHoc extends PureComponent {
   static propTypes = {
     isRedux: PropTypes.bool,
-    inputProps: PropTypes.object
+    renerLabelAfterInput: PropTypes.bool,
+    inputProps: PropTypes.object,
+    optionProps: PropTypes.object,
+    options: PropTypes.array
   }
+
+  static defaultProps = {
+    renerLabelAfterInput: false,
+    isRedux: false,
+    inputProps: {
+      onAfterChange: () => {}
+
+    }
+  };
 
   constructor(props) {
     super(props)
@@ -22,9 +34,9 @@ export default class formHoc extends PureComponent {
   }
 
   renderLabel() {
-    const {inputProps} = this.props
-    const {labelProps} = inputProps
-    const {labelInputProps, label} = labelProps
+    const { inputProps } = this.props
+    const { labelProps } = inputProps
+    const { labelInputProps, label } = labelProps
     return (
       <Fragment>
         {label && <label {...labelInputProps}>
@@ -35,8 +47,8 @@ export default class formHoc extends PureComponent {
   }
 
   renderErrorMsg() {
-    const {inputProps} = this.props
-    const {classNameForErrorSpan, classNameForErrorSpanParagraph} = inputProps
+    const { inputProps } = this.props
+    const { classNameForErrorSpan, classNameForErrorSpanParagraph } = inputProps
     if (this.state.errorMsg) {
       return (
         <span className={classNameForErrorSpan}>
@@ -48,12 +60,12 @@ export default class formHoc extends PureComponent {
   }
 
   checkValidations(value, checkValidation) {
-    const {inputProps} = this.props
+    const { inputProps } = this.props
     let isError
-    const {validationsToCheck} = inputProps
+    const { validationsToCheck } = inputProps
     if (Array.isArray(validationsToCheck) && validationsToCheck.length > 0 && checkValidation) {
       validationsToCheck.some(item => {
-        const {regexVal, errorVal} = item
+        const { regexVal, errorVal } = item
         isError = checkRegex(regexVal, value)
         if (isError) {
           this.setState({
@@ -67,8 +79,8 @@ export default class formHoc extends PureComponent {
   }
 
   handleOnBlur(e) {
-    const {inputProps} = this.props
-    const {checkValidationOnBlur, onBlur} = {inputProps}
+    const { inputProps } = this.props
+    const { checkValidationOnBlur, onBlur } = { inputProps }
     this.checkValidations(this.state.value, checkValidationOnBlur)
     if (typeof onBlur === 'function') {
       this.props.onBlur(e)
@@ -76,32 +88,26 @@ export default class formHoc extends PureComponent {
   }
 
   handleOnChange(e) {
-    const {inputProps} = this.props
-    const {onChange, getValue, checkValidationOnError} = inputProps
+    const { inputProps } = this.props
+    const { onAfterChange, checkValidationOnChange } = inputProps
     this.setState({
       value: e.target.value
     })
-    this.checkValidations(e.target.value, checkValidationOnError)
+    this.checkValidations(e.target.value, checkValidationOnChange)
     /**
     * you guyz don't need to check for the value
     * call only if you need business logic on this function
     * but for validation find a regex or develop a one
     */
-    if (typeof onChange === 'function') {
-      this.props.onChange(e)
-    }
-    /**
-     * please catch value from this call back
-     */
-    if (typeof getValue === 'function') {
-      this.props.getValue(e.target.value)
+    if (typeof onAfterChange === 'function') {
+      onAfterChange(e)
     }
   }
 
   render() {
-    const {isRedux, inputProps, renerLabelAfterInput} = this.props
+    const { isRedux, inputProps, renerLabelAfterInput } = this.props
 
-    const {type, selectedValue} = inputProps
+    const { type, selectedValue } = inputProps
 
     /**
      * isRedux will check that is Application using Redux or not
@@ -125,7 +131,7 @@ export default class formHoc extends PureComponent {
         )
       }
       if (type === 'select') {
-        const {options, optionProps} = inputProps
+        const { options, optionProps } = inputProps
         let optionsVal
         if (Array.isArray(options)) {
           optionsVal = optionsVal.map(item => {
