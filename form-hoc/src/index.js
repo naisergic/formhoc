@@ -93,10 +93,10 @@ export default class formHoc extends PureComponent {
     })
     this.checkValidations(e.target.value, checkValidationOnChange)
     /**
-    * you guyz don't need to check for the value
-    * call only if you need business logic on this function
-    * but for validation find a regex or develop a one
-    */
+     * you guyz don't need to check for the value
+     * call only if you need business logic on this function
+     * but for validation find a regex or develop a one
+     */
     if (typeof onAfterChange === 'function') {
       onAfterChange(e)
     }
@@ -127,7 +127,7 @@ export default class formHoc extends PureComponent {
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
-              value={this.state.vlaue || selectedValue}
+              value={this.state.value || selectedValue}
             />
             {renerLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg()}
