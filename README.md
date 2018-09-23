@@ -37,3 +37,4 @@ export default class App extends Component {
 ## License
 
 y © [Naisergic](https://github.com/Naisergic)
+y © [Ayush-krishnatray](https://github.com/Ayush-krishnatray)
