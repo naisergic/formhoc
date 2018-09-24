@@ -102,6 +102,9 @@ export default class FormHOC extends Component {
 
   handleOnChange(e) {
     const { inputProps } = this.props
+    /**
+     * Todo: we need to discuss the name of method will it be onAfterChange or onChange
+     */
     const { onAfterChange, checkValidationOnChange } = inputProps
     this.setState({
       value: e.target.value
