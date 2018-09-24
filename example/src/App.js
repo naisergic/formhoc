@@ -13,6 +13,13 @@ export default class App extends Component {
             checkValidationOnBlur: true,
             validationsToCheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Email Format'}]
           }} />
+        <FormHOC inputProps={
+          {
+            type: 'password',
+            labelProps: {label: 'Password'},
+            checkValidationOnBlur: true,
+            validationsToCheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Email Format'}]
+          }} />
       </div>
     )
   }
