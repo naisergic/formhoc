@@ -79,6 +79,9 @@ export default class FormHOC extends Component {
           })
           return true
         }
+        this.setState({
+          errorMsg: ''
+        })
         return false
       })
     }
