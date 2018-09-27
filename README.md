@@ -15,12 +15,20 @@ npm install --save formhoc
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'formhoc'
+import FormHOC from 'formhoc'
 
-class Example extends Component {
+export default class App extends Component {
   render () {
     return (
-      <MyComponent />
+      <div>
+        <FormHOC inputProps={
+          {
+            type: 'input',
+            labelProps: {label: 'Email'},
+            checkValidationOnBlur: true,
+            validationsToCheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Email Format'}]
+          }} />
+      </div>
     )
   }
 }
@@ -29,3 +37,4 @@ class Example extends Component {
 ## License
 
 y © [Naisergic](https://github.com/Naisergic)
+y © [Ayush-krishnatray](https://github.com/Ayush-krishnatray)
