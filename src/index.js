@@ -16,7 +16,6 @@ export default class FormHOC extends Component {
     isRedux: false,
     inputProps: {
       onAfterChange: () => {}
-
     }
   };
 
@@ -153,6 +152,7 @@ export default class FormHOC extends Component {
       }
       if (type === 'select') {
         let optionsVal
+        const propsForAriaDescribedBy = inputProps.ariaDescribedBy
         if (Array.isArray(options)) {
           optionsVal = options.map((item, idx) => {
             let isItemSelected
@@ -181,7 +181,7 @@ export default class FormHOC extends Component {
             >
               {optionsVal}
             </select>
-            {inputProps.ariadescribedByMsg && <span />}
+            {propsForAriaDescribedBy && propsForAriaDescribedBy.ariadescribedByMsg && <span {...propsForAriaDescribedBy}>{propsForAriaDescribedBy.ariadescribedByMsg}</span>}
             {renerLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg()}
           </Fragment>

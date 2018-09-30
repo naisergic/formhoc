@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import './index.css'
 import FormHOC from 'formhoc'
 
 export default class App extends Component {
@@ -27,9 +27,12 @@ export default class App extends Component {
             labelProps: {label: 'Country'},
             optionProps:{},
             id:"select1",
-            ariadescribedByMsg:"list of country"
+            ariaDescribedBy:{
+              ariadescribedByMsg:"list of country",
+              className:"hide",
+              id:"ariaDescribedForCountry"
+            }
           }} />
-
       </div>
     )
   }
