@@ -20,6 +20,16 @@ export default class App extends Component {
             checkValidationOnBlur: true,
             validationsToCheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Password Format'}]
           }} />
+          <FormHOC inputProps={
+          {
+            type: 'select',
+            options:[{value:"IN",label:"INDIA"},{value:"US",label:"USA"}],
+            labelProps: {label: 'Country'},
+            optionProps:{},
+            id:"select1",
+            ariadescribedByMsg:"list of country"
+          }} />
+
       </div>
     )
   }

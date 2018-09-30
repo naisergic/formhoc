@@ -154,8 +154,13 @@ export default class FormHOC extends Component {
       if (type === 'select') {
         let optionsVal
         if (Array.isArray(options)) {
-          optionsVal = optionsVal.map(item => {
-            const isItemSelected = (item.value === selectedValue || item.value === this.state.vlaue)
+          optionsVal = options.map((item, idx) => {
+            let isItemSelected
+            if (selectedValue || this.state.value) {
+              isItemSelected = (item.value === selectedValue || item.value === this.state.value)
+            } else if (idx === 0) {
+              isItemSelected = true
+            }
             const ariaLabel = isItemSelected ? `Selected ${item.label}` : item.label
             return (
               <option value={item.value} aria-label={ariaLabel} {...optionProps}>
@@ -171,10 +176,12 @@ export default class FormHOC extends Component {
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
-              value={this.state.vlaue || selectedValue}
+              value={this.state.value || selectedValue}
+              aria-describedby={`${inputProps.id}AriaDescribed`}
             >
               {optionsVal}
             </select>
+            {inputProps.ariadescribedByMsg && <span />}
             {renerLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg()}
           </Fragment>
