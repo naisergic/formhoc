@@ -24,7 +24,7 @@ export default class App extends Component {
           {
             type: 'password',
             labelprops: {label: 'Password'},
-            checkvalidationonblur: "true",
+            checkvalidationonchange: "true",
             validationstocheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Password Format'}]
           }} />
           <FormHOC inputProps={

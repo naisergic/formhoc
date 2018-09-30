@@ -68,7 +68,7 @@ export default class FormHOC extends Component {
     const { inputProps } = this.props
     let isValidFormat
     const { validationstocheck } = inputProps
-    if (Array.isArray(validationstocheck) && validationstocheck.length > 0 && checkValidation) {
+    if (Array.isArray(validationstocheck) && validationstocheck.length > 0 && checkValidation === 'true') {
       validationstocheck.some(item => {
         const { regexToCheck, errorMsg } = item
         isValidFormat = checkRegex(regexToCheck, value)
@@ -104,11 +104,11 @@ export default class FormHOC extends Component {
     /**
      * Todo: we need to discuss the name of method will it be onAfterChange or onChange
      */
-    const { onAfterChange, checkValidationOnChange } = inputProps
+    const { onAfterChange, checkvalidationonchange } = inputProps
     this.setState({
       value: e.target.value
     })
-    this.checkValidations(e.target.value, checkValidationOnChange)
+    this.checkValidations(e.target.value, checkvalidationonchange)
     /**
      * you guyz don't need to check for the value
      * call only if you need business logic on this function
