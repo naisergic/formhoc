@@ -7,3 +7,12 @@ body {
 .hide {
   display: none;
 }
+
+.errorClass {
+  color: red;
+}
+
+.labels {
+  color: grey;
+  font-size: 14px;
+}
