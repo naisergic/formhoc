@@ -7,7 +7,7 @@ export default class FormHOC extends Component {
     isRedux: PropTypes.bool,
     renerLabelAfterInput: PropTypes.bool,
     inputProps: PropTypes.object,
-    optionProps: PropTypes.object,
+    optionprops: PropTypes.object,
     options: PropTypes.array
   }
 
@@ -16,7 +16,6 @@ export default class FormHOC extends Component {
     isRedux: false,
     inputProps: {
       onAfterChange: () => {}
-
     }
   };
 
@@ -37,10 +36,10 @@ export default class FormHOC extends Component {
     const { inputProps } = this.props
     let labelProps, labelInputProps, label
     if (inputProps) {
-      labelProps = inputProps.labelProps
+      labelProps = inputProps.labelprops
     }
     if (labelProps) {
-      labelInputProps = labelProps.labelInputProps
+      labelInputProps = labelProps.inputprops
       label = labelProps.label
     }
     return (
@@ -54,11 +53,11 @@ export default class FormHOC extends Component {
 
   renderErrorMsg() {
     const { inputProps } = this.props
-    const { classNameForErrorSpan, classNameForErrorSpanParagraph } = inputProps
+    const { errormsgprops, errormsgparagraphprops } = inputProps
     if (this.state.errorMsg) {
       return (
-        <span className={classNameForErrorSpan}>
-          <p className={classNameForErrorSpanParagraph}>{this.state.errorMsg}</p>
+        <span {...errormsgprops}>
+          <p {...errormsgparagraphprops}>{this.state.errorMsg}</p>
         </span>
       )
     }
@@ -68,9 +67,9 @@ export default class FormHOC extends Component {
   checkValidations(value, checkValidation) {
     const { inputProps } = this.props
     let isValidFormat
-    const { validationsToCheck } = inputProps
-    if (Array.isArray(validationsToCheck) && validationsToCheck.length > 0 && checkValidation) {
-      validationsToCheck.some(item => {
+    const { validationstocheck } = inputProps
+    if (Array.isArray(validationstocheck) && validationstocheck.length > 0 && checkValidation === 'true') {
+      validationstocheck.some(item => {
         const { regexToCheck, errorMsg } = item
         isValidFormat = checkRegex(regexToCheck, value)
         if (!isValidFormat) {
@@ -91,7 +90,7 @@ export default class FormHOC extends Component {
     const { inputProps } = this.props
     let checkValidationOnBlur, onBlur
     if (inputProps) {
-      checkValidationOnBlur = inputProps.checkValidationOnBlur
+      checkValidationOnBlur = inputProps.checkvalidationonblur
       onBlur = inputProps.onBlur
     }
     this.checkValidations(this.state.value, checkValidationOnBlur)
@@ -105,11 +104,11 @@ export default class FormHOC extends Component {
     /**
      * Todo: we need to discuss the name of method will it be onAfterChange or onChange
      */
-    const { onAfterChange, checkValidationOnChange } = inputProps
+    const { onAfterChange, checkvalidationonchange } = inputProps
     this.setState({
       value: e.target.value
     })
-    this.checkValidations(e.target.value, checkValidationOnChange)
+    this.checkValidations(e.target.value, checkvalidationonchange)
     /**
      * you guyz don't need to check for the value
      * call only if you need business logic on this function
@@ -127,7 +126,7 @@ export default class FormHOC extends Component {
       type = inputProps.type
       selectedValue = inputProps.selectedValue
       options = inputProps.options
-      optionProps = inputProps.optionProps
+      optionProps = inputProps.optionprops
     }
 
     /**
@@ -153,12 +152,18 @@ export default class FormHOC extends Component {
       }
       if (type === 'select') {
         let optionsVal
+        const propsForAriaDescribedBy = inputProps.ariadescribedby
         if (Array.isArray(options)) {
-          optionsVal = optionsVal.map(item => {
-            const isItemSelected = (item.value === selectedValue || item.value === this.state.vlaue)
+          optionsVal = options.map((item, idx) => {
+            let isItemSelected
+            if (selectedValue || this.state.value) {
+              isItemSelected = (item.value === selectedValue || item.value === this.state.value)
+            } else if (idx === 0) {
+              isItemSelected = true
+            }
             const ariaLabel = isItemSelected ? `Selected ${item.label}` : item.label
             return (
-              <option value={item.value} aria-label={ariaLabel} {...optionProps}>
+              <option key={`${inputProps.id}${idx}`} value={item.value} aria-label={ariaLabel} {...optionProps}>
                 {item.label}
               </option>
             )
@@ -171,10 +176,12 @@ export default class FormHOC extends Component {
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
-              value={this.state.vlaue || selectedValue}
+              value={this.state.value || selectedValue}
+              aria-describedby={`${inputProps.id}AriaDescribed`}
             >
               {optionsVal}
             </select>
+            {propsForAriaDescribedBy && propsForAriaDescribedBy.ariadescribedbymsg && <span {...propsForAriaDescribedBy}>{propsForAriaDescribedBy.ariadescribedbymsg}</span>}
             {renerLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg()}
           </Fragment>
