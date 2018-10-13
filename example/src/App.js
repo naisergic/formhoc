@@ -10,7 +10,7 @@ export default class App extends Component {
           {
             type: 'input',
             labelprops: {label: 'Email:', inputprops:{className:"labels",id:"emailLabel"}},
-            checkvalidationonblur: "true",
+            checkvalidationonblur: true,
             validationstocheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Email Format'}],
             errormsgprops:{
               className:'errorClass',
@@ -24,7 +24,7 @@ export default class App extends Component {
           {
             type: 'password',
             labelprops: {label: 'Password:', inputprops:{className:"labels",id:"passwordLabel"}},
-            checkvalidationonchange: "true",
+            checkvalidationonchange: true,
             validationstocheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Password Format'}],
             errormsgprops:{
               className:'errorClass',

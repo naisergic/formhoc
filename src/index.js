@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import { checkRegex } from './validation'
 
 export default class FormHOC extends Component {
+  /**
+   * @property propTypes
+   * @description Defined property types for component
+   */
   static propTypes = {
     isRedux: PropTypes.bool,
     renerLabelAfterInput: PropTypes.bool,
@@ -11,11 +15,18 @@ export default class FormHOC extends Component {
     options: PropTypes.array
   }
 
+  /**
+   * @property defaultProps
+   * @description defining defaultProps of the component
+   */
   static defaultProps = {
     renerLabelAfterInput: false,
     isRedux: false,
     inputProps: {
-      onAfterChange: () => {}
+      onAfterChange: () => { },
+      onAfterBlur: () => { },
+      checkvalidationonchange: false,
+      checkValidationOnBlur: true,
     }
   };
 
@@ -28,11 +39,13 @@ export default class FormHOC extends Component {
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnBlur = this.handleOnBlur.bind(this)
     this.checkValidations = this.checkValidations.bind(this)
-    this.renderErrorMsg = this.renderErrorMsg.bind(this)
-    this.renderLabel = this.renderLabel.bind(this)
   }
 
-  renderLabel() {
+  /**
+   * @function renderLabel
+   * @description function to render label of input element
+   */
+  renderLabel = () => {
     const { inputProps } = this.props
     let labelProps, labelInputProps, label
     if (inputProps) {
@@ -51,7 +64,11 @@ export default class FormHOC extends Component {
     )
   }
 
-  renderErrorMsg() {
+  /**
+   * @function renderErrorMsg
+   * @description function to render error message on input element
+   */
+  renderErrorMsg = () => {
     const { inputProps } = this.props
     const { errormsgprops, errormsgparagraphprops } = inputProps
     if (this.state.errorMsg) {
@@ -64,11 +81,18 @@ export default class FormHOC extends Component {
     return null
   }
 
+  /**
+   * @function checkValidations
+   * @description function to check the validation for the regex passed
+   * @param {string} value  value of the element
+   * @param {string} checkValidation prop to whether to check validation or not
+   * @returns
+   */
   checkValidations(value, checkValidation) {
     const { inputProps } = this.props
     let isValidFormat
     const { validationstocheck } = inputProps
-    if (Array.isArray(validationstocheck) && validationstocheck.length > 0 && checkValidation === 'true') {
+    if (Array.isArray(validationstocheck) && validationstocheck.length > 0 && checkValidation) {
       validationstocheck.some(item => {
         const { regexToCheck, errorMsg } = item
         isValidFormat = checkRegex(regexToCheck, value)
@@ -86,19 +110,33 @@ export default class FormHOC extends Component {
     }
   }
 
+  /**
+   * @function handleOnBlur
+   * @description handle blur event on input
+   * @param {*} e event
+   */
   handleOnBlur(e) {
     const { inputProps } = this.props
     let checkValidationOnBlur, onBlur
     if (inputProps) {
       checkValidationOnBlur = inputProps.checkvalidationonblur
-      onBlur = inputProps.onBlur
+      onBlur = inputProps.onAfterBlur
     }
-    this.checkValidations(this.state.value, checkValidationOnBlur)
+    this.checkValidations(this.state.value, checkValidationOnBlur);
+    /**
+     * callback function just in case user needs to perform
+     * any function on blur
+     */
     if (typeof onBlur === 'function') {
-      this.props.onBlur(e)
+      onAfterBlur(e)
     }
   }
 
+  /**
+   * @function handleOnChange
+   * @description handle change event on input
+   * @param {*} e event
+   */
   handleOnChange(e) {
     const { inputProps } = this.props
     /**
@@ -108,17 +146,20 @@ export default class FormHOC extends Component {
     this.setState({
       value: e.target.value
     })
-    this.checkValidations(e.target.value, checkvalidationonchange)
+    this.checkValidations(e.target.value, checkvalidationonchange);
     /**
-     * you guyz don't need to check for the value
-     * call only if you need business logic on this function
-     * but for validation find a regex or develop a one
+     * callback function just in case user needs to perform
+     * any function on change
      */
     if (typeof onAfterChange === 'function') {
       onAfterChange(e)
     }
   }
 
+  /**
+   * Render Input Elements
+   * @param {Object} props
+   */
   render() {
     const { isRedux, inputProps, renerLabelAfterInput } = this.props
     let type, selectedValue, options, optionProps
