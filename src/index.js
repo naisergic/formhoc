@@ -45,14 +45,11 @@ export default class FormHOC extends Component {
    * @function renderLabel
    * @description function to render label of input element
    */
-  renderLabel = () => {
-    const { inputProps } = this.props
-    let labelProps, labelInputProps, label
-    if (inputProps) {
-      labelProps = inputProps.labelprops
-    }
+  renderLabel() {
+    const { labelProps } = this.props
+    let labelInputProps, label
     if (labelProps) {
-      labelInputProps = labelProps.inputprops
+      labelInputProps = labelProps.inputProps
       label = labelProps.label
     }
     return (
@@ -68,13 +65,18 @@ export default class FormHOC extends Component {
    * @function renderErrorMsg
    * @description function to render error message on input element
    */
-  renderErrorMsg = () => {
-    const { inputProps } = this.props
-    const { errormsgprops, errormsgparagraphprops } = inputProps
+  renderErrorMsg() {
+    const { errorProps } = this.props
+    let errorMsgProps, errorMsgParagraphProps
+    if (errorProps) {
+      errorMsgProps = errorProps.errorMsgProps
+      errorMsgParagraphProps = errorProps.errorMsgParagraphProps
+    }
+
     if (this.state.errorMsg) {
       return (
-        <span {...errormsgprops}>
-          <p {...errormsgparagraphprops}>{this.state.errorMsg}</p>
+        <span {...errorMsgProps}>
+          <p {...errorMsgParagraphProps}>{this.state.errorMsg}</p>
         </span>
       )
     }
@@ -89,11 +91,10 @@ export default class FormHOC extends Component {
    * @returns
    */
   checkValidations(value, checkValidation) {
-    const { inputProps } = this.props
+    const { validationsToCheck } = this.props
     let isValidFormat
-    const { validationstocheck } = inputProps
-    if (Array.isArray(validationstocheck) && validationstocheck.length > 0 && checkValidation) {
-      validationstocheck.some(item => {
+    if (Array.isArray(validationsToCheck) && validationsToCheck.length > 0 && checkValidation) {
+      validationsToCheck.some(item => {
         const { regexToCheck, errorMsg } = item
         isValidFormat = checkRegex(regexToCheck, value)
         if (!isValidFormat) {
@@ -116,16 +117,8 @@ export default class FormHOC extends Component {
    * @param {*} e event
    */
   handleOnBlur(e) {
-    const { inputProps } = this.props
-    let checkValidationOnBlur, onBlur
-    if (inputProps && Object.keys(inputProps).length) {
-      const { checkValidationOnBlur, onAfterBlur } = inputProps;
-    }
-    this.checkValidations(this.state.value, checkValidationOnBlur);
-    /**
-     * callback function just in case user needs to perform
-     * any function on blur
-     */
+    const { checkValidationOnBlur, onBlur } = this.props
+    this.checkValidations(this.state.value, checkValidationOnBlur)
     if (typeof onBlur === 'function') {
       onAfterBlur(e)
     }
@@ -137,18 +130,14 @@ export default class FormHOC extends Component {
    * @param {*} e event
    */
   handleOnChange(e) {
-    const { inputProps } = this.props
+    const { checkValidationOnChange, onAfterChange } = this.props
     /**
      * Todo: we need to discuss the name of method will it be onAfterChange or onChange
      */
-    if (inputProps && Object.keys(inputProps).length) {
-      const { onAfterChange, checkvalidationonchange } = inputProps
-    }
-
     this.setState({
       value: e.target.value
     })
-    this.checkValidations(e.target.value, checkvalidationonchange);
+    this.checkValidations(e.target.value, checkValidationOnChange)
     /**
      * callback function just in case user needs to perform
      * any function on change
@@ -163,13 +152,15 @@ export default class FormHOC extends Component {
    * @param {Object} props
    */
   render() {
-    const { isRedux, inputProps, renerLabelAfterInput } = this.props
-    let type, selectedValue, options, optionProps
+    const { isRedux, inputProps, renerLabelAfterInput, optionProps } = this.props
+    let type, selectedValue, options, optionInputProps
     if (inputProps) {
       type = inputProps.type
       selectedValue = inputProps.selectedValue
-      options = inputProps.options
-      optionProps = inputProps.optionprops
+    }
+    if (optionProps) {
+      options = optionProps.options
+      optionInputProps = optionProps.inputProps
     }
 
     /**
@@ -195,7 +186,12 @@ export default class FormHOC extends Component {
       }
       if (type === 'select') {
         let optionsVal
-        const propsForAriaDescribedBy = inputProps.ariadescribedby
+        const { ariaDescribedBy } = this.props
+        let propsForAriaDescribedBy, ariaDescribedByMsg
+        if (ariaDescribedBy) {
+          propsForAriaDescribedBy = ariaDescribedBy.inputProps
+          ariaDescribedByMsg = ariaDescribedBy.ariaDescribedByMsg
+        }
         if (Array.isArray(options)) {
           optionsVal = options.map((item, idx) => {
             let isItemSelected
@@ -206,7 +202,7 @@ export default class FormHOC extends Component {
             }
             const ariaLabel = isItemSelected ? `Selected ${item.label}` : item.label
             return (
-              <option key={`${inputProps.id}${idx}`} value={item.value} aria-label={ariaLabel} {...optionProps}>
+              <option key={`${inputProps.id}${idx}`} value={item.value} aria-label={ariaLabel} {...optionInputProps}>
                 {item.label}
               </option>
             )
@@ -224,7 +220,7 @@ export default class FormHOC extends Component {
             >
               {optionsVal}
             </select>
-            {propsForAriaDescribedBy && propsForAriaDescribedBy.ariadescribedbymsg && <span {...propsForAriaDescribedBy}>{propsForAriaDescribedBy.ariadescribedbymsg}</span>}
+            {ariaDescribedBy && ariaDescribedByMsg && <span {...propsForAriaDescribedBy}>{ariaDescribedBy.ariaDescribedByMsg}</span>}
             {renerLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg()}
           </Fragment>

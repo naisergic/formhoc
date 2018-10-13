@@ -6,47 +6,74 @@ export default class App extends Component {
   render () {
     return (
       <div>
-        <FormHOC inputProps={
-          {
+        <FormHOC inputProps={{
             type: 'input',
-            labelprops: {label: 'Email:', inputprops:{className:"labels",id:"emailLabel"}},
-            checkvalidationonblur: true,
-            validationstocheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Email Format'}],
-            errormsgprops:{
-              className:'errorClass',
-              id:'emailError'
+          }}
+          labelProps={{
+            label: 'Email:',
+            inputProps:{className:"labels",id:"emailLabel"}
+          }}
+          errorProps={{
+            errorMsgProps:{
+            className:'errorClass',
+            id:'emailError'
             },
-            errormsgparagraphprops: {
-              id: 'emailErrorPara'
+            errorMsgParagraphProps: {
+            id: 'emailErrorPara'
             }
-          }} />
-        <FormHOC inputProps={
-          {
+          }}
+          validationsToCheck={[
+            {
+              regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+              errorMsg: 'Invalid Email Format'
+            }
+          ]}
+          checkValidationOnBlur
+          />
+        <FormHOC inputProps={{
             type: 'password',
-            labelprops: {label: 'Password:', inputprops:{className:"labels",id:"passwordLabel"}},
-            checkvalidationonchange: true,
-            validationstocheck: [{regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, errorMsg: 'Invalid Password Format'}],
-            errormsgprops:{
-              className:'errorClass',
-              id:'passwordError'
+          }}
+          labelProps={{
+            label: 'password:',
+            inputProps:{className:"labels",id:"passwordLabel"}
+          }}
+          errorProps={{
+            errorMsgProps:{
+            className:'errorClass',
+            id:'passwordError'
             },
-            errormsgparagraphprops: {
-              id: 'passwordErrorPara'
+            errorMsgParagraphProps: {
+            id: 'passwordErrorPara'
             }
-          }} />
-          <FormHOC inputProps={
-          {
+          }}
+          validationsToCheck={[
+            {
+              regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+              errorMsg: 'Invalid Email Format'
+            }
+          ]}
+          checkValidationOnChange
+        />
+        <FormHOC inputProps={{
             type: 'select',
+            id:"select1"
+          }}
+          labelProps={{
+            label: 'Country:',
+            inputProps:{className:"labels",id:"countryLabel"}
+          }}
+          optionProps={{
             options:[{value:"IN",label:"INDIA"},{value:"US",label:"USA"}],
-            labelprops: {label: 'Country:', inputprops:{className:"labels",id:"countryLabel"}},
-            optionprops:{className:"options"},
-            id:"select1",
-            ariadescribedby:{
-              ariadescribedbymsg:"list of country",
+            inputProps:{className:"options"}
+          }}
+          ariaDescribedBy={{
+            ariaDescribedByMsg:"list of country",
+            inputProps: {
               className:"hide",
               id:"ariaDescribedForCountry"
             }
-          }} />
+          }}
+        />
       </div>
     )
   }
