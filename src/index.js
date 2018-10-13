@@ -117,9 +117,9 @@ export default class FormHOC extends Component {
    * @param {*} e event
    */
   handleOnBlur(e) {
-    const { checkValidationOnBlur, onBlur } = this.props
+    const { checkValidationOnBlur, onAfterBlur } = this.props
     this.checkValidations(this.state.value, checkValidationOnBlur)
-    if (typeof onBlur === 'function') {
+    if (typeof onAfterBlur === 'function') {
       onAfterBlur(e)
     }
   }
