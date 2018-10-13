@@ -118,9 +118,8 @@ export default class FormHOC extends Component {
   handleOnBlur(e) {
     const { inputProps } = this.props
     let checkValidationOnBlur, onBlur
-    if (inputProps) {
-      checkValidationOnBlur = inputProps.checkvalidationonblur
-      onBlur = inputProps.onAfterBlur
+    if (inputProps && Object.keys(inputProps).length) {
+      const { checkValidationOnBlur, onAfterBlur } = inputProps;
     }
     this.checkValidations(this.state.value, checkValidationOnBlur);
     /**
@@ -142,7 +141,10 @@ export default class FormHOC extends Component {
     /**
      * Todo: we need to discuss the name of method will it be onAfterChange or onChange
      */
-    const { onAfterChange, checkvalidationonchange } = inputProps
+    if (inputProps && Object.keys(inputProps).length) {
+      const { onAfterChange, checkvalidationonchange } = inputProps
+    }
+
     this.setState({
       value: e.target.value
     })
