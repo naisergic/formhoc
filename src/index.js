@@ -25,7 +25,7 @@ export default class FormHOC extends Component {
     inputProps: {
       onAfterChange: () => { },
       onAfterBlur: () => { },
-      checkvalidationonchange: false,
+      checkValidationOnChange: false,
       checkValidationOnBlur: true,
     }
   };
