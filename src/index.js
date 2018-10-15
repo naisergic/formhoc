@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import { checkRegex } from './validation'
 
 export default class FormHOC extends Component {
+  /**
+   * @property propTypes
+   * @description Defined property types for component
+   */
   static propTypes = {
     isRedux: PropTypes.bool,
     renerLabelAfterInput: PropTypes.bool,
@@ -11,11 +15,18 @@ export default class FormHOC extends Component {
     options: PropTypes.array
   }
 
+  /**
+   * @property defaultProps
+   * @description defining defaultProps of the component
+   */
   static defaultProps = {
     renerLabelAfterInput: false,
     isRedux: false,
     inputProps: {
-      onAfterChange: () => {}
+      onAfterChange: () => { },
+      onAfterBlur: () => { },
+      checkValidationOnChange: false,
+      checkValidationOnBlur: true,
     }
   };
 
@@ -28,10 +39,12 @@ export default class FormHOC extends Component {
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnBlur = this.handleOnBlur.bind(this)
     this.checkValidations = this.checkValidations.bind(this)
-    this.renderErrorMsg = this.renderErrorMsg.bind(this)
-    this.renderLabel = this.renderLabel.bind(this)
   }
 
+  /**
+   * @function renderLabel
+   * @description function to render label of input element
+   */
   renderLabel() {
     const { labelProps } = this.props
     let labelInputProps, label
@@ -48,6 +61,10 @@ export default class FormHOC extends Component {
     )
   }
 
+  /**
+   * @function renderErrorMsg
+   * @description function to render error message on input element
+   */
   renderErrorMsg() {
     const { errorProps } = this.props
     let errorMsgProps, errorMsgParagraphProps
@@ -66,6 +83,13 @@ export default class FormHOC extends Component {
     return null
   }
 
+  /**
+   * @function checkValidations
+   * @description function to check the validation for the regex passed
+   * @param {string} value  value of the element
+   * @param {string} checkValidation prop to whether to check validation or not
+   * @returns
+   */
   checkValidations(value, checkValidation) {
     const { validationsToCheck } = this.props
     let isValidFormat
@@ -87,14 +111,24 @@ export default class FormHOC extends Component {
     }
   }
 
+  /**
+   * @function handleOnBlur
+   * @description handle blur event on input
+   * @param {*} e event
+   */
   handleOnBlur(e) {
-    const { checkValidationOnBlur, onBlur } = this.props
+    const { checkValidationOnBlur, onAfterBlur } = this.props
     this.checkValidations(this.state.value, checkValidationOnBlur)
-    if (typeof onBlur === 'function') {
-      this.props.onBlur(e)
+    if (typeof onAfterBlur === 'function') {
+      onAfterBlur(e)
     }
   }
 
+  /**
+   * @function handleOnChange
+   * @description handle change event on input
+   * @param {*} e event
+   */
   handleOnChange(e) {
     const { checkValidationOnChange, onAfterChange } = this.props
     /**
@@ -105,15 +139,18 @@ export default class FormHOC extends Component {
     })
     this.checkValidations(e.target.value, checkValidationOnChange)
     /**
-     * you guyz don't need to check for the value
-     * call only if you need business logic on this function
-     * but for validation find a regex or develop a one
+     * callback function just in case user needs to perform
+     * any function on change
      */
     if (typeof onAfterChange === 'function') {
       onAfterChange(e)
     }
   }
 
+  /**
+   * Render Input Elements
+   * @param {Object} props
+   */
   render() {
     const { isRedux, inputProps, renerLabelAfterInput, optionProps } = this.props
     let type, selectedValue, options, optionInputProps
@@ -149,7 +186,7 @@ export default class FormHOC extends Component {
       }
       if (type === 'select') {
         let optionsVal
-        const {ariaDescribedBy} = this.props
+        const { ariaDescribedBy } = this.props
         let propsForAriaDescribedBy, ariaDescribedByMsg
         if (ariaDescribedBy) {
           propsForAriaDescribedBy = ariaDescribedBy.inputProps

@@ -3,23 +3,23 @@ import './index.css'
 import FormHOC from 'formhoc'
 
 export default class App extends Component {
-  render () {
+  render() {
     return (
       <div>
         <FormHOC inputProps={{
-            type: 'input',
-          }}
+          type: 'input',
+        }}
           labelProps={{
             label: 'Email:',
-            inputProps:{className:"labels",id:"emailLabel"}
+            inputProps: { className: "labels", id: "emailLabel" }
           }}
           errorProps={{
-            errorMsgProps:{
-            className:'errorClass',
-            id:'emailError'
+            errorMsgProps: {
+              className: 'errorClass',
+              id: 'emailError'
             },
             errorMsgParagraphProps: {
-            id: 'emailErrorPara'
+              id: 'emailErrorPara'
             }
           }}
           validationsToCheck={[
@@ -29,21 +29,21 @@ export default class App extends Component {
             }
           ]}
           checkValidationOnBlur
-          />
+        />
         <FormHOC inputProps={{
-            type: 'password',
-          }}
+          type: 'password',
+        }}
           labelProps={{
             label: 'password:',
-            inputProps:{className:"labels",id:"passwordLabel"}
+            inputProps: { className: "labels", id: "passwordLabel" }
           }}
           errorProps={{
-            errorMsgProps:{
-            className:'errorClass',
-            id:'passwordError'
+            errorMsgProps: {
+              className: 'errorClass',
+              id: 'passwordError'
             },
             errorMsgParagraphProps: {
-            id: 'passwordErrorPara'
+              id: 'passwordErrorPara'
             }
           }}
           validationsToCheck={[
@@ -55,22 +55,22 @@ export default class App extends Component {
           checkValidationOnChange
         />
         <FormHOC inputProps={{
-            type: 'select',
-            id:"select1"
-          }}
+          type: 'select',
+          id: "select1"
+        }}
           labelProps={{
             label: 'Country:',
-            inputProps:{className:"labels",id:"countryLabel"}
+            inputProps: { className: "labels", id: "countryLabel" }
           }}
           optionProps={{
-            options:[{value:"IN",label:"INDIA"},{value:"US",label:"USA"}],
-            inputProps:{className:"options"}
+            options: [{ value: "IN", label: "INDIA" }, { value: "US", label: "USA" }],
+            inputProps: { className: "options" }
           }}
           ariaDescribedBy={{
-            ariaDescribedByMsg:"list of country",
+            ariaDescribedByMsg: "list of country",
             inputProps: {
-              className:"hide",
-              id:"ariaDescribedForCountry"
+              className: "hide",
+              id: "ariaDescribedForCountry"
             }
           }}
         />
