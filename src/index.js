@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { checkRegex } from './validation'
 
 let formObj = {}
-let errorIndex = 0
+let index = 0
 export default class FormHOC extends Component {
   /**
    * @property propTypes
@@ -80,13 +80,13 @@ export default class FormHOC extends Component {
   }
 
   componentWillUnMount() {
-    errorIndex = 0
+    index = 0
     formObj = {}
   }
 
   getId(type) {
-    errorIndex += 1
-    return `${type}${errorIndex}`
+    index += 1
+    return `${type}${index}`
   }
 
   handleSubmit(e) {
