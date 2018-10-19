@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { checkRegex } from './validation'
 
+let formObj = {}
+let errorIndex = 0
 export default class FormHOC extends Component {
   /**
    * @property propTypes
@@ -12,7 +14,8 @@ export default class FormHOC extends Component {
     renerLabelAfterInput: PropTypes.bool,
     inputProps: PropTypes.object,
     optionprops: PropTypes.object,
-    options: PropTypes.array
+    options: PropTypes.array,
+    onAfterClick: PropTypes.func
   }
 
   /**
@@ -26,7 +29,7 @@ export default class FormHOC extends Component {
       onAfterChange: () => { },
       onAfterBlur: () => { },
       checkValidationOnChange: false,
-      checkValidationOnBlur: true,
+      checkValidationOnBlur: true
     }
   };
 
@@ -34,11 +37,77 @@ export default class FormHOC extends Component {
     super(props)
     this.state = {
       errorMsg: '',
-      value: ''
+      value: '',
+      error: ''
     }
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnBlur = this.handleOnBlur.bind(this)
     this.checkValidations = this.checkValidations.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.getId = this.getId.bind(this)
+    this.id = undefined
+  }
+
+  componentDidMount() {
+    const {inputProps, validationsToCheck, optionProps} = this.props
+    let id, type, selectedValue, options, optionsFirstValue, isRequired
+    if (inputProps) {
+      type = inputProps.type
+      selectedValue = inputProps.selectedValue
+      id = inputProps.id
+      isRequired = inputProps.required
+    }
+    if (optionProps) {
+      options = optionProps.options
+    }
+    if (Array.isArray(options) && options.length > 0) {
+      optionsFirstValue = options[0].value
+    }
+    this.id = id || this.getId(type)
+    if (type !== 'submit' && type !== 'button' && type !== 'select') {
+      formObj[this.id] = {
+        validationsToCheck: validationsToCheck,
+        value: this.state.value || selectedValue,
+        isRequired
+      }
+    } else if (type === 'select') {
+      formObj[this.id] = {
+        validationsToCheck: validationsToCheck,
+        value: this.state.value || selectedValue || optionsFirstValue,
+        isRequired
+      }
+    }
+  }
+
+  componentWillUnMount() {
+    errorIndex = 0
+    formObj = {}
+  }
+
+  getId(type) {
+    errorIndex += 1
+    return `${type}${errorIndex}`
+  }
+
+  handleSubmit(e) {
+    const {onAfterClick} = this.props
+    const keys = Object.keys(formObj)
+    let error
+    keys.forEach(item => {
+      if (formObj[item].isRequired || formObj[item].value) {
+        this.checkValidations(formObj[item].value, true, formObj[item].validationsToCheck, formObj[item])
+      }
+    })
+    keys.some(item => {
+      if (formObj[item].error) {
+        error = true
+        return true
+      }
+    })
+    this.setState({error: error})
+    if (typeof onAfterClick === 'function') {
+      onAfterClick(e, error)
+    }
   }
 
   /**
@@ -65,7 +134,7 @@ export default class FormHOC extends Component {
    * @function renderErrorMsg
    * @description function to render error message on input element
    */
-  renderErrorMsg() {
+  renderErrorMsg(id) {
     const { errorProps } = this.props
     let errorMsgProps, errorMsgParagraphProps
     if (errorProps) {
@@ -73,14 +142,15 @@ export default class FormHOC extends Component {
       errorMsgParagraphProps = errorProps.errorMsgParagraphProps
     }
 
-    if (this.state.errorMsg) {
+    if (this.state.errorMsg || (this.state.error && formObj[id].error)) {
       return (
         <span {...errorMsgProps}>
-          <p {...errorMsgParagraphProps}>{this.state.errorMsg}</p>
+          <p {...errorMsgParagraphProps}>{this.state.errorMsg || formObj[id].errorMsg}</p>
         </span>
       )
+    } else {
+      return null
     }
-    return null
   }
 
   /**
@@ -90,17 +160,22 @@ export default class FormHOC extends Component {
    * @param {string} checkValidation prop to whether to check validation or not
    * @returns
    */
-  checkValidations(value, checkValidation) {
+  checkValidations(value, checkValidation, validationToCheckFromObject, obj) {
     const { validationsToCheck } = this.props
+    const validationArray = validationsToCheck || validationToCheckFromObject
     let isValidFormat
-    if (Array.isArray(validationsToCheck) && validationsToCheck.length > 0 && checkValidation) {
-      validationsToCheck.some(item => {
+    if (Array.isArray(validationArray) && validationArray.length > 0 && checkValidation) {
+      validationArray.some(item => {
         const { regexToCheck, errorMsg } = item
         isValidFormat = checkRegex(regexToCheck, value)
         if (!isValidFormat) {
           this.setState({
             errorMsg: errorMsg
           })
+          if (obj) {
+            obj.errorMsg = errorMsg
+            obj.error = true
+          }
           return true
         }
         this.setState({
@@ -137,6 +212,10 @@ export default class FormHOC extends Component {
     this.setState({
       value: e.target.value
     })
+    const id = e.target.id
+    if (formObj[id]) {
+      formObj[id].value = e.target.value
+    }
     this.checkValidations(e.target.value, checkValidationOnChange)
     /**
      * callback function just in case user needs to perform
@@ -169,18 +248,19 @@ export default class FormHOC extends Component {
     if (isRedux && type) {
       return null
     } else if (type) {
-      if (type !== 'select') {
+      if (type !== 'select' && type !== 'submit') {
         return (
           <Fragment>
             {!renerLabelAfterInput && this.renderLabel()}
             <input
+              id={this.id}
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
               value={this.state.value || selectedValue}
             />
             {renerLabelAfterInput && this.renderLabel()}
-            {this.renderErrorMsg()}
+            {this.renderErrorMsg(this.id)}
           </Fragment>
         )
       }
@@ -222,8 +302,16 @@ export default class FormHOC extends Component {
             </select>
             {ariaDescribedBy && ariaDescribedByMsg && <span {...propsForAriaDescribedBy}>{ariaDescribedBy.ariaDescribedByMsg}</span>}
             {renerLabelAfterInput && this.renderLabel()}
-            {this.renderErrorMsg()}
+            {this.renderErrorMsg(this.id)}
           </Fragment>
+        )
+      }
+      if (type === 'submit') {
+        return (
+          <input
+            {...inputProps}
+            onClick={(e) => { this.handleSubmit(e) }}
+          />
         )
       }
     } else {
