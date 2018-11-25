@@ -8,6 +8,7 @@ export default class App extends Component {
       <div>
         <FormHOC inputProps={{
           type: 'input',
+          required:true
         }}
           labelProps={{
             label: 'Email:',
@@ -73,6 +74,13 @@ export default class App extends Component {
               id: "ariaDescribedForCountry"
             }
           }}
+        />
+        <FormHOC inputProps={{
+          type: 'submit',
+          id: 'submitBtn',
+          value: 'Submit'
+        }}
+        onAfterClick={this.handleSubmit}
         />
       </div>
     )
