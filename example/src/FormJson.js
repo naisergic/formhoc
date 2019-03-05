@@ -6,23 +6,49 @@ export const submitButton = {
   },
   onAfterSubmit:undefined
 };
-export const FORM_JSON = [
-  {
-    inputProps : {
-    type: 'input',
-    required:true
+
+export const input1 =   {
+  inputProps : {
+  type: 'input',
+  required:true
+},
+  labelProps:{
+    label: 'Email:',
+    inputProps: { className: "labels", id: "emailLabel" }
+  },
+  errorProps:{
+    errorMsgProps: {
+      className: 'errorClass',
+      id: 'emailError'
+    },
+    errorMsgParagraphProps: {
+      id: 'emailErrorPara'
+    }
+  },
+  validationsToCheck:[
+    {
+      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+      errorMsg: 'Invalid Email Format'
+    }
+  ],
+  checkValidationOnBlur:true
+}
+
+export const input2 = {
+  inputProps:{
+    type: 'password',
   },
     labelProps:{
-      label: 'Email:',
-      inputProps: { className: "labels", id: "emailLabel" }
+      label: 'password:',
+      inputProps: { className: "labels", id: "passwordLabel" }
     },
     errorProps:{
       errorMsgProps: {
         className: 'errorClass',
-        id: 'emailError'
+        id: 'passwordError'
       },
       errorMsgParagraphProps: {
-        id: 'emailErrorPara'
+        id: 'passwordErrorPara'
       }
     },
     validationsToCheck:[
@@ -31,53 +57,34 @@ export const FORM_JSON = [
         errorMsg: 'Invalid Email Format'
       }
     ],
-    checkValidationOnBlur:true
+    checkValidationOnChange:true
+}
+
+export const dropdown = {
+  inputProps:{
+    type: 'select',
+    id: "select1"
   },
-  {
-    inputProps:{
-      type: 'password',
+    labelProps:{
+      label: 'Country:',
+      inputProps: { className: "labels", id: "countryLabel" }
     },
-      labelProps:{
-        label: 'password:',
-        inputProps: { className: "labels", id: "passwordLabel" }
-      },
-      errorProps:{
-        errorMsgProps: {
-          className: 'errorClass',
-          id: 'passwordError'
-        },
-        errorMsgParagraphProps: {
-          id: 'passwordErrorPara'
-        }
-      },
-      validationsToCheck:[
-        {
-          regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-          errorMsg: 'Invalid Email Format'
-        }
-      ],
-      checkValidationOnChange:true
-  },
-  {
-    inputProps:{
-      type: 'select',
-      id: "select1"
+    optionProps:{
+      options: [{ value: "IN", label: "INDIA" }, { value: "US", label: "USA" }],
+      inputProps: { className: "options" }
     },
-      labelProps:{
-        label: 'Country:',
-        inputProps: { className: "labels", id: "countryLabel" }
-      },
-      optionProps:{
-        options: [{ value: "IN", label: "INDIA" }, { value: "US", label: "USA" }],
-        inputProps: { className: "options" }
-      },
-      ariaDescribedBy:{
-        ariaDescribedByMsg: "list of country",
-        inputProps: {
-          className: "hide",
-          id: "ariaDescribedForCountry"
-        }
+    ariaDescribedBy:{
+      ariaDescribedByMsg: "list of country",
+      inputProps: {
+        className: "hide",
+        id: "ariaDescribedForCountry"
       }
-  },
+    }
+}
+
+export const FORM_JSON = [
+  {...input1},
+  {...input2},
+  {...dropdown},
   {...submitButton}
 ]
