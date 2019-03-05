@@ -12,7 +12,7 @@ export default class FormHOC extends Component {
     }
   }
   render() {
-    const {formJson} = this.props
+    const {formJson, classForParentDiv} = this.props
     if (Array.isArray(formJson) && formJson.length > 0) {
       return formJson.map(item => {
         let type = ''
@@ -20,7 +20,9 @@ export default class FormHOC extends Component {
           type = item.inputProps.type
         }
         return (
-          <RenderForm {...item} handleSubmit={type === 'submit' ? this.handleSubmit : undefined} />
+          <div className={classForParentDiv || ''}>
+            <RenderForm {...item} handleSubmit={type === 'submit' ? this.handleSubmit : undefined} />
+          </div>
         )
       })
     } else {
