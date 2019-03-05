@@ -36,7 +36,6 @@ export default class FormHOC extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      errorMsg: '',
       value: '',
       error: ''
     }
@@ -48,7 +47,7 @@ export default class FormHOC extends Component {
     this.id = undefined
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const {inputProps, validationsToCheck, optionProps} = this.props
     let id, type, selectedValue, options, optionsFirstValue, isRequired
     if (inputProps) {
@@ -90,12 +89,16 @@ export default class FormHOC extends Component {
   }
 
   handleSubmit(e) {
+    /*eslint-disable*/
+    debugger;
+    /* eslint-enable */
     const {onAfterClick} = this.props
     const keys = Object.keys(formObj)
     let error
     keys.forEach(item => {
       if (formObj[item].isRequired || formObj[item].value) {
-        this.checkValidations(formObj[item].value, true, formObj[item].validationsToCheck, formObj[item])
+        const checkValidation = true
+        this.checkValidations(formObj[item].value, checkValidation, formObj[item].validationsToCheck, formObj[item])
       }
     })
     keys.some(item => {
@@ -142,10 +145,10 @@ export default class FormHOC extends Component {
       errorMsgParagraphProps = errorProps.errorMsgParagraphProps
     }
 
-    if (this.state.errorMsg || (this.state.error && formObj[id].error)) {
+    if (formObj[id] && formObj[id].error) {
       return (
         <span {...errorMsgProps}>
-          <p {...errorMsgParagraphProps}>{this.state.errorMsg || formObj[id].errorMsg}</p>
+          <p {...errorMsgParagraphProps}>{formObj[id].errorMsg}</p>
         </span>
       )
     } else {
@@ -169,18 +172,14 @@ export default class FormHOC extends Component {
         const { regexToCheck, errorMsg } = item
         isValidFormat = checkRegex(regexToCheck, value)
         if (!isValidFormat) {
-          this.setState({
-            errorMsg: errorMsg
-          })
-          if (obj) {
-            obj.errorMsg = errorMsg
-            obj.error = true
-          }
+          obj.errorMsg = errorMsg
+          obj.error = true
+          this.forceUpdate()
           return true
         }
-        this.setState({
-          errorMsg: ''
-        })
+        obj.errorMsg = ''
+        obj.error = false
+        this.forceUpdate()
         return false
       })
     }
@@ -193,7 +192,9 @@ export default class FormHOC extends Component {
    */
   handleOnBlur(e) {
     const { checkValidationOnBlur, onAfterBlur } = this.props
-    this.checkValidations(this.state.value, checkValidationOnBlur)
+    const id = e.target.id
+    // this.checkValidations(this.state.value, checkValidationOnBlur)
+    this.checkValidations(formObj[id].value, checkValidationOnBlur, formObj[id].validationsToCheck, formObj[id])
     if (typeof onAfterBlur === 'function') {
       onAfterBlur(e)
     }
@@ -216,7 +217,8 @@ export default class FormHOC extends Component {
     if (formObj[id]) {
       formObj[id].value = e.target.value
     }
-    this.checkValidations(e.target.value, checkValidationOnChange)
+    // this.checkValidations(e.target.value, checkValidationOnChange)
+    this.checkValidations(formObj[id].value, checkValidationOnChange, formObj[id].validationsToCheck, formObj[id])
     /**
      * callback function just in case user needs to perform
      * any function on change

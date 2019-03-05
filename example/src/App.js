@@ -3,6 +3,15 @@ import './index.css'
 import FormHOC from 'formhoc'
 
 export default class App extends Component {
+  constructor(props){
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(e, isError){
+    if(isError){
+      this.forceUpdate();
+    }
+  }
   render() {
     return (
       <div>
