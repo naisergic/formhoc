@@ -89,9 +89,6 @@ export default class FormHOC extends Component {
   }
 
   handleSubmit(e) {
-    /*eslint-disable*/
-    debugger;
-    /* eslint-enable */
     const {onAfterClick} = this.props
     const keys = Object.keys(formObj)
     let error
