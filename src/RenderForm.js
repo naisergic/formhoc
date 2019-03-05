@@ -10,12 +10,11 @@ export default class RenderForm extends Component {
    * @description Defined property types for component
    */
   static propTypes = {
-    isRedux: PropTypes.bool,
     renerLabelAfterInput: PropTypes.bool,
     inputProps: PropTypes.object,
     optionprops: PropTypes.object,
     options: PropTypes.array,
-    onAfterClick: PropTypes.func
+    onAfterSubmit: PropTypes.func // use this for cheking error after pressing submit button
   }
 
   /**
@@ -24,7 +23,6 @@ export default class RenderForm extends Component {
    */
   static defaultProps = {
     renerLabelAfterInput: false,
-    isRedux: false,
     inputProps: {
       onAfterChange: () => { },
       onAfterBlur: () => { },
@@ -231,7 +229,7 @@ export default class RenderForm extends Component {
    * @param {Object} props
    */
   render() {
-    const { isRedux, inputProps, renerLabelAfterInput, optionProps } = this.props
+    const { inputProps, renerLabelAfterInput, optionProps } = this.props
     let type, selectedValue, options, optionInputProps
     if (inputProps) {
       type = inputProps.type
@@ -242,12 +240,7 @@ export default class RenderForm extends Component {
       optionInputProps = optionProps.inputProps
     }
 
-    /**
-     * isRedux will check that is Application using Redux or not
-     */
-    if (isRedux && type) {
-      return null
-    } else if (type) {
+    if (type) {
       if (type !== 'select' && type !== 'submit') {
         return (
           <Fragment>
