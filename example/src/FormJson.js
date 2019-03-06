@@ -81,10 +81,3 @@ export const dropdown = {
       }
     }
 }
-
-export const FORM_JSON = [
-  {...input1},
-  {...input2},
-  {...dropdown},
-  {...submitButton}
-]
