@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import FormHOC from 'formhoc'
 import './index.css'
-import {submitButton,FORM_JSON} from './FormJson';
+import {input1,input2,dropdown,submitButton} from './FormJson';
 
 export default class App extends Component {
   constructor(props){
@@ -16,7 +16,13 @@ export default class App extends Component {
     // execute your logic
   }
   render() {
-    FORM_JSON[3].onAfterSubmit = this.handleSubmit;
+    submitButton.onAfterSubmit = this.handleSubmit;
+    const FORM_JSON = [
+      {...input1},
+      {...input2},
+      {...dropdown},
+      {...submitButton}
+    ]
     return (
       <div>
         <FormHOC formJson={FORM_JSON}/>
