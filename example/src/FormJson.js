@@ -60,6 +60,32 @@ export const input2 = {
     checkValidationOnChange:true
 }
 
+export const input3 = {
+  inputProps:{
+    type: 'text',
+  },
+    labelProps:{
+      label: 'Name:',
+      inputProps: { className: "labels", id: "nameLabel" }
+    },
+    errorProps:{
+      errorMsgProps: {
+        className: 'errorClass',
+        id: 'nameError'
+      },
+      errorMsgParagraphProps: {
+        id: 'nameErrorPara'
+      }
+    },
+    validationsToCheck:[
+      {
+        regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+        errorMsg: 'Invalid Email Format'
+      }
+    ],
+    checkValidationOnChange:true
+}
+
 export const dropdown = {
   inputProps:{
     type: 'select',

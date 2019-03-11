@@ -229,7 +229,7 @@ export default class RenderForm extends Component {
    * @param {Object} props
    */
   render() {
-    const { inputProps, renerLabelAfterInput, optionProps, selectedValue } = this.props
+    const { inputProps, renerLabelAfterInput, optionProps, selectedValue, disabled } = this.props
     let type, options, optionInputProps
     if (inputProps) {
       type = inputProps.type
@@ -247,6 +247,7 @@ export default class RenderForm extends Component {
             <input
               id={this.id}
               {...inputProps}
+              disabled={disabled}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
               value={this.state.value || selectedValue}

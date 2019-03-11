@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import FormHOC from 'formhoc'
 import './index.css'
-import {input1,input2,dropdown,submitButton} from './FormJson';
+import {input1,input2,input3,dropdown,submitButton} from './FormJson';
 
 export default class App extends Component {
   constructor(props){
@@ -37,6 +37,7 @@ export default class App extends Component {
       <div>
         <FormHOC inputTypeJson={input1} error={this.state.error} />
         <FormHOC inputTypeJson={input2} error={this.state.error}/>
+        <FormHOC inputTypeJson={input3} error={this.state.error} selectedValue="hello@yahoo.com" disabled/>
         <FormHOC inputTypeJson={dropdown} error={this.state.error}/>
         <FormHOC inputTypeJson={submitButton} error={this.state.error}/>
       </div>
