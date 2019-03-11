@@ -229,11 +229,10 @@ export default class RenderForm extends Component {
    * @param {Object} props
    */
   render() {
-    const { inputProps, renerLabelAfterInput, optionProps } = this.props
-    let type, selectedValue, options, optionInputProps
+    const { inputProps, renerLabelAfterInput, optionProps, selectedValue } = this.props
+    let type, options, optionInputProps
     if (inputProps) {
       type = inputProps.type
-      selectedValue = inputProps.selectedValue
     }
     if (optionProps) {
       options = optionProps.options
