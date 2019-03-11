@@ -35,11 +35,11 @@ export default class App extends Component {
     submitButton.onAfterSubmit = this.handleSubmit;
     return (
       <div>
-        <FormHOC inputTypeJson={input1} error={this.state.error} />
-        <FormHOC inputTypeJson={input2} error={this.state.error}/>
-        <FormHOC inputTypeJson={input3} error={this.state.error} selectedValue="hello@yahoo.com" disabled/>
-        <FormHOC inputTypeJson={dropdown} error={this.state.error}/>
-        <FormHOC inputTypeJson={submitButton} error={this.state.error}/>
+        <FormHOC inputTypeJson={input1} error={this.state.error} divWrapperNeeded/>
+        <FormHOC inputTypeJson={input2} error={this.state.error} />
+        <FormHOC inputTypeJson={input3} error={this.state.error} selectedValue="hello@yahoo.com" disabled divWrapperNeeded/>
+        <FormHOC inputTypeJson={dropdown} error={this.state.error} divWrapperNeeded/>
+        <FormHOC inputTypeJson={submitButton} error={this.state.error} divWrapperNeeded/>
       </div>
     )
   }
