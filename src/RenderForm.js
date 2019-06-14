@@ -14,7 +14,8 @@ export default class RenderForm extends Component {
     inputProps: PropTypes.object,
     optionprops: PropTypes.object,
     options: PropTypes.array,
-    onAfterSubmit: PropTypes.func // use this for cheking error after pressing submit button
+    onAfterSubmit: PropTypes.func, // use this for cheking error after pressing submit button
+    errorWrapper: PropTypes.element
   }
 
   /**
@@ -134,18 +135,17 @@ export default class RenderForm extends Component {
    * @description function to render error message on input element
    */
   renderErrorMsg(id) {
-    const { errorProps } = this.props
-    let errorMsgProps, errorMsgParagraphProps
-    if (errorProps) {
-      errorMsgProps = errorProps.errorMsgProps
-      errorMsgParagraphProps = errorProps.errorMsgParagraphProps
+    const { errorWrapper } = this.props
+    let ErrorComponent
+    if (errorWrapper) {
+      ErrorComponent = errorWrapper?errorWrapper.component: defaultErrorComponent;
     }
 
     if (formObj[id] && formObj[id].error) {
       return (
-        <span {...errorMsgProps}>
-          <p {...errorMsgParagraphProps}>{formObj[id].errorMsg}</p>
-        </span>
+        <ErrorComponent>
+          {formObj[id].errorMsg}
+        </ErrorComponent>
       )
     } else {
       return null
@@ -315,4 +315,8 @@ export default class RenderForm extends Component {
       )
     }
   }
+}
+
+const defaultErrorComponent = (props)=>{
+  return <span>{props.children}</span>
 }

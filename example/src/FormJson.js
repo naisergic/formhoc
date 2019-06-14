@@ -1,3 +1,8 @@
+import React from 'react'
+
+const ErrorComponet = (props)=>{
+  return <span>{props.children}</span>
+}
 export const submitButton = {
   inputProps:{
     type: 'submit',
@@ -16,14 +21,8 @@ export const input1 =   {
     label: 'Email:',
     inputProps: { className: "labels", id: "emailLabel" }
   },
-  errorProps:{
-    errorMsgProps: {
-      className: 'errorClass',
-      id: 'emailError'
-    },
-    errorMsgParagraphProps: {
-      id: 'emailErrorPara'
-    }
+  errorWrapper:{
+    component: ErrorComponet
   },
   validationsToCheck:[
     {
@@ -38,26 +37,20 @@ export const input2 = {
   inputProps:{
     type: 'password',
   },
-    labelProps:{
-      label: 'password:',
-      inputProps: { className: "labels", id: "passwordLabel" }
-    },
-    errorProps:{
-      errorMsgProps: {
-        className: 'errorClass',
-        id: 'passwordError'
-      },
-      errorMsgParagraphProps: {
-        id: 'passwordErrorPara'
-      }
-    },
-    validationsToCheck:[
-      {
-        regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-        errorMsg: 'Invalid Email Format'
-      }
-    ],
-    checkValidationOnChange:true
+  labelProps:{
+    label: 'password:',
+    inputProps: { className: "labels", id: "passwordLabel" }
+  },
+  errorWrapper:{
+    component: ErrorComponet
+  },
+  validationsToCheck:[
+    {
+      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+      errorMsg: 'Invalid Email Format'
+    }
+  ],
+  checkValidationOnChange:true
 }
 
 export const input3 = {
@@ -68,14 +61,8 @@ export const input3 = {
       label: 'Name:',
       inputProps: { className: "labels", id: "nameLabel" }
     },
-    errorProps:{
-      errorMsgProps: {
-        className: 'errorClass',
-        id: 'nameError'
-      },
-      errorMsgParagraphProps: {
-        id: 'nameErrorPara'
-      }
+    errorWrapper:{
+      component: ErrorComponet
     },
     validationsToCheck:[
       {

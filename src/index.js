@@ -7,14 +7,12 @@ export default class FormHOC extends Component {
     selectedValue: PropTypes.string,
     inputTypeJson: PropTypes.object,
     disabled: PropTypes.bool,
-    divWrapperNeeded: PropTypes.bool
   }
 
   static defaultProps = {
     selectedValue: '',
     inputTypeJson: {},
     disabled: false,
-    divWrapperNeeded: false
   }
 
   constructor(props) {
@@ -30,17 +28,9 @@ export default class FormHOC extends Component {
     const {inputTypeJson, classForParentDiv, selectedValue, disabled, divWrapperNeeded} = this.props
     if (inputTypeJson && typeof inputTypeJson === 'object') {
       const type = inputTypeJson.inputProps && inputTypeJson.inputProps.type
-      if (divWrapperNeeded) {
-        return (
-          <div className={classForParentDiv || ''}>
-            <RenderForm {...inputTypeJson} selectedValue={selectedValue} handleSubmit={type === 'submit' ? this.handleSubmit : undefined} disabled={disabled} />
-          </div>
-        )
-      } else {
-        return (
-          <RenderForm {...inputTypeJson} selectedValue={selectedValue} handleSubmit={type === 'submit' ? this.handleSubmit : undefined} disabled={disabled} />
-        )
-      }
+    return (
+      <RenderForm {...inputTypeJson} selectedValue={selectedValue} handleSubmit={type === 'submit' ? this.handleSubmit : undefined} disabled={disabled} />
+    )
     } else {
       return null
     }

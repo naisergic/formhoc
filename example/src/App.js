@@ -13,7 +13,7 @@ export default class App extends Component {
   }
   handleSubmit(e,isError){
 
-    // both if and else if is imp
+    // both if and else-if is imp
     // for handling of error
     // on submit
 
@@ -35,11 +35,11 @@ export default class App extends Component {
     submitButton.onAfterSubmit = this.handleSubmit;
     return (
       <div>
-        <FormHOC inputTypeJson={input1} error={this.state.error} divWrapperNeeded/>
-        <FormHOC inputTypeJson={input2} error={this.state.error} />
-        <FormHOC inputTypeJson={input3} error={this.state.error} selectedValue="hello@yahoo.com" disabled divWrapperNeeded/>
-        <FormHOC inputTypeJson={dropdown} error={this.state.error} divWrapperNeeded/>
-        <FormHOC inputTypeJson={submitButton} error={this.state.error} divWrapperNeeded/>
+        <div><FormHOC inputTypeJson={input1} error={this.state.error} /></div>
+        <div><FormHOC inputTypeJson={input2} error={this.state.error} /></div>
+        <div><FormHOC inputTypeJson={input3} error={this.state.error} selectedValue="hello@yahoo.com" disabled /></div>
+        <div><FormHOC inputTypeJson={dropdown} error={this.state.error} /></div>
+        <div><FormHOC inputTypeJson={submitButton} error={this.state.error} /></div>
       </div>
     )
   }
