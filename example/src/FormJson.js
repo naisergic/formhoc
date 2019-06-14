@@ -3,6 +3,14 @@ import React from 'react'
 const ErrorComponet = (props)=>{
   return <span>{props.children}</span>
 }
+
+const format = (value)=>{
+  let input = value
+  input=`${input} done`
+  //perform your logic
+  return input;
+}
+
 export const submitButton = {
   inputProps:{
     type: 'submit',
@@ -30,6 +38,7 @@ export const input1 =   {
       errorMsg: 'Invalid Email Format'
     }
   ],
+  formatter:format,
   checkValidationOnBlur:true
 }
 
@@ -94,3 +103,5 @@ export const dropdown = {
       }
     }
 }
+
+

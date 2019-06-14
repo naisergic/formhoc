@@ -15,7 +15,8 @@ export default class RenderForm extends Component {
     optionprops: PropTypes.object,
     options: PropTypes.array,
     onAfterSubmit: PropTypes.func, // use this for cheking error after pressing submit button
-    errorWrapper: PropTypes.element
+    errorWrapper: PropTypes.element,
+    formatter: PropTypes.func
   }
 
   /**
@@ -202,12 +203,17 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnChange(e) {
-    const { checkValidationOnChange, onAfterChange } = this.props
+    const { checkValidationOnChange, onAfterChange, formatter } = this.props
     /**
      * Todo: we need to discuss the name of method will it be onAfterChange or onChange
      */
+    let value = e.target.value;
+    if(formatter){
+      value = formatter(e.target.value);
+    }
+
     this.setState({
-      value: e.target.value
+      value: value
     })
     const id = e.target.id
     if (formObj[id]) {
