@@ -1,15 +1,4 @@
-import React from 'react'
-
-const ErrorComponet = (props)=>{
-  return <span>{props.children}</span>
-}
-
-const format = (value)=>{
-  let input = value
-  input=`${input} done`
-  //perform your logic
-  return input;
-}
+import ErrorComponet from './ErrorComponent';
 
 export const submitButton = {
   inputProps:{
@@ -20,13 +9,55 @@ export const submitButton = {
   onAfterSubmit:undefined
 };
 
-export const input1 =   {
+export const firstName =   {
   inputProps : {
   type: 'input',
-  required:true
+  required:true,
 },
   labelProps:{
-    label: 'Email:',
+    label: 'First Name',
+    inputProps: { className: "labels", id: "firstNameLabel" }
+  },
+  errorWrapper:{
+    component: ErrorComponet
+  },
+  validationsToCheck:[
+    {
+      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+      errorMsg: 'Invalid Email Format'
+    }
+  ],
+  checkValidationOnBlur:true
+}
+
+export const lastName =   {
+  inputProps : {
+  type: 'input',
+  required:true,
+},
+  labelProps:{
+    label: 'Last Name',
+    inputProps: { className: "labels", id: "lastNameLabel" }
+  },
+  errorWrapper:{
+    component: ErrorComponet
+  },
+  validationsToCheck:[
+    {
+      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+      errorMsg: 'Invalid Email Format'
+    }
+  ],
+  checkValidationOnBlur:true
+}
+
+export const email =   {
+  inputProps : {
+  type: 'email',
+  required:true,
+},
+  labelProps:{
+    label: 'Email',
     inputProps: { className: "labels", id: "emailLabel" }
   },
   errorWrapper:{
@@ -38,17 +69,16 @@ export const input1 =   {
       errorMsg: 'Invalid Email Format'
     }
   ],
-  formatter:format,
   checkValidationOnBlur:true
 }
-
-export const input2 = {
-  inputProps:{
-    type: 'password',
-  },
+export const password =   {
+  inputProps : {
+  type: 'password',
+  required:true,
+},
   labelProps:{
-    label: 'password:',
-    inputProps: { className: "labels", id: "passwordLabel" }
+    label: 'Password',
+    inputProps: { className: "labels", id: "emailLabel" }
   },
   errorWrapper:{
     component: ErrorComponet
@@ -59,27 +89,28 @@ export const input2 = {
       errorMsg: 'Invalid Email Format'
     }
   ],
-  checkValidationOnChange:true
+  checkValidationOnBlur:true
 }
 
-export const input3 = {
-  inputProps:{
-    type: 'text',
+export const confirmPassword =   {
+  inputProps : {
+  type: 'password',
+  required:true,
+},
+  labelProps:{
+    label: 'Confirm Password',
+    inputProps: { className: "labels", id: "emailLabel" }
   },
-    labelProps:{
-      label: 'Name:',
-      inputProps: { className: "labels", id: "nameLabel" }
-    },
-    errorWrapper:{
-      component: ErrorComponet
-    },
-    validationsToCheck:[
-      {
-        regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-        errorMsg: 'Invalid Email Format'
-      }
-    ],
-    checkValidationOnChange:true
+  errorWrapper:{
+    component: ErrorComponet
+  },
+  validationsToCheck:[
+    {
+      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+      errorMsg: 'Invalid Email Format'
+    }
+  ],
+  checkValidationOnBlur:true
 }
 
 export const dropdown = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import FormHOC from 'formhoc'
 import './index.css'
-import {input1,input2,input3,dropdown,submitButton} from './FormJson';
+import {firstName,lastName,email,password, confirmPassword, submitButton} from './FormJson';
 
 export default class App extends Component {
   constructor(props){
@@ -32,14 +32,24 @@ export default class App extends Component {
     // execute your logic
   }
   render() {
+    //this is imp
     submitButton.onAfterSubmit = this.handleSubmit;
     return (
       <div>
-        <div><FormHOC inputTypeJson={input1} error={this.state.error} /></div>
-        <div><FormHOC inputTypeJson={input2} error={this.state.error} /></div>
-        <div><FormHOC inputTypeJson={input3} error={this.state.error} selectedValue="hello@yahoo.com" disabled /></div>
-        <div><FormHOC inputTypeJson={dropdown} error={this.state.error} /></div>
-        <div><FormHOC inputTypeJson={submitButton} error={this.state.error} /></div>
+        <div className="grid-x">
+          <FormHOC inputTypeJson={firstName} error={this.state.error} />
+          <FormHOC inputTypeJson={lastName} error={this.state.error} />
+        </div>
+        <div className="grid-x">
+          <FormHOC inputTypeJson={email} error={this.state.error}/>
+        </div>
+        <div className="grid-x">
+          <FormHOC inputTypeJson={password} error={this.state.error} />
+          <FormHOC inputTypeJson={confirmPassword} error={this.state.error} />
+        </div>
+        <div className="grid-x">
+          <FormHOC inputTypeJson={submitButton}/>
+        </div>
       </div>
     )
   }
