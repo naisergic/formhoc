@@ -25,7 +25,7 @@ export default class FormHOC extends Component {
     }
   }
   render() {
-    const {inputTypeJson, classForParentDiv, selectedValue, disabled, divWrapperNeeded} = this.props
+    const {inputTypeJson,  selectedValue, disabled} = this.props
     if (inputTypeJson && typeof inputTypeJson === 'object') {
       const type = inputTypeJson.inputProps && inputTypeJson.inputProps.type
     return (

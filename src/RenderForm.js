@@ -3,7 +3,15 @@ import PropTypes from 'prop-types'
 import { checkRegex } from './validation'
 
 let formObj = {}
+let confirmObj = {
+  confirmTo:{},
+  confirmWith:{}
+}
 let index = 0
+
+const defaultErrorComponent = (props)=>{
+  return <span>{props.children}</span>
+}
 export default class RenderForm extends Component {
   /**
    * @property propTypes
@@ -16,7 +24,9 @@ export default class RenderForm extends Component {
     options: PropTypes.array,
     onAfterSubmit: PropTypes.func, // use this for cheking error after pressing submit button
     errorWrapper: PropTypes.element,
-    formatter: PropTypes.func
+    formatter: PropTypes.func,
+    confirmMatchWith: PropTypes.object,
+    confirmMatchTo: PropTypes.object,
   }
 
   /**
@@ -48,7 +58,7 @@ export default class RenderForm extends Component {
   }
 
   componentWillMount() {
-    const {inputProps, validationsToCheck, optionProps} = this.props
+    const {inputProps, validationsToCheck, optionProps, confirmMatchTo, confirmMatchWith} = this.props
     let id, type, selectedValue, options, optionsFirstValue, isRequired
     if (inputProps) {
       type = inputProps.type
@@ -76,11 +86,29 @@ export default class RenderForm extends Component {
         isRequired
       }
     }
+    if(confirmMatchTo){
+      confirmObj.confirmTo[`${confirmMatchTo.id}`] = {
+        id:this.id,
+        errorMsg: confirmMatchTo.errorMsg,
+        hideErrorComponent:confirmMatchTo.hideErrorComponent,
+      }
+    }
+    if(confirmMatchWith){
+      confirmObj.confirmWith[`${confirmMatchWith.id}`] = {
+        id:this.id,
+        errorMsg: confirmMatchWith.errorMsg,
+        hideErrorComponent:confirmMatchWith.hideErrorComponent,
+      }
+    }
   }
 
   componentWillUnMount() {
-    index = 0
-    formObj = {}
+    index = 0;
+    formObj = {};
+    confirmObj = {
+      confirmTo:{},
+      confirmWith:{}
+    };
   }
 
   getId(type) {
@@ -97,7 +125,8 @@ export default class RenderForm extends Component {
         const checkValidation = true
         this.checkValidations(formObj[item].value, checkValidation, formObj[item].validationsToCheck, formObj[item])
       }
-    })
+    });
+    this.checkConfirmValidations();
     keys.some(item => {
       if (formObj[item].error) {
         error = true
@@ -132,25 +161,32 @@ export default class RenderForm extends Component {
   }
 
   /**
+   *
+   * @param {*string} id
+   * check if error is present in obj or not
+   */
+  checkIfError(id){
+    return formObj[id] && formObj[id].error;
+  }
+
+  /**
    * @function renderErrorMsg
    * @description function to render error message on input element
    */
   renderErrorMsg(id) {
-    const { errorWrapper } = this.props
+    const { errorWrapper} = this.props
     let ErrorComponent
     if (errorWrapper) {
       ErrorComponent = errorWrapper?errorWrapper.component: defaultErrorComponent;
     }
-
-    if (formObj[id] && formObj[id].error) {
-      return (
-        <ErrorComponent>
-          {formObj[id].errorMsg}
-        </ErrorComponent>
-      )
-    } else {
-      return null
+    if(formObj[id].hideErrorComponent){
+      return null;
     }
+    return (
+      <ErrorComponent>
+        {formObj[id].errorMsg}
+      </ErrorComponent>
+    )
   }
 
   /**
@@ -180,6 +216,32 @@ export default class RenderForm extends Component {
         return false
       })
     }
+
+  }
+
+  checkConfirmValidations(id) {
+    Object.keys(confirmObj.confirmTo).forEach(key=>{
+      const toId = confirmObj.confirmTo[key].id;
+      const withId = confirmObj.confirmWith[key].id;
+      if(!formObj[toId].value || !formObj[withId].value || formObj[toId].value !== formObj[withId].value){
+        if(!formObj[toId].error){
+          formObj[toId].error = true;
+          formObj[toId].errorMsg = confirmObj.confirmTo[key].errorMsg;
+        }
+        if(!formObj[withId].error) {
+          formObj[withId].error = true;
+          formObj[withId].errorMsg = confirmObj.confirmWith[key].errorMsg;
+        }
+        this.forceUpdate()
+      }
+      else{
+        formObj[toId].error = false;
+        formObj[withId].error = false;
+        formObj[toId].errorMsg = "";
+        formObj[withId].errorMsg = "";
+        this.forceUpdate()
+      }
+    })
   }
 
   /**
@@ -188,10 +250,13 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnBlur(e) {
-    const { checkValidationOnBlur, onAfterBlur } = this.props
+    const { checkValidationOnBlur, onAfterBlur,confirmMatchTo,confirmMatchWith } = this.props
     const id = e.target.id
     // this.checkValidations(this.state.value, checkValidationOnBlur)
     this.checkValidations(formObj[id].value, checkValidationOnBlur, formObj[id].validationsToCheck, formObj[id])
+    if((confirmMatchTo && confirmMatchTo.checkValidationOnBlur)||(confirmMatchWith && confirmMatchWith.checkValidationOnBlur)){
+      this.checkConfirmValidations()
+    }
     if (typeof onAfterBlur === 'function') {
       onAfterBlur(e)
     }
@@ -203,7 +268,7 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnChange(e) {
-    const { checkValidationOnChange, onAfterChange, formatter } = this.props
+    const { checkValidationOnChange, onAfterChange, formatter, confirmMatchTo, confirmMatchWith } = this.props
     /**
      * Todo: we need to discuss the name of method will it be onAfterChange or onChange
      */
@@ -219,8 +284,11 @@ export default class RenderForm extends Component {
     if (formObj[id]) {
       formObj[id].value = e.target.value
     }
-    // this.checkValidations(e.target.value, checkValidationOnChange)
+
     this.checkValidations(formObj[id].value, checkValidationOnChange, formObj[id].validationsToCheck, formObj[id])
+    if((confirmMatchTo && confirmMatchTo.checkValidationOnChange)||(confirmMatchWith && confirmMatchWith.checkValidationOnChange)){
+      this.checkConfirmValidations()
+    }
     /**
      * callback function just in case user needs to perform
      * any function on change
@@ -236,9 +304,11 @@ export default class RenderForm extends Component {
    */
   render() {
     const { inputProps, renerLabelAfterInput, optionProps, selectedValue, disabled } = this.props
-    let type, options, optionInputProps
+    let type, options, optionInputProps, classes, isError;
     if (inputProps) {
-      type = inputProps.type
+      isError = this.checkIfError(this.id);
+      type = inputProps.type;
+      classes = isError ?`${inputProps.class} error`: inputProps.class;
     }
     if (optionProps) {
       options = optionProps.options
@@ -253,13 +323,14 @@ export default class RenderForm extends Component {
             <input
               id={this.id}
               {...inputProps}
+              className={`${classes}`}
               disabled={disabled}
               onChange={(e) => { this.handleOnChange(e) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
               value={this.state.value || selectedValue}
             />
             {renerLabelAfterInput && this.renderLabel()}
-            {this.renderErrorMsg(this.id)}
+            {isError && this.renderErrorMsg(this.id)}
           </Fragment>
         )
       }
@@ -321,8 +392,4 @@ export default class RenderForm extends Component {
       )
     }
   }
-}
-
-const defaultErrorComponent = (props)=>{
-  return <span>{props.children}</span>
 }
