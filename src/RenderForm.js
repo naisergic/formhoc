@@ -59,11 +59,10 @@ export default class RenderForm extends Component {
   }
 
   componentWillMount() {
-    const {inputProps, validationsToCheck, optionProps, confirmMatchTo, confirmMatchWith} = this.props
-    let id, type, selectedValue, options, optionsFirstValue, isRequired
+    const {inputProps, validationsToCheck, optionProps, confirmMatchTo, confirmMatchWith, selectedValue} = this.props
+    let id, type, options, optionsFirstValue, isRequired
     if (inputProps) {
       type = inputProps.type
-      selectedValue = inputProps.selectedValue
       id = inputProps.id
       isRequired = inputProps.required
     }
