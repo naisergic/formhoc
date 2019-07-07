@@ -23,7 +23,7 @@ export const firstName =   {
   },
   validationsToCheck:[
     {
-      regexToCheck: /[a-zA-Z]{2}/,
+      regexToCheck: /^[a-zA-Z]+$/,
       errorMsg: 'Invalid First Name, Must be 2 Characters long'
     }
   ],

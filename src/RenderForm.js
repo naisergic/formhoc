@@ -27,6 +27,7 @@ export default class RenderForm extends Component {
     formatter: PropTypes.func,
     confirmMatchWith: PropTypes.object,
     confirmMatchTo: PropTypes.object,
+    checkValidationFunc: PropTypes.func,
   }
 
   /**
@@ -117,13 +118,13 @@ export default class RenderForm extends Component {
   }
 
   handleSubmit(e) {
-    const {onAfterSubmit, handleSubmit} = this.props
+    const {onAfterSubmit, handleSubmit,checkValidationFunc} = this.props
     const keys = Object.keys(formObj)
     let error
     keys.forEach(item => {
       if (formObj[item].isRequired || formObj[item].value) {
         const checkValidation = true
-        this.checkValidations(formObj[item].value, checkValidation, formObj[item].validationsToCheck, formObj[item])
+        this.checkValidations(formObj[item].value, checkValidation, formObj[item].validationsToCheck, formObj[item],checkValidationFunc)
       }
     });
     this.checkConfirmValidations();
@@ -194,9 +195,10 @@ export default class RenderForm extends Component {
    * @description function to check the validation for the regex passed
    * @param {string} value  value of the element
    * @param {string} checkValidation prop to whether to check validation or not
+   * @param {function} checkValidationFunc prop to which check validation
    * @returns
    */
-  checkValidations(value, checkValidation, validationToCheckFromObject, obj) {
+  checkValidations(value, checkValidation, validationToCheckFromObject, obj,checkValidationFunc) {
     const { validationsToCheck } = this.props
     const validationArray = validationsToCheck || validationToCheckFromObject
     let isValidFormat
@@ -216,7 +218,17 @@ export default class RenderForm extends Component {
         return false
       })
     }
-
+    if(checkValidation && typeof checkValidationFunc === "function" && !obj.error){
+      let errorObj = checkValidationFunc(value);
+      if(errorObj.isError){
+        obj.errorMsg = errorObj.errorMsg
+        obj.error = true
+        this.forceUpdate()
+      }
+      obj.errorMsg = ''
+      obj.error = false
+      this.forceUpdate()
+    }
   }
 
   checkConfirmValidations(id) {
@@ -266,9 +278,9 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnBlur(e) {
-    const { checkValidationOnBlur, onAfterBlur,confirmMatchTo,confirmMatchWith } = this.props
+    const { checkValidationOnBlur, onAfterBlur,confirmMatchTo,confirmMatchWith,checkValidationFunc } = this.props
     const id = e.target.id
-    this.checkValidations(formObj[id].value, checkValidationOnBlur, formObj[id].validationsToCheck, formObj[id])
+    this.checkValidations(formObj[id].value, checkValidationOnBlur, formObj[id].validationsToCheck, formObj[id],checkValidationFunc)
     if((confirmMatchTo && confirmMatchTo.checkValidationOnBlur)||(confirmMatchWith && confirmMatchWith.checkValidationOnBlur)){
       this.checkConfirmValidations(id)
     }
@@ -283,7 +295,7 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnChange(e) {
-    const { checkValidationOnChange, onAfterChange, formatter, confirmMatchTo, confirmMatchWith } = this.props
+    const { checkValidationOnChange, onAfterChange, formatter, confirmMatchTo, confirmMatchWith,checkValidationFunc } = this.props
     /**
      * Todo: we need to discuss the name of method will it be onAfterChange or onChange
      */
@@ -300,7 +312,7 @@ export default class RenderForm extends Component {
       formObj[id].value = e.target.value
     }
 
-    this.checkValidations(formObj[id].value, checkValidationOnChange, formObj[id].validationsToCheck, formObj[id])
+    this.checkValidations(formObj[id].value, checkValidationOnChange, formObj[id].validationsToCheck, formObj[id],checkValidationFunc)
     if((confirmMatchTo && confirmMatchTo.checkValidationOnChange)||(confirmMatchWith && confirmMatchWith.checkValidationOnChange)){
       this.checkConfirmValidations(id)
     }

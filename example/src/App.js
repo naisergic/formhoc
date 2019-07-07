@@ -41,7 +41,7 @@ export default class App extends Component {
           <FormHOC inputTypeJson={lastName} error={this.state.error} />
         </div>
         <div className="grid-x">
-          <FormHOC inputTypeJson={email} error={this.state.error} />
+          <FormHOC inputTypeJson={email} error={this.state.error} checkValidationFunc={()=>{}}/>
         </div>
         <div className="grid-x">
           <FormHOC inputTypeJson={password} error={this.state.error} />

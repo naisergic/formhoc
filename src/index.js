@@ -7,6 +7,7 @@ export default class FormHOC extends Component {
     selectedValue: PropTypes.string,
     inputTypeJson: PropTypes.object,
     disabled: PropTypes.bool,
+    checkValidationFunc: PropTypes.func
   }
 
   static defaultProps = {
@@ -25,11 +26,11 @@ export default class FormHOC extends Component {
     }
   }
   render() {
-    const {inputTypeJson,  selectedValue, disabled} = this.props
+    const {inputTypeJson,  selectedValue, disabled,checkValidationFunc} = this.props
     if (inputTypeJson && typeof inputTypeJson === 'object') {
       const type = inputTypeJson.inputProps && inputTypeJson.inputProps.type
     return (
-      <RenderForm {...inputTypeJson} selectedValue={selectedValue} handleSubmit={type === 'submit' ? this.handleSubmit : undefined} disabled={disabled} />
+      <RenderForm {...inputTypeJson} selectedValue={selectedValue} handleSubmit={type === 'submit' ? this.handleSubmit : undefined} disabled={disabled} checkValidationFunc={checkValidationFunc}/>
     )
     } else {
       return null
