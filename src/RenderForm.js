@@ -220,30 +220,46 @@ export default class RenderForm extends Component {
   }
 
   checkConfirmValidations(id) {
-    Object.keys(confirmObj.confirmTo).forEach(key=>{
+    const keys = Object.keys(confirmObj.confirmTo);
+
+    keys.some(key=>{
       const toId = confirmObj.confirmTo[key].id;
+      const toErrorMsg = confirmObj.confirmTo[key].errorMsg;
       const withId = confirmObj.confirmWith[key].id;
-      if(!formObj[toId].value || !formObj[withId].value || formObj[toId].value !== formObj[withId].value){
-        if(!formObj[toId].error){
-          formObj[toId].error = true;
-          formObj[toId].errorMsg = confirmObj.confirmTo[key].errorMsg;
+      const withErrorMsg =confirmObj.confirmWith[key].errorMsg;
+      if(id){
+        if(id===toId){
+          this.checkAndSetError(id,toId,withId,toErrorMsg);
+          return true;
         }
-        if(!formObj[withId].error) {
-          formObj[withId].error = true;
-          formObj[withId].errorMsg = confirmObj.confirmWith[key].errorMsg;
+        else if(id===withId){
+          this.checkAndSetError(id,toId,withId,withErrorMsg);
+          return true;
         }
-        this.forceUpdate()
       }
       else{
-        formObj[toId].error = false;
-        formObj[withId].error = false;
-        formObj[toId].errorMsg = "";
-        formObj[withId].errorMsg = "";
-        this.forceUpdate()
+        this.checkAndSetError(toId,toId,withId,toErrorMsg);
+        this.checkAndSetError(withId,toId,withId,withErrorMsg);
       }
     })
   }
 
+  checkAndSetError(id,toId,withId,errorMsgs,allowNullValue = false){
+
+    if(!formObj[id].error && ((!allowNullValue && !formObj[id].value) || formObj[toId].value !== formObj[withId].value)){
+      formObj[id].error = true;
+      formObj[id].confirmError = true;
+      formObj[id].errorMsg = errorMsgs;
+      this.forceUpdate()
+    }
+    else if(formObj[id].confirmError) {
+      formObj[id].error = false;
+      formObj[id].confirmError = false;
+      formObj[id].errorMsg = "";
+      this.forceUpdate()
+    }
+
+  }
   /**
    * @function handleOnBlur
    * @description handle blur event on input
@@ -252,10 +268,9 @@ export default class RenderForm extends Component {
   handleOnBlur(e) {
     const { checkValidationOnBlur, onAfterBlur,confirmMatchTo,confirmMatchWith } = this.props
     const id = e.target.id
-    // this.checkValidations(this.state.value, checkValidationOnBlur)
     this.checkValidations(formObj[id].value, checkValidationOnBlur, formObj[id].validationsToCheck, formObj[id])
     if((confirmMatchTo && confirmMatchTo.checkValidationOnBlur)||(confirmMatchWith && confirmMatchWith.checkValidationOnBlur)){
-      this.checkConfirmValidations()
+      this.checkConfirmValidations(id)
     }
     if (typeof onAfterBlur === 'function') {
       onAfterBlur(e)
@@ -287,7 +302,7 @@ export default class RenderForm extends Component {
 
     this.checkValidations(formObj[id].value, checkValidationOnChange, formObj[id].validationsToCheck, formObj[id])
     if((confirmMatchTo && confirmMatchTo.checkValidationOnChange)||(confirmMatchWith && confirmMatchWith.checkValidationOnChange)){
-      this.checkConfirmValidations()
+      this.checkConfirmValidations(id)
     }
     /**
      * callback function just in case user needs to perform
