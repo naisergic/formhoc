@@ -174,10 +174,13 @@ export default class RenderForm extends Component {
    * @description function to render error message on input element
    */
   renderErrorMsg(id) {
-    const { errorWrapper} = this.props
+    const { errorWrapper,confirmMatchWith,confirmMatchTo} = this.props
     let ErrorComponent
     if (errorWrapper) {
       ErrorComponent = errorWrapper?errorWrapper.component: defaultErrorComponent;
+    }
+    if(formObj[id].confirmError && (confirmMatchWith.ErrorComponent || confirmMatchTo.ErrorComponent)){
+      ErrorComponent = confirmMatchWith.ErrorComponent || confirmMatchTo.ErrorComponent;
     }
     if(formObj[id].hideErrorComponent){
       return null;
@@ -334,7 +337,8 @@ export default class RenderForm extends Component {
     if (inputProps) {
       isError = this.checkIfError(this.id);
       type = inputProps.type;
-      classes = isError ?`${inputProps.class} error`: inputProps.class;
+      classes = inputProps.class ? inputProps.class:'';
+      classes = isError ?`${classes} error`: classes;
     }
     if (optionProps) {
       options = optionProps.options
