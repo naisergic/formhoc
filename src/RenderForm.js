@@ -246,7 +246,7 @@ export default class RenderForm extends Component {
 
   checkAndSetError(id,toId,withId,errorMsgs,allowNullValue = false){
 
-    if(!formObj[id].error && ((!allowNullValue && !formObj[id].value) || formObj[toId].value !== formObj[withId].value)){
+    if((!formObj[id].error || formObj[id].confirmError) && ((!allowNullValue && !formObj[id].value) || formObj[toId].value !== formObj[withId].value)){
       formObj[id].error = true;
       formObj[id].confirmError = true;
       formObj[id].errorMsg = errorMsgs;
