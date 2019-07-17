@@ -23,8 +23,8 @@ export const firstName =   {
   },
   validationsToCheck:[
     {
-      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-      errorMsg: 'Invalid Email Format'
+      regexToCheck: /^[a-zA-Z]+$/,
+      errorMsg: 'Invalid First Name, Must be 2 Characters long'
     }
   ],
   checkValidationOnBlur:true
@@ -44,8 +44,8 @@ export const lastName =   {
   },
   validationsToCheck:[
     {
-      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-      errorMsg: 'Invalid Email Format'
+      regexToCheck: /[a-zA-Z]{2}/,
+      errorMsg: 'Invalid last Name, Must be 4 Characters long'
     }
   ],
   checkValidationOnBlur:true
@@ -85,11 +85,17 @@ export const password =   {
   },
   validationsToCheck:[
     {
-      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-      errorMsg: 'Invalid Email Format'
+      regexToCheck: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
+      errorMsg: 'Invalid Password'
     }
   ],
-  checkValidationOnBlur:true
+  checkValidationOnBlur:true,
+  confirmMatchTo: {
+    id: "confirmPassword",
+    hideErrorComponent:true,
+    checkValidationOnBlur:true,
+    hideErrorComponent:true,
+  }
 }
 
 export const confirmPassword =   {
@@ -104,13 +110,12 @@ export const confirmPassword =   {
   errorWrapper:{
     component: ErrorComponet
   },
-  validationsToCheck:[
-    {
-      regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-      errorMsg: 'Invalid Email Format'
-    }
-  ],
-  checkValidationOnBlur:true
+  confirmMatchWith:{
+    id:"confirmPassword",
+    errorMsg:"Password Doesn't Match",
+    ErrorComponent:ErrorComponet,
+    checkValidationOnBlur:true,
+  }
 }
 
 export const dropdown = {
