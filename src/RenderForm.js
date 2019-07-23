@@ -18,7 +18,7 @@ export default class RenderForm extends Component {
    * @description Defined property types for component
    */
   static propTypes = {
-    renerLabelAfterInput: PropTypes.bool,
+    renderLabelAfterInput: PropTypes.bool,
     inputProps: PropTypes.object,
     optionprops: PropTypes.object,
     options: PropTypes.array,
@@ -35,7 +35,7 @@ export default class RenderForm extends Component {
    * @description defining defaultProps of the component
    */
   static defaultProps = {
-    renerLabelAfterInput: false,
+    renderLabelAfterInput: false,
     inputProps: {
       onAfterChange: () => { },
       onAfterBlur: () => { },
@@ -332,7 +332,7 @@ export default class RenderForm extends Component {
    * @param {Object} props
    */
   render() {
-    const { inputProps, renerLabelAfterInput, optionProps, selectedValue, disabled } = this.props
+    const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled } = this.props
     let type, options, optionInputProps, classes, isError;
     if (inputProps) {
       isError = this.checkIfError(this.id);
@@ -349,7 +349,7 @@ export default class RenderForm extends Component {
       if (type !== 'select' && type !== 'submit') {
         return (
           <Fragment>
-            {!renerLabelAfterInput && this.renderLabel()}
+            {!renderLabelAfterInput && this.renderLabel()}
             <input
               id={this.id}
               {...inputProps}
@@ -359,7 +359,7 @@ export default class RenderForm extends Component {
               onBlur={(e) => { this.handleOnBlur(e) }}
               value={this.state.value || selectedValue}
             />
-            {renerLabelAfterInput && this.renderLabel()}
+            {renderLabelAfterInput && this.renderLabel()}
             {isError && this.renderErrorMsg(this.id)}
           </Fragment>
         )
@@ -390,7 +390,7 @@ export default class RenderForm extends Component {
         }
         return (
           <Fragment>
-            {!renerLabelAfterInput && this.renderLabel()}
+            {!renderLabelAfterInput && this.renderLabel()}
             <select
               {...inputProps}
               onChange={(e) => { this.handleOnChange(e) }}
@@ -401,7 +401,7 @@ export default class RenderForm extends Component {
               {optionsVal}
             </select>
             {ariaDescribedBy && ariaDescribedByMsg && <span {...propsForAriaDescribedBy}>{ariaDescribedBy.ariaDescribedByMsg}</span>}
-            {renerLabelAfterInput && this.renderLabel()}
+            {renderLabelAfterInput && this.renderLabel()}
             {this.renderErrorMsg(this.id)}
           </Fragment>
         )

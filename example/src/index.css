@@ -4,17 +4,18 @@ body {
   font-family: sans-serif;
 }
 
-.hide {
-  display: none;
-}
-
-.errorClass {
-  color: red;
-}
-
 .labels {
-  color: grey;
-  font-size: 14px;
+  color: black;
+  font-size: 16px;
+}
+
+input {
+  color: black;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px 0;
+  border-radius: 4px;
+  border: 2px solid #d6d6d6;
 }
 
 select {
@@ -33,4 +34,83 @@ select {
 
 select::-ms-expand {
     display: none; /* remove default arrow in IE 10 and 11 */
+}
+
+.mb5 {
+  margin-bottom: 8px;
+}
+
+.relative {
+  position: relative;
+}
+
+.errorMsg {
+  color: #e00000;
+  font-size: 12px;
+  display: block;
+}
+
+.error {
+  border: 2px solid #e00000;
+}
+
+.form1 {
+  background: #f2f2f2;
+  width: 60%;
+  padding: 20px;
+  margin: 10px auto;
+}
+
+
+.form1  input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form2 {
+  position: relative;
+  background: #f2f2f2;
+  width: 60%;
+  padding: 20px;
+  margin: 10px auto;
+}
+
+.form2 input {
+  padding: 16px 0 16px 16px;
+  margin: 0;
+  height: 50px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.form2 label {
+  position: absolute;
+  left: 0;
+  padding:16px;
+  pointer-events: none;
+  transition: all .2s ease;
+  -moz-transition: .2s ease all;
+  -webkit-transition: all .2s ease;
+  min-width: auto;
+}
+
+.form2 input:focus ~ label,
+.form2 input:not([value=""]) ~ label {
+  padding:6px;
+  font-size: 12px;
+}
+
+.form2  input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form2 .errorMsg {
+  margin: 5px 0;
 }

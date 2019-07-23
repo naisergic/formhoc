@@ -1,143 +1,148 @@
 import ErrorComponet from './ErrorComponent';
 
 export const submitButton = {
-  inputProps:{
+  inputProps: {
     type: 'submit',
     id: 'submitBtn',
     value: 'Submit'
   },
-  onAfterSubmit:undefined
+  onAfterSubmit: undefined
 };
 
-export const firstName =   {
-  inputProps : {
-  type: 'input',
-  required:true,
-},
-  labelProps:{
+export const firstName = {
+  inputProps: {
+    type: 'input',
+    required: true,
+  },
+  labelProps: {
     label: 'First Name',
     inputProps: { className: "labels", id: "firstNameLabel" }
   },
-  errorWrapper:{
+  errorWrapper: {
     component: ErrorComponet
   },
-  validationsToCheck:[
+  validationsToCheck: [
     {
       regexToCheck: /^[a-zA-Z]+$/,
       errorMsg: 'Invalid First Name, Must be 2 Characters long'
     }
   ],
-  checkValidationOnBlur:true
+  renderLabelAfterInput: true,
+  checkValidationOnBlur: true
 }
 
-export const lastName =   {
-  inputProps : {
-  type: 'input',
-  required:true,
-},
-  labelProps:{
+export const lastName = {
+  inputProps: {
+    type: 'input',
+    required: true,
+  },
+  labelProps: {
     label: 'Last Name',
     inputProps: { className: "labels", id: "lastNameLabel" }
   },
-  errorWrapper:{
+  errorWrapper: {
     component: ErrorComponet
   },
-  validationsToCheck:[
+  validationsToCheck: [
     {
       regexToCheck: /[a-zA-Z]{2}/,
       errorMsg: 'Invalid last Name, Must be 4 Characters long'
     }
   ],
-  checkValidationOnBlur:true
+  renderLabelAfterInput: true,
+  checkValidationOnBlur: true
 }
 
-export const email =   {
-  inputProps : {
-  type: 'email',
-  required:true,
-},
-  labelProps:{
+export const email = {
+  inputProps: {
+    type: 'email',
+    required: true,
+  },
+  labelProps: {
     label: 'Email',
     inputProps: { className: "labels", id: "emailLabel" }
   },
-  errorWrapper:{
+  errorWrapper: {
     component: ErrorComponet
   },
-  validationsToCheck:[
+  validationsToCheck: [
     {
       regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
       errorMsg: 'Invalid Email Format'
     }
   ],
-  checkValidationOnBlur:true
+  renderLabelAfterInput: true,
+  checkValidationOnBlur: true
 }
-export const password =   {
-  inputProps : {
-  type: 'password',
-  required:true,
-},
-  labelProps:{
+export const password = {
+  inputProps: {
+    type: 'password',
+    required: true,
+  },
+  labelProps: {
     label: 'Password',
     inputProps: { className: "labels", id: "emailLabel" }
   },
-  errorWrapper:{
+  errorWrapper: {
     component: ErrorComponet
   },
-  validationsToCheck:[
+  validationsToCheck: [
     {
       regexToCheck: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
       errorMsg: 'Invalid Password'
     }
   ],
-  checkValidationOnBlur:true,
+  renderLabelAfterInput: true,
+  checkValidationOnBlur: true,
   confirmMatchTo: {
     id: "confirmPassword",
-    hideErrorComponent:true,
-    checkValidationOnBlur:true,
-    hideErrorComponent:true,
+    hideErrorComponent: true,
+    checkValidationOnBlur: true,
+    hideErrorComponent: true,
   }
 }
 
-export const confirmPassword =   {
-  inputProps : {
-  type: 'password',
-  required:true,
-},
-  labelProps:{
+export const confirmPassword = {
+  inputProps: {
+    type: 'password',
+    required: true,
+  },
+  labelProps: {
     label: 'Confirm Password',
     inputProps: { className: "labels", id: "emailLabel" }
   },
-  errorWrapper:{
+  errorWrapper: {
     component: ErrorComponet
   },
-  confirmMatchWith:{
-    id:"confirmPassword",
-    errorMsg:"Password Doesn't Match",
-    ErrorComponent:ErrorComponet,
-    checkValidationOnBlur:true,
-  }
+  confirmMatchWith: {
+    id: "confirmPassword",
+    errorMsg: "Password Doesn't Match",
+    ErrorComponent: ErrorComponet,
+    checkValidationOnBlur: true,
+  },
+  renderLabelAfterInput: true,
 }
 
 export const dropdown = {
-  inputProps:{
+  inputProps: {
     type: 'select',
     id: "select1"
   },
-    labelProps:{
-      label: 'Country:',
-      inputProps: { className: "labels", id: "countryLabel" }
-    },
-    optionProps:{
-      options: [{ value: "IN", label: "INDIA" }, { value: "US", label: "USA" }],
-      inputProps: { className: "options" }
-    },
-    ariaDescribedBy:{
-      ariaDescribedByMsg: "list of country",
-      inputProps: {
-        className: "hide",
-        id: "ariaDescribedForCountry"
-      }
+  labelProps: {
+    label: 'Country:',
+    inputProps: { className: "labels", id: "countryLabel" }
+  },
+  optionProps: {
+    options: [{ value: "IN", label: "INDIA" }, { value: "US", label: "USA" }],
+    inputProps: { className: "options" }
+  },
+  ariaDescribedBy: {
+    ariaDescribedByMsg: "list of country",
+    inputProps: {
+      className: "hide",
+      id: "ariaDescribedForCountry"
     }
+  }
 }
 
 

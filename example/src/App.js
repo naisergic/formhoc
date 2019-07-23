@@ -35,22 +35,51 @@ export default class App extends Component {
     //this is imp
     submitButton.onAfterSubmit = this.handleSubmit;
     return (
-      <div>
-        <div className="grid-x">
-          <FormHOC inputTypeJson={firstName} error={this.state.error} />
-          <FormHOC inputTypeJson={lastName} error={this.state.error} />
-        </div>
-        <div className="grid-x">
-          <FormHOC inputTypeJson={email} error={this.state.error} checkValidationFunc={()=>{}}/>
-        </div>
-        <div className="grid-x">
-          <FormHOC inputTypeJson={password} error={this.state.error} />
-          <FormHOC inputTypeJson={confirmPassword} error={this.state.error}/>
-        </div>
-        <div className="grid-x">
-          <FormHOC inputTypeJson={submitButton}/>
-        </div>
-      </div>
-    )
+      <React.Fragment>
+        <form className="form1" name="form1">
+          <div className="mb5">
+            <FormHOC inputTypeJson={firstName} error={this.state.error} />
+          </div>
+          <div className="mb5">
+            <FormHOC inputTypeJson={lastName} error={this.state.error} />
+          </div>
+          <div className="mb5">
+            <FormHOC inputTypeJson={email} error={this.state.error} checkValidationFunc={()=>{}}/>
+          </div>
+          <div className="mb5">
+            <FormHOC inputTypeJson={password} error={this.state.error} />
+          </div>
+          <div className="mb5">
+            <FormHOC inputTypeJson={confirmPassword} error={this.state.error}/>
+          </div>
+          <div className="mb5">
+            <FormHOC inputTypeJson={submitButton}/>
+          </div>
+        </form>
+
+
+         <form className="form2" name="form2">
+          <div className="mb5 relative">
+            <FormHOC inputTypeJson={firstName} error={this.state.error} />
+          </div>
+          <div className="mb5 relative">
+            <FormHOC inputTypeJson={lastName} error={this.state.error} />
+          </div>
+          <div className="mb5 relative">
+            <FormHOC inputTypeJson={email} error={this.state.error} checkValidationFunc={()=>{}}/>
+          </div>
+          <div className="mb5 relative">
+            <FormHOC inputTypeJson={password} error={this.state.error} />
+          </div>
+          <div className="mb5 relative">
+            <FormHOC inputTypeJson={confirmPassword} error={this.state.error}/>
+          </div>
+          <div className="mb5 relative">
+            <FormHOC inputTypeJson={submitButton}/>
+          </div>
+        </form>
+
+      </React.Fragment>
+    );
   }
 }
