@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import FormContext from './context'
+import DefaultErrorComponent from './DefaultErrorComponent';
 import { checkRegex } from './validation'
 
 let formObj = {}
@@ -9,9 +11,6 @@ let confirmObj = {
 }
 let index = 0
 
-const defaultErrorComponent = (props)=>{
-  return <span>{props.children}</span>
-}
 export default class RenderForm extends Component {
   /**
    * @property propTypes
@@ -44,6 +43,8 @@ export default class RenderForm extends Component {
     }
   };
 
+  static contextType = FormContext;
+
   constructor(props) {
     super(props)
     this.state = {
@@ -61,6 +62,9 @@ export default class RenderForm extends Component {
   componentWillMount() {
     const {inputProps, validationsToCheck, optionProps, confirmMatchTo, confirmMatchWith, selectedValue} = this.props
     let id, type, options, optionsFirstValue, isRequired
+    if(!this.context || Object.keys(this.context).length <=0){
+      throw new Error('It uses React Context API, please upgrade React to 16.8.6 or higher');
+    }
     if (inputProps) {
       type = inputProps.type
       id = inputProps.id
@@ -116,14 +120,15 @@ export default class RenderForm extends Component {
     return `${type}${index}`
   }
 
-  handleSubmit(e) {
-    const {onAfterSubmit, handleSubmit,checkValidationFunc} = this.props
+  handleSubmit(e,submitHandle) {
+    e.preventDefault();
+    const {checkValidationFunc} = this.props
     const keys = Object.keys(formObj)
     let error
     keys.forEach(item => {
       if (formObj[item].isRequired || formObj[item].value) {
         const checkValidation = true
-        this.checkValidations(formObj[item].value, checkValidation, formObj[item].validationsToCheck, formObj[item],checkValidationFunc)
+        this.checkValidations(formObj[item], checkValidation);
       }
     });
     this.checkConfirmValidations();
@@ -133,10 +138,9 @@ export default class RenderForm extends Component {
         return true
       }
     })
-    this.setState({error: error})
-    handleSubmit(e, error)
-    if (typeof onAfterSubmit === 'function') {
-      onAfterSubmit(e, error)
+    this.setState({error: error});
+    if(typeof submitHandle === 'function'){
+      submitHandle(e,formObj,error)
     }
   }
 
@@ -175,12 +179,12 @@ export default class RenderForm extends Component {
    */
   renderErrorMsg(id) {
     const { errorWrapper,confirmMatchWith,confirmMatchTo} = this.props
-    let ErrorComponent
-    if (errorWrapper) {
-      ErrorComponent = errorWrapper?errorWrapper.component: defaultErrorComponent;
-    }
-    if(formObj[id].confirmError && (confirmMatchWith.ErrorComponent || confirmMatchTo.ErrorComponent)){
-      ErrorComponent = confirmMatchWith.ErrorComponent || confirmMatchTo.ErrorComponent;
+    const confirmMatchWithErrorComponet = confirmMatchWith && confirmMatchWith.ErrorComponent;
+    const confirmMatchToErrorComponet = confirmMatchTo && confirmMatchTo.ErrorComponent;
+    let ErrorComponent = errorWrapper || DefaultErrorComponent;
+
+    if(formObj[id].confirmError && (confirmMatchWithErrorComponet || confirmMatchToErrorComponet)){
+      ErrorComponent = confirmMatchWithErrorComponet || confirmMatchToErrorComponet;
     }
     if(formObj[id].hideErrorComponent){
       return null;
@@ -195,41 +199,36 @@ export default class RenderForm extends Component {
   /**
    * @function checkValidations
    * @description function to check the validation for the regex passed
-   * @param {string} value  value of the element
-   * @param {string} checkValidation prop to whether to check validation or not
-   * @param {function} checkValidationFunc prop to which check validation
+   * @param {object} formObject item on which validation need to be perform
+   * @param {boolean} checkValidation prop to whether to check validation or not
    * @returns
    */
-  checkValidations(value, checkValidation, validationToCheckFromObject, obj,checkValidationFunc) {
-    const { validationsToCheck } = this.props
-    const validationArray = validationsToCheck || validationToCheckFromObject
+  checkValidations(formObjItem, checkValidation) {
+    const {checkValidationFunc} = this.props;
+    const validationArray = formObjItem.validationsToCheck;
     let isValidFormat
     if (Array.isArray(validationArray) && validationArray.length > 0 && checkValidation) {
       validationArray.some(item => {
         const { regexToCheck, errorMsg } = item
-        isValidFormat = checkRegex(regexToCheck, value)
+        isValidFormat = checkRegex(regexToCheck, formObjItem.value)
         if (!isValidFormat) {
-          obj.errorMsg = errorMsg
-          obj.error = true
-          this.forceUpdate()
+          formObjItem.errorMsg = errorMsg
+          formObjItem.error = true;
           return true
         }
-        obj.errorMsg = ''
-        obj.error = false
-        this.forceUpdate()
+        formObjItem.errorMsg = ''
+        formObjItem.error = false;
         return false
       })
     }
-    if(checkValidation && typeof checkValidationFunc === "function" && !obj.error){
-      let errorObj = checkValidationFunc(value);
-      if(errorObj.isError){
-        obj.errorMsg = errorObj.errorMsg
-        obj.error = true
-        this.forceUpdate()
+    if(checkValidation && typeof checkValidationFunc === "function" && !formObjItem.error){
+      let errorObj = checkValidationFunc(formObjItem.value);
+      if(errorObj && errorObj.isError){
+        formObjItem.errorMsg = errorObj.errorMsg
+        formObjItem.error = true
       }
-      obj.errorMsg = ''
-      obj.error = false
-      this.forceUpdate()
+      formObjItem.errorMsg = ''
+      formObjItem.error = false
     }
   }
 
@@ -244,12 +243,14 @@ export default class RenderForm extends Component {
       if(id){
         if(id===toId){
           this.checkAndSetError(id,toId,withId,toErrorMsg);
-          return true;
+          this.checkConfirmValidations(withId);
         }
         else if(id===withId){
           this.checkAndSetError(id,toId,withId,withErrorMsg);
-          return true;
+          this.checkValidations(formObj[toId], true)
         }
+        this.context.handleConfirmationError(formObj);
+        return true;
       }
       else{
         this.checkAndSetError(toId,toId,withId,toErrorMsg);
@@ -282,7 +283,7 @@ export default class RenderForm extends Component {
   handleOnBlur(e) {
     const { checkValidationOnBlur, onAfterBlur,confirmMatchTo,confirmMatchWith,checkValidationFunc } = this.props
     const id = e.target.id
-    this.checkValidations(formObj[id].value, checkValidationOnBlur, formObj[id].validationsToCheck, formObj[id],checkValidationFunc)
+    this.checkValidations(formObj[id], checkValidationOnBlur)
     if((confirmMatchTo && confirmMatchTo.checkValidationOnBlur)||(confirmMatchWith && confirmMatchWith.checkValidationOnBlur)){
       this.checkConfirmValidations(id)
     }
@@ -314,7 +315,7 @@ export default class RenderForm extends Component {
       formObj[id].value = e.target.value
     }
 
-    this.checkValidations(formObj[id].value, checkValidationOnChange, formObj[id].validationsToCheck, formObj[id],checkValidationFunc)
+    this.checkValidations(formObj[id], checkValidationOnChange)
     if((confirmMatchTo && confirmMatchTo.checkValidationOnChange)||(confirmMatchWith && confirmMatchWith.checkValidationOnChange)){
       this.checkConfirmValidations(id)
     }
@@ -334,6 +335,7 @@ export default class RenderForm extends Component {
   render() {
     const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled } = this.props
     let type, options, optionInputProps, classes, isError;
+
     if (inputProps) {
       isError = this.checkIfError(this.id);
       type = inputProps.type;
@@ -410,8 +412,9 @@ export default class RenderForm extends Component {
         return (
           <input
             {...inputProps}
-            onClick={(e) => { this.handleSubmit(e) }}
+            onClick={(e) => { this.handleSubmit(e,this.context.submitHandle) }}
           />
+
         )
       }
     } else {
