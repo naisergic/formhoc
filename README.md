@@ -1,4 +1,4 @@
-# reactFormWrapper
+# reactformwrapper
 
 > it is a HOC for all of the form input type it will handle error and also maintain the state of every form input type
 
@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install --save reactFormWrapper
+npm install --save reactformwrapper
 ```
 
 ## Usage
@@ -199,7 +199,7 @@ export const dropdown = {
 
 
 import React, { Component } from 'react'
-import { FormInput, ReactForm } from 'reactFormWrapper'
+import { FormInput, ReactForm } from 'reactformwrapper'
 import './index.css'
 import {firstName,lastName,email,password, confirmPassword, submitButton,password1,confirmPassword1} from './FormJson';
 
