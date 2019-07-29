@@ -1,5 +1,5 @@
 {
-  "name": "reactFormWrapper-example",
+  "name": "reactformwrapper-example",
   "homepage": "https://Naisergic.github.io/formhoc",
   "version": "0.0.0",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "^1.1.4",
-    "reactFormWrapper": "file:.."
+    "reactformwrapper": "file:.."
   },
   "scripts": {
     "start": "react-scripts start",
