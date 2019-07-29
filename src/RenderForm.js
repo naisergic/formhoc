@@ -27,6 +27,8 @@ export default class RenderForm extends Component {
     confirmMatchWith: PropTypes.object,
     confirmMatchTo: PropTypes.object,
     checkValidationFunc: PropTypes.func,
+    onChangeCallback: PropTypes.func,
+    onBlurCallback: PropTypes.func,
   }
 
   /**
@@ -36,11 +38,11 @@ export default class RenderForm extends Component {
   static defaultProps = {
     renderLabelAfterInput: false,
     inputProps: {
-      onAfterChange: () => { },
-      onAfterBlur: () => { },
       checkValidationOnChange: false,
       checkValidationOnBlur: true
-    }
+    },
+    onChangeCallback: () => { },
+    onBlurCallback: () => { },
   };
 
   static contextType = FormContext;
@@ -60,7 +62,14 @@ export default class RenderForm extends Component {
   }
 
   componentWillMount() {
-    const {inputProps, validationsToCheck, optionProps, confirmMatchTo, confirmMatchWith, selectedValue} = this.props
+    const {
+      inputProps,
+      validationsToCheck,
+      optionProps,
+      confirmMatchTo,
+      confirmMatchWith,
+      selectedValue
+    } = this.props
     let id, type, options, optionsFirstValue, isRequired
     if(!this.context || Object.keys(this.context).length <=0){
       throw new Error('It uses React Context API, please upgrade React to 16.8.6 or higher');
@@ -281,14 +290,14 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnBlur(e) {
-    const { checkValidationOnBlur, onAfterBlur,confirmMatchTo,confirmMatchWith,checkValidationFunc } = this.props
+    const { checkValidationOnBlur, onBlurCallback,confirmMatchTo,confirmMatchWith,checkValidationFunc } = this.props
     const id = e.target.id
     this.checkValidations(formObj[id], checkValidationOnBlur)
     if((confirmMatchTo && confirmMatchTo.checkValidationOnBlur)||(confirmMatchWith && confirmMatchWith.checkValidationOnBlur)){
       this.checkConfirmValidations(id)
     }
-    if (typeof onAfterBlur === 'function') {
-      onAfterBlur(e)
+    if (typeof onBlurCallback === 'function') {
+      onBlurCallback(e)
     }
   }
 
@@ -298,9 +307,9 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnChange(e) {
-    const { checkValidationOnChange, onAfterChange, formatter, confirmMatchTo, confirmMatchWith,checkValidationFunc } = this.props
+    const { checkValidationOnChange, onChangeCallback, formatter, confirmMatchTo, confirmMatchWith,checkValidationFunc } = this.props
     /**
-     * Todo: we need to discuss the name of method will it be onAfterChange or onChange
+     * Todo: we need to discuss the name of method will it be onChangeCallback or onChange
      */
     let value = e.target.value;
     if(formatter){
@@ -323,8 +332,8 @@ export default class RenderForm extends Component {
      * callback function just in case user needs to perform
      * any function on change
      */
-    if (typeof onAfterChange === 'function') {
-      onAfterChange(e)
+    if (typeof onChangeCallback === 'function') {
+      onChangeCallback(e)
     }
   }
 
