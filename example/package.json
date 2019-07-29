@@ -1,5 +1,5 @@
 {
-  "name": "react-json-form-example",
+  "name": "reactFormWrapper-example",
   "homepage": "https://Naisergic.github.io/formhoc",
   "version": "0.0.0",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "^1.1.4",
-    "react-json-form": "file:.."
+    "reactFormWrapper": "file:.."
   },
   "scripts": {
     "start": "react-scripts start",
