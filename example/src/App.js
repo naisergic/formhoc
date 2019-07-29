@@ -1,83 +1,65 @@
 import React, { Component } from 'react'
-import FormHOC from 'formhoc'
+import { FormInput, ReactForm } from 'react-json-form'
 import './index.css'
-import {firstName,lastName,email,password, confirmPassword, submitButton} from './FormJson';
+import {firstName,lastName,email,password, confirmPassword, submitButton,password1,confirmPassword1} from './FormJson';
 
 export default class App extends Component {
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {
-      error: false
-    }
   }
-  handleSubmit(e,isError){
-
-    // both if and else-if is imp
-    // for handling of error
-    // on submit
-
-    if(isError){
-      console.log("some Error");
-      this.setState({
-        error: true
-      })
-    }
-    else if(this.state.error) {
-      this.setState({
-        error: false
-      })
-    }
-    // else
-    // execute your logic
+  handleSubmit(e,formObj,errorObj,isError){
+    /**
+     * you can write
+     * your logic here
+     */
+    console.log(isError);
   }
   render() {
-    //this is imp
-    submitButton.onAfterSubmit = this.handleSubmit;
     return (
       <React.Fragment>
-        <form className="form1" name="form1">
+        <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>
           <div className="mb5">
-            <FormHOC inputTypeJson={firstName} error={this.state.error} />
+            <FormInput inputTypeJson={firstName}  />
           </div>
           <div className="mb5">
-            <FormHOC inputTypeJson={lastName} error={this.state.error} />
+            <FormInput inputTypeJson={lastName}  />
           </div>
           <div className="mb5">
-            <FormHOC inputTypeJson={email} error={this.state.error} checkValidationFunc={()=>{}}/>
+            <FormInput inputTypeJson={email}  checkValidationFunc={()=>{}}/>
           </div>
           <div className="mb5">
-            <FormHOC inputTypeJson={password} error={this.state.error} />
+            <FormInput inputTypeJson={password1}  />
           </div>
           <div className="mb5">
-            <FormHOC inputTypeJson={confirmPassword} error={this.state.error}/>
+            <FormInput inputTypeJson={confirmPassword1} />
           </div>
           <div className="mb5">
-            <FormHOC inputTypeJson={submitButton}/>
+            <FormInput inputTypeJson={submitButton}/>
           </div>
-        </form>
+        </ReactForm>
 
+        <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>
+          <div className="mb5 relative">
+            <FormInput inputTypeJson={firstName}  />
+          </div>
+          <div className="mb5 relative">
+            <FormInput inputTypeJson={lastName}  />
+          </div>
+          <div className="mb5 relative">
+            <FormInput inputTypeJson={email}  checkValidationFunc={()=>{}}/>
+          </div>
+          <div className="mb5 relative">
+            <FormInput inputTypeJson={password}  />
+          </div>
+          <div className="mb5 relative">
+            <FormInput inputTypeJson={confirmPassword} />
+          </div>
+          <div className="mb5 relative">
+            <FormInput inputTypeJson={submitButton}/>
+          </div>
 
-         <form className="form2" name="form2">
-          <div className="mb5 relative">
-            <FormHOC inputTypeJson={firstName} error={this.state.error} />
-          </div>
-          <div className="mb5 relative">
-            <FormHOC inputTypeJson={lastName} error={this.state.error} />
-          </div>
-          <div className="mb5 relative">
-            <FormHOC inputTypeJson={email} error={this.state.error} checkValidationFunc={()=>{}}/>
-          </div>
-          <div className="mb5 relative">
-            <FormHOC inputTypeJson={password} error={this.state.error} />
-          </div>
-          <div className="mb5 relative">
-            <FormHOC inputTypeJson={confirmPassword} error={this.state.error}/>
-          </div>
-          <div className="mb5 relative">
-            <FormHOC inputTypeJson={submitButton}/>
-          </div>
-        </form>
+        </ReactForm>
 
       </React.Fragment>
     );

@@ -18,9 +18,7 @@ export const firstName = {
     label: 'First Name',
     inputProps: { className: "labels", id: "firstNameLabel" }
   },
-  errorWrapper: {
-    component: ErrorComponet
-  },
+  errorWrapper: ErrorComponet,
   validationsToCheck: [
     {
       regexToCheck: /^[a-zA-Z]+$/,
@@ -40,9 +38,7 @@ export const lastName = {
     label: 'Last Name',
     inputProps: { className: "labels", id: "lastNameLabel" }
   },
-  errorWrapper: {
-    component: ErrorComponet
-  },
+  errorWrapper: ErrorComponet,
   validationsToCheck: [
     {
       regexToCheck: /[a-zA-Z]{2}/,
@@ -62,9 +58,7 @@ export const email = {
     label: 'Email',
     inputProps: { className: "labels", id: "emailLabel" }
   },
-  errorWrapper: {
-    component: ErrorComponet
-  },
+  errorWrapper: ErrorComponet,
   validationsToCheck: [
     {
       regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
@@ -83,9 +77,7 @@ export const password = {
     label: 'Password',
     inputProps: { className: "labels", id: "emailLabel" }
   },
-  errorWrapper: {
-    component: ErrorComponet
-  },
+  errorWrapper: ErrorComponet,
   validationsToCheck: [
     {
       regexToCheck: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
@@ -111,11 +103,53 @@ export const confirmPassword = {
     label: 'Confirm Password',
     inputProps: { className: "labels", id: "emailLabel" }
   },
-  errorWrapper: {
-    component: ErrorComponet
-  },
+  errorWrapper:  ErrorComponet,
   confirmMatchWith: {
     id: "confirmPassword",
+    errorMsg: "Password Doesn't Match",
+    ErrorComponent: ErrorComponet,
+    checkValidationOnBlur: true,
+  },
+  renderLabelAfterInput: true,
+}
+export const password1 = {
+  inputProps: {
+    type: 'password',
+    required: true,
+  },
+  labelProps: {
+    label: 'Password',
+    inputProps: { className: "labels", id: "emailLabel" }
+  },
+  errorWrapper:  ErrorComponet,
+  validationsToCheck: [
+    {
+      regexToCheck: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
+      errorMsg: 'Invalid Password'
+    }
+  ],
+  renderLabelAfterInput: true,
+  checkValidationOnBlur: true,
+  confirmMatchTo: {
+    id: "confirmPassword1",
+    hideErrorComponent: true,
+    checkValidationOnBlur: true,
+    hideErrorComponent: true,
+  }
+}
+
+export const confirmPassword1 = {
+  inputProps: {
+    type: 'password',
+    required: true,
+  },
+  labelProps: {
+    label: 'Confirm Password',
+    inputProps: { className: "labels", id: "emailLabel" }
+  },
+  errorWrapper: ErrorComponet,
+  confirmMatchWith: {
+    id: "confirmPassword1",
     errorMsg: "Password Doesn't Match",
     ErrorComponent: ErrorComponet,
     checkValidationOnBlur: true,
