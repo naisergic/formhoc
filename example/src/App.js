@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FormInput, ReactForm } from 'reactformwrapper'
+import { FormInput, ReactForm } from 'nform'
 import './index.css'
 import {firstName,lastName,email,password, confirmPassword, submitButton,password1,confirmPassword1} from './FormJson';
 

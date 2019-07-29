@@ -1,5 +1,5 @@
 {
-  "name": "reactformwrapper-example",
+  "name": "nform-example",
   "homepage": "https://Naisergic.github.io/formhoc",
   "version": "0.0.0",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "^1.1.4",
-    "reactformwrapper": "file:.."
+    "nform": "file:.."
   },
   "scripts": {
     "start": "react-scripts start",
