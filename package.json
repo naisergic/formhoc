@@ -14,7 +14,7 @@
     "reactFormContainer",
     "formik",
     "stateManageForm",
-    "state-manage-form
+    "state-manage-form"
   ],
   "main": "dist/index.js",
   "module": "dist/index.es.js",
