@@ -5,6 +5,17 @@
   "author": "Naisergic",
   "license": "y",
   "repository": "https://github.com/naisergic/FormHOC.git",
+  "keywords": [
+    "react-form",
+    "reactForm",
+    "jsonForm",
+    "reactJsonForm",
+    "reactFormWrapper",
+    "reactFormContainer",
+    "formik",
+    "stateManageForm",
+    "state-manage-form
+  ],
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
