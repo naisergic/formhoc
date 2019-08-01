@@ -219,46 +219,24 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>
-          <div className="mb5">
+          <div>
             <FormInput inputTypeJson={firstName}  />
           </div>
-          <div className="mb5">
+          <div>
             <FormInput inputTypeJson={lastName}  />
           </div>
-          <div className="mb5">
+          <div>
             <FormInput inputTypeJson={email}  checkValidationFunc={()=>{}}/>
           </div>
-          <div className="mb5">
+          <div>
             <FormInput inputTypeJson={password1}  />
           </div>
-          <div className="mb5">
+          <div>
             <FormInput inputTypeJson={confirmPassword1} />
           </div>
-          <div className="mb5">
+          <div>
             <FormInput inputTypeJson={submitButton}/>
           </div>
-        </ReactForm>
-
-        <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={firstName}  />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={lastName}  />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={email}  checkValidationFunc={()=>{}}/>
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={password}  />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={confirmPassword} />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={submitButton}/>
-          </div>
-
         </ReactForm>
 
       </React.Fragment>
@@ -267,8 +245,12 @@ export default class App extends Component {
 }
 
 ```
+## Authors
+- © [Naisergic](https://github.com/Naisergic)
+- © [Ayush-krishnatray](https://github.com/Ayush-krishnatray)
 
-## License
+---
 
-y © [Naisergic](https://github.com/Naisergic)
-y © [Ayush-krishnatray](https://github.com/Ayush-krishnatray)
+[MIT License.](https://github.com/jaredpalmer/formik/blob/master/LICENSE)
+
+---

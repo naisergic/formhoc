@@ -1,9 +1,9 @@
 {
   "name": "nform",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "it is a HOC for all of the form input type it will handle error and also maintain the state of every form input type",
   "author": "Naisergic",
-  "license": "y",
+  "license": "MIT",
   "repository": "https://github.com/naisergic/FormHOC.git",
   "keywords": [
     "react-form",
