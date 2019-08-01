@@ -1,20 +1,21 @@
 {
   "name": "nform",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "it is a HOC for all of the form input type it will handle error and also maintain the state of every form input type",
   "author": "Naisergic",
-  "license": "y",
+  "license": "MIT",
   "repository": "https://github.com/naisergic/FormHOC.git",
   "keywords": [
     "react-form",
     "reactForm",
-    "jsonForm",
     "reactJsonForm",
     "reactFormWrapper",
     "reactFormContainer",
     "formik",
     "stateManageForm",
-    "state-manage-form"
+    "forms",
+    "higher order component",
+    "hoc"
   ],
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -34,8 +35,8 @@
   },
   "peerDependencies": {
     "prop-types": "^15.5.4",
-    "react": "^15.0.0 || ^16.0.0",
-    "react-dom": "^15.0.0 || ^16.0.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
