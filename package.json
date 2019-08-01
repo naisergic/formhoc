@@ -8,13 +8,14 @@
   "keywords": [
     "react-form",
     "reactForm",
-    "jsonForm",
     "reactJsonForm",
     "reactFormWrapper",
     "reactFormContainer",
     "formik",
     "stateManageForm",
-    "state-manage-form"
+    "forms",
+    "higher order component",
+    "hoc"
   ],
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -34,8 +35,8 @@
   },
   "peerDependencies": {
     "prop-types": "^15.5.4",
-    "react": "^15.0.0 || ^16.0.0",
-    "react-dom": "^15.0.0 || ^16.0.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

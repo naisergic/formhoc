@@ -251,6 +251,6 @@ export default class App extends Component {
 
 ---
 
-[MIT License.](https://github.com/jaredpalmer/formik/blob/master/LICENSE)
+[MIT License.]
 
 ---
