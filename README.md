@@ -251,6 +251,6 @@ export default class App extends Component {
 
 ---
 
-[MIT License.]
+[MIT License.] (https://github.com/naisergic/FormHOC/blob/master/LICENSE)
 
 ---
