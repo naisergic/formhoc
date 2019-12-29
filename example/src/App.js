@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
 import { FormInput, ReactForm } from 'nform'
 import './index.css'
-import {firstName,lastName,email,password, confirmPassword, submitButton,password1,confirmPassword1} from './FormJson';
+import {
+  firstName,
+  lastName,
+  email,
+  password, 
+  confirmPassword, 
+  submitButton,
+  password1,
+  confirmPassword1,
+  checkBoxes1,
+  checkBoxes2,
+  checkBoxes3
+} from './FormJson';
 
 export default class App extends Component {
   constructor(props){
@@ -35,10 +47,21 @@ export default class App extends Component {
             <FormInput inputTypeJson={confirmPassword1} />
           </div>
           <div className="mb5">
+            <span>Select your Favorite Pet</span>
+          </div>
+          <div className="mb5">
+            <FormInput inputTypeJson={checkBoxes1} />
+          </div>
+          <div className="mb5">
+            <FormInput inputTypeJson={checkBoxes2} />
+          </div>
+          <div className="mb5">
+            <FormInput inputTypeJson={checkBoxes3} />
+          </div>
+          <div className="mb5">
             <FormInput inputTypeJson={submitButton}/>
           </div>
         </ReactForm>
-
         <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>
           <div className="mb5 relative">
             <FormInput inputTypeJson={firstName}  />
