@@ -78,7 +78,7 @@ export default class RenderForm extends Component {
       confirmMatchWith,
       selectedValue
     } = this.props
-    let id, type, options, optionsFirstValue, isRequired
+    let id, type, options, optionsFirstValue, isRequired, radioBoxGroup;
     if (!this.context || Object.keys(this.context).length <= 0) {
       throw new Error('It uses React Context API, please upgrade React to 16.8.6 or higher')
     }
@@ -86,6 +86,7 @@ export default class RenderForm extends Component {
       type = inputProps.type
       id = inputProps.id
       isRequired = inputProps.required
+      radioBoxGroup = inputProps.name
     }
     if (optionProps) {
       options = optionProps.options
@@ -94,7 +95,7 @@ export default class RenderForm extends Component {
       optionsFirstValue = options[0].value
     }
     this.id = id || this.getId(type)
-    if (type !== 'submit' && type !== 'button' && type !== 'select') {
+    if (type !== 'submit' && type !== 'button' && type !== 'select' && type !== 'radio') {
       formObj[this.id] = {
         validationsToCheck: validationsToCheck,
         value: this.state.value || selectedValue,
@@ -104,6 +105,13 @@ export default class RenderForm extends Component {
       formObj[this.id] = {
         validationsToCheck: validationsToCheck,
         value: this.state.value || selectedValue || optionsFirstValue,
+        isRequired
+      }
+    } else if (type === 'radio') {
+      this.id = this.getId(type, radioBoxGroup)
+      formObj[this.id] = {
+        validationsToCheck: validationsToCheck,
+        value: this.state.value || selectedValue,
         isRequired
       }
     }
@@ -132,9 +140,13 @@ export default class RenderForm extends Component {
     }
   }
 
-  getId(type) {
+  getId(type, radioBoxGroup) {
     index += 1
-    return `${type}${index}`
+    if (type !== 'radio') {
+      return `${type}${index}`
+    }
+    let radioGroup = radioBoxGroup || `radio${1}`
+    return radioGroup
   }
 
   handleSubmit(e, submitHandle) {
@@ -175,7 +187,7 @@ export default class RenderForm extends Component {
       label = checkBoxLabelProps.label
       CustomComponent = checkBoxLabelProps.CustomComponent
     }
-    if (type !== 'checkbox') {
+    if (type !== 'checkbox' && type !== 'radio') {
       return (
         <Fragment>
           {label && <label {...labelInputProps}>
@@ -328,7 +340,7 @@ export default class RenderForm extends Component {
     if (formatter) {
       value = formatter(e.target.value)
     }
-    if (type === 'checkbox') {
+    if (type === 'checkbox' || type === 'radio') {
       value = e.target.checked ? value : ''
     }
 

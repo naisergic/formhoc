@@ -222,5 +222,55 @@ export const checkBoxes3 = {
   }
 }
 
+export const radioBox1 = {
+  inputProps: {
+    type:"radio",
+    name:"group1",
+    value:"male"
+  },
+  renderLabelAfterInput:true,
+  checkBoxLabelProps:{
+    CustomComponent: CheckBoxLabel,
+    label: 'Male'
+  }
+}
 
+export const radioBox2 = {
+  inputProps: {
+    type:"radio",
+    name:"group1",
+    value:"female"
+  },
+  renderLabelAfterInput:true,
+  checkBoxLabelProps:{
+    CustomComponent: CheckBoxLabel,
+    label: 'Female'
+  }
+}
+
+export const radioBox3 = {
+  inputProps: {
+    type:"radio",
+    name:"group2",
+    value:"male"
+  },
+  renderLabelAfterInput:true,
+  checkBoxLabelProps:{
+    CustomComponent: CheckBoxLabel,
+    label: 'Male'
+  }
+}
+
+export const radioBox4 = {
+  inputProps: {
+    type:"radio",
+    name:"group2",
+    value:"female"
+  },
+  renderLabelAfterInput:true,
+  checkBoxLabelProps:{
+    CustomComponent: CheckBoxLabel,
+    label: 'Female'
+  }
+}
 

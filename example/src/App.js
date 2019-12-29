@@ -12,7 +12,11 @@ import {
   confirmPassword1,
   checkBoxes1,
   checkBoxes2,
-  checkBoxes3
+  checkBoxes3,
+  radioBox1,
+  radioBox2,
+  radioBox3,
+  radioBox4
 } from './FormJson';
 
 export default class App extends Component {
@@ -57,6 +61,14 @@ export default class App extends Component {
           </div>
           <div className="mb5">
             <FormInput inputTypeJson={checkBoxes3} />
+          </div>
+          <div className="mb5">
+              <FormInput inputTypeJson={radioBox1} />
+              <FormInput inputTypeJson={radioBox2} />
+          </div>
+          <div className="mb5">
+              <FormInput inputTypeJson={radioBox3} />
+              <FormInput inputTypeJson={radioBox4} />
           </div>
           <div className="mb5">
             <FormInput inputTypeJson={submitButton}/>
