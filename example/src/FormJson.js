@@ -188,9 +188,8 @@ export const checkBoxes1 = {
     required:true
   },
   renderLabelAfterInput:true,
-  checkBoxLabelProps:{
-    CustomComponent: CheckBoxLabel,
-    label: 'Dog'
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Dog'),
   }
 }
 
@@ -202,9 +201,8 @@ export const checkBoxes2 = {
     required:true
   },
   renderLabelAfterInput:true,
-  checkBoxLabelProps:{
-    CustomComponent: CheckBoxLabel,
-    label: 'Cat'
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Cat'),
   }
 }
 
@@ -216,9 +214,8 @@ export const checkBoxes3 = {
     required:true
   },
   renderLabelAfterInput:true,
-  checkBoxLabelProps:{
-    CustomComponent: CheckBoxLabel,
-    label: 'Rat'
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Rat'),
   }
 }
 

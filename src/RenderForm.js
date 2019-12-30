@@ -36,8 +36,7 @@ export default class RenderForm extends Component {
     labelProps: PropTypes.any,
     checkValidationOnBlur: PropTypes.any,
     checkValidationOnChange: PropTypes.any,
-    disabled: PropTypes.any,
-    checkBoxLabelProps: PropTypes.object
+    disabled: PropTypes.any
   }
 
   /**
@@ -187,17 +186,14 @@ export default class RenderForm extends Component {
    * @description function to render label of input element
    */
   renderLabel(type) {
-    const { labelProps, checkBoxLabelProps } = this.props
+    const { labelProps } = this.props
     let labelInputProps, label, CustomComponent
     if (labelProps) {
       labelInputProps = labelProps.inputProps
       label = labelProps.label
+      CustomComponent = labelProps.CustomComponent
     }
-    if (checkBoxLabelProps) {
-      label = checkBoxLabelProps.label
-      CustomComponent = checkBoxLabelProps.CustomComponent
-    }
-    if (type !== 'checkbox' && type !== 'radio') {
+    if (!CustomComponent) {
       return (
         <Fragment>
           {label && <label {...labelInputProps}>
@@ -208,7 +204,7 @@ export default class RenderForm extends Component {
     }
     return (
       <Fragment>
-        <CustomComponent>{label}</CustomComponent>
+        {CustomComponent}
       </Fragment>
     )
   }
