@@ -1,10 +1,8 @@
 import React from 'react';
-const CheckBoxLabel = ({children})=>{
-   return( 
-   <span>
-        {children}
-    </span>
-   )
+
+const CheckBoxLabel = (text)=>{
+   return <span>{text}</span>
 }
+
 
 export default CheckBoxLabel
