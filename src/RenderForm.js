@@ -10,6 +10,7 @@ let confirmObj = {
   confirmWith: {}
 }
 let index = 0
+const defaultRadioGroup = 'radio1'
 
 export default class RenderForm extends Component {
   /**
@@ -59,13 +60,15 @@ export default class RenderForm extends Component {
     super(props)
     this.state = {
       value: '',
-      error: ''
+      error: '',
+      checked: false
     }
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnBlur = this.handleOnBlur.bind(this)
     this.checkValidations = this.checkValidations.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.getId = this.getId.bind(this)
+    this.getRadioBoxId = this.getRadioBoxId.bind(this)
     this.id = undefined
   }
 
@@ -78,7 +81,7 @@ export default class RenderForm extends Component {
       confirmMatchWith,
       selectedValue
     } = this.props
-    let id, type, options, optionsFirstValue, isRequired, radioBoxGroup;
+    let id, type, options, optionsFirstValue, isRequired, radioBoxGroup, checked
     if (!this.context || Object.keys(this.context).length <= 0) {
       throw new Error('It uses React Context API, please upgrade React to 16.8.6 or higher')
     }
@@ -87,6 +90,11 @@ export default class RenderForm extends Component {
       id = inputProps.id
       isRequired = inputProps.required
       radioBoxGroup = inputProps.name
+      checked = inputProps.checked
+      const value = inputProps.value
+      if (checked) {
+        this.setState({value})
+      }
     }
     if (optionProps) {
       options = optionProps.options
@@ -108,10 +116,11 @@ export default class RenderForm extends Component {
         isRequired
       }
     } else if (type === 'radio') {
-      this.id = this.getId(type, radioBoxGroup)
-      formObj[this.id] = {
+      let radioboxId = this.getRadioBoxId(radioBoxGroup)
+      const value = checked ? inputProps.value : selectedValue
+      formObj[radioboxId] = {
         validationsToCheck: validationsToCheck,
-        value: this.state.value || selectedValue,
+        value: this.state.value || value,
         isRequired
       }
     }
@@ -140,12 +149,13 @@ export default class RenderForm extends Component {
     }
   }
 
-  getId(type, radioBoxGroup) {
+  getId(type) {
     index += 1
-    if (type !== 'radio') {
-      return `${type}${index}`
-    }
-    let radioGroup = radioBoxGroup || `radio${1}`
+    return `${type}${index}`
+  }
+
+  getRadioBoxId(radioBoxGroup) {
+    let radioGroup = radioBoxGroup || defaultRadioGroup
     return radioGroup
   }
 
@@ -242,7 +252,7 @@ export default class RenderForm extends Component {
    * @param {boolean} checkValidation prop to whether to check validation or not
    * @returns
    */
-  checkValidations(formObjItem, checkValidation) {
+  checkValidations(formObjItem = {}, checkValidation) {
     const {checkValidationFunc} = this.props
     const validationArray = formObjItem.validationsToCheck
     let isValidFormat
@@ -337,17 +347,25 @@ export default class RenderForm extends Component {
      * Todo: we need to discuss the name of method will it be onChangeCallback or onChange
      */
     let value = e.target.value
+    let id = e.target.id
     if (formatter) {
       value = formatter(e.target.value)
     }
     if (type === 'checkbox' || type === 'radio') {
       value = e.target.checked ? value : ''
+      this.setState({
+        checked: true
+      })
     }
 
     this.setState({
       value: value
     })
-    const id = e.target.id
+
+    if (type === 'radio') {
+      id = e.target.name || defaultRadioGroup
+    }
+
     if (formObj[id]) {
       formObj[id].value = value
     }
@@ -363,6 +381,9 @@ export default class RenderForm extends Component {
     if (typeof onChangeCallback === 'function') {
       onChangeCallback(e)
     }
+    if (type === 'radio') {
+      this.context.radioHandler(id, value)
+    }
   }
 
   /**
@@ -371,7 +392,7 @@ export default class RenderForm extends Component {
    */
   render() {
     const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled } = this.props
-    let type, options, optionInputProps, classes, isError, value
+    let type, options, optionInputProps, classes, isError, value, radioBoxGroup
 
     if (inputProps) {
       isError = this.checkIfError(this.id)
@@ -379,6 +400,7 @@ export default class RenderForm extends Component {
       classes = inputProps.class ? inputProps.class : ''
       classes = isError ? `${classes} error` : classes
       value = inputProps.value
+      radioBoxGroup = inputProps.name || defaultRadioGroup
     }
     if (optionProps) {
       options = optionProps.options
@@ -386,7 +408,7 @@ export default class RenderForm extends Component {
     }
 
     if (type) {
-      if (type !== 'select' && type !== 'submit') {
+      if (type !== 'select' && type !== 'submit' && type !== 'radio' && type !== 'checkbox') {
         return (
           <Fragment>
             {!renderLabelAfterInput && this.renderLabel(type)}
@@ -398,6 +420,26 @@ export default class RenderForm extends Component {
               onChange={(e) => { this.handleOnChange(e, type) }}
               onBlur={(e) => { this.handleOnBlur(e) }}
               value={this.state.value || selectedValue || value}
+            />
+            {renderLabelAfterInput && this.renderLabel(type)}
+            {isError && this.renderErrorMsg(this.id)}
+          </Fragment>
+        )
+      }
+      if (type === 'radio' || type === 'checkbox') {
+        const radioChecked = type === 'radio' ? formObj[radioBoxGroup].value !== '' && formObj[radioBoxGroup].value === this.state.value : false
+        const classesToApply = radioChecked ? `${classes} radioChecked` : classes
+        return (
+          <Fragment>
+            {!renderLabelAfterInput && this.renderLabel(type)}
+            <input
+              id={this.id}
+              {...inputProps}
+              className={`${classesToApply}`}
+              disabled={disabled}
+              onChange={(e) => { this.handleOnChange(e, type) }}
+              value={this.state.value || selectedValue || value}
+              checked={radioChecked}
             />
             {renderLabelAfterInput && this.renderLabel(type)}
             {isError && this.renderErrorMsg(this.id)}

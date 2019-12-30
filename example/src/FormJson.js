@@ -265,7 +265,8 @@ export const radioBox4 = {
   inputProps: {
     type:"radio",
     name:"group2",
-    value:"female"
+    value:"female",
+    checked:true
   },
   renderLabelAfterInput:true,
   checkBoxLabelProps:{

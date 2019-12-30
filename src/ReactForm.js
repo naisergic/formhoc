@@ -9,10 +9,12 @@ class ReactForm extends React.PureComponent {
     this.handleConfirmationError = this.handleConfirmationError.bind(this)
     this.parseFormObj = this.parseFormObj.bind(this)
     this.createContextObj = this.createContextObj.bind(this)
+    this.radioHandler = this.radioHandler.bind(this)
     this.state = {
       obj: {
         submitHandle: this.handleFormSubmit,
-        handleConfirmationError: this.handleConfirmationError
+        handleConfirmationError: this.handleConfirmationError,
+        radioHandler: this.radioHandler
       }
     }
   }
@@ -46,9 +48,10 @@ class ReactForm extends React.PureComponent {
     return {errorObj, formValueObj}
   }
   createContextObj(errorObj) {
-    if (Object.keys(errorObj).length > 0) {
+    if (errorObj && Object.keys(errorObj).length > 0) {
       errorObj.submitHandle = this.handleFormSubmit
       errorObj.handleConfirmationError = this.handleConfirmationError
+      errorObj.radioHandler = this.radioHandler
       this.setState({
         obj: errorObj
       })
@@ -56,10 +59,14 @@ class ReactForm extends React.PureComponent {
       this.setState({
         obj: {
           submitHandle: this.handleFormSubmit,
-          handleConfirmationError: this.handleConfirmationError
+          handleConfirmationError: this.handleConfirmationError,
+          radioHandler: this.radioHandler
         }
       })
     }
+  }
+  radioHandler(id, value) {
+    this.createContextObj()
   }
   render() {
     const {children, inputProps} = this.props
