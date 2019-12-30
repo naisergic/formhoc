@@ -1,4 +1,5 @@
 import ErrorComponet from './ErrorComponent';
+import CheckBoxLabel from './CheckBoxLabel';
 
 export const submitButton = {
   inputProps: {
@@ -178,5 +179,45 @@ export const dropdown = {
     }
   }
 }
+
+export const checkBoxes1 = {
+  inputProps:{
+    type:"checkbox",
+    name:"Dog",
+    value:"Dog",
+    required:true
+  },
+  renderLabelAfterInput:true,
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Dog'),
+  }
+}
+
+export const checkBoxes2 = {
+  inputProps:{
+    type:"checkbox",
+    name:"Cat",
+    value:"Cat",
+    required:true
+  },
+  renderLabelAfterInput:true,
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Cat'),
+  }
+}
+
+export const checkBoxes3 = {
+  inputProps:{
+    type:"checkbox",
+    name:"Rat",
+    value:"Rat",
+    required:true
+  },
+  renderLabelAfterInput:true,
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Rat'),
+  }
+}
+
 
 

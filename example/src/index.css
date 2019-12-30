@@ -18,6 +18,11 @@ input {
   border: 2px solid #d6d6d6;
 }
 
+input[type=checkbox] {
+  width: auto;
+  margin-right: 10px;
+}
+
 select {
   margin: 50px;
   width: 150px;
