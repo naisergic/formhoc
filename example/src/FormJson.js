@@ -1,5 +1,6 @@
 import ErrorComponet from './ErrorComponent';
 import CheckBoxLabel from './CheckBoxLabel';
+import DateComponent from './DateComponent';
 
 export const submitButton = {
   inputProps: {
@@ -270,5 +271,13 @@ export const radioBox4 = {
     CustomComponent: CheckBoxLabel,
     label: 'Female'
   }
+}
+
+export const custom = {
+  UserComponent: DateComponent,
+  isUserComponent: true,
+  validationsToCheck:[],
+  checkValidationOnBlur: true,
+  checkValidationFunc: ()=>{}
 }
 

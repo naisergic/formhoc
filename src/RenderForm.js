@@ -36,7 +36,9 @@ export default class RenderForm extends Component {
     labelProps: PropTypes.any,
     checkValidationOnBlur: PropTypes.any,
     checkValidationOnChange: PropTypes.any,
-    disabled: PropTypes.any
+    disabled: PropTypes.any,
+    isUserComponent: PropTypes.bool,
+    UserComponent: PropTypes.element
   }
 
   /**
@@ -78,7 +80,8 @@ export default class RenderForm extends Component {
       optionProps,
       confirmMatchTo,
       confirmMatchWith,
-      selectedValue
+      selectedValue,
+      isUserComponent
     } = this.props
     let id, type, options, optionsFirstValue, isRequired, radioBoxGroup, checked
     if (!this.context || Object.keys(this.context).length <= 0) {
@@ -101,7 +104,7 @@ export default class RenderForm extends Component {
     if (Array.isArray(options) && options.length > 0) {
       optionsFirstValue = options[0].value
     }
-    this.id = id || this.getId(type)
+    this.id = id || this.getId(type, isUserComponent)
     if (type !== 'submit' && type !== 'button' && type !== 'select' && type !== 'radio') {
       formObj[this.id] = {
         validationsToCheck: validationsToCheck,
@@ -148,8 +151,11 @@ export default class RenderForm extends Component {
     }
   }
 
-  getId(type) {
+  getId(type, isUserComponent) {
     index += 1
+    if (isUserComponent) {
+      return `userDefined${index}`
+    }
     return `${type}${index}`
   }
 
@@ -387,7 +393,8 @@ export default class RenderForm extends Component {
    * @param {Object} props
    */
   render() {
-    const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled } = this.props
+    const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled,
+      isUserComponent, UserComponent } = this.props
     let type, options, optionInputProps, classes, isError, value, radioBoxGroup
 
     if (inputProps) {
@@ -401,6 +408,14 @@ export default class RenderForm extends Component {
     if (optionProps) {
       options = optionProps.options
       optionInputProps = optionProps.inputProps
+    }
+
+    if (isUserComponent) {
+      return (
+        <Fragment>
+          <UserComponent id={this.id} onBlur={(e) => { this.handleOnBlur(e) }} onChange={(e) => { this.handleOnChange(e) }} />
+        </Fragment>
+      )
     }
 
     if (type) {
