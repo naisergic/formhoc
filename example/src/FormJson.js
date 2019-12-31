@@ -227,9 +227,8 @@ export const radioBox1 = {
     value:"male"
   },
   renderLabelAfterInput:true,
-  checkBoxLabelProps:{
-    CustomComponent: CheckBoxLabel,
-    label: 'Male'
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Male'),
   }
 }
 
@@ -240,9 +239,8 @@ export const radioBox2 = {
     value:"female"
   },
   renderLabelAfterInput:true,
-  checkBoxLabelProps:{
-    CustomComponent: CheckBoxLabel,
-    label: 'Female'
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Female'),
   }
 }
 
@@ -253,9 +251,8 @@ export const radioBox3 = {
     value:"male"
   },
   renderLabelAfterInput:true,
-  checkBoxLabelProps:{
-    CustomComponent: CheckBoxLabel,
-    label: 'Male'
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Male'),
   }
 }
 
@@ -267,9 +264,8 @@ export const radioBox4 = {
     checked:true
   },
   renderLabelAfterInput:true,
-  checkBoxLabelProps:{
-    CustomComponent: CheckBoxLabel,
-    label: 'Female'
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Female'),
   }
 }
 
