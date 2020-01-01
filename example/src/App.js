@@ -12,13 +12,20 @@ import {
   confirmPassword1,
   checkBoxes1,
   checkBoxes2,
-  checkBoxes3
+  checkBoxes3,
+  radioBox1,
+  radioBox2,
+  radioBox3,
+  radioBox4,
+  custom
 } from './FormJson';
 
 export default class App extends Component {
   constructor(props){
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   handleSubmit(e,formObj,errorObj,isError){
     /**
@@ -26,6 +33,12 @@ export default class App extends Component {
      * your logic here
      */
     console.log(isError);
+  }
+  handleBlur(e) {
+    console.log("Blur called")
+  }
+  handleChange(e) {
+    console.log("change called")
   }
   render() {
     return (
@@ -59,7 +72,18 @@ export default class App extends Component {
             <FormInput inputTypeJson={checkBoxes3} />
           </div>
           <div className="mb5">
-            <FormInput inputTypeJson={submitButton}/>
+              <FormInput inputTypeJson={radioBox1} />
+              <FormInput inputTypeJson={radioBox2} />
+          </div>
+          <div className="mb5">
+              <FormInput inputTypeJson={radioBox3} />
+              <FormInput inputTypeJson={radioBox4} />
+          </div>
+          <div className="mb5">
+            <FormInput inputTypeJson={custom} onBlurCallback={this.handleBlur} onChangeCallback={this.handleChange}/>
+          </div>
+          <div className="mb5">
+            <FormInput inputTypeJson={submitButton}  />
           </div>
         </ReactForm>
         <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>

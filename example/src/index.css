@@ -23,6 +23,11 @@ input[type=checkbox] {
   margin-right: 10px;
 }
 
+input[type=radio] {
+  width: auto;
+  margin-right: 10px;
+}
+
 select {
   margin: 50px;
   width: 150px;

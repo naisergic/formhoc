@@ -1,5 +1,6 @@
 import ErrorComponet from './ErrorComponent';
 import CheckBoxLabel from './CheckBoxLabel';
+import DateComponent from './DateComponent';
 
 export const submitButton = {
   inputProps: {
@@ -219,5 +220,60 @@ export const checkBoxes3 = {
   }
 }
 
+export const radioBox1 = {
+  inputProps: {
+    type:"radio",
+    name:"group1",
+    value:"male"
+  },
+  renderLabelAfterInput:true,
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Male'),
+  }
+}
 
+export const radioBox2 = {
+  inputProps: {
+    type:"radio",
+    name:"group1",
+    value:"female"
+  },
+  renderLabelAfterInput:true,
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Female'),
+  }
+}
+
+export const radioBox3 = {
+  inputProps: {
+    type:"radio",
+    name:"group2",
+    value:"male"
+  },
+  renderLabelAfterInput:true,
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Male'),
+  }
+}
+
+export const radioBox4 = {
+  inputProps: {
+    type:"radio",
+    name:"group2",
+    value:"female",
+    checked:true
+  },
+  renderLabelAfterInput:true,
+  labelProps:{
+    CustomComponent: CheckBoxLabel('Female'),
+  }
+}
+
+export const custom = {
+  UserComponent: DateComponent,
+  isUserComponent: true,
+  validationsToCheck:[],
+  checkValidationOnBlur: true,
+  checkValidationFunc: ()=>{}
+}
 
