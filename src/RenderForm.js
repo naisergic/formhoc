@@ -444,7 +444,6 @@ export default class RenderForm extends Component {
         } else {
           checkedValue = this.state.checked
         }
-        
         const classesToApply = checkedValue ? `${classes} checked` : classes
         return (
           <Fragment>
