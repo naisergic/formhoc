@@ -1,7 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ErrorComponet = (props) => {
+const propTypes = {
+  children: PropTypes.any
+};
+
+const ErrorComponent = (props) => {
   return <span className='errorMsg'>{props.children}</span>;
 };
 
-export default ErrorComponet;
+ErrorComponent.propTypes = propTypes;
+
+export default ErrorComponent;

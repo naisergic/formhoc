@@ -63,6 +63,7 @@ export const email = {
   errorWrapper: ErrorComponet,
   validationsToCheck: [
     {
+      // eslint-disable-next-line no-useless-escape
       regexToCheck: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
       errorMsg: 'Invalid Email Format'
     }
@@ -91,8 +92,7 @@ export const password = {
   confirmMatchTo: {
     id: 'confirmPassword',
     hideErrorComponent: true,
-    checkValidationOnBlur: true,
-    hideErrorComponent: true
+    checkValidationOnBlur: true
   }
 };
 
@@ -135,8 +135,7 @@ export const password1 = {
   confirmMatchTo: {
     id: 'confirmPassword1',
     hideErrorComponent: true,
-    checkValidationOnBlur: true,
-    hideErrorComponent: true
+    checkValidationOnBlur: true
   }
 };
 

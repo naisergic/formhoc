@@ -73,6 +73,7 @@ export default class RenderForm extends Component {
     this.id = undefined;
   }
 
+  // eslint-disable-next-line complexity
   componentWillMount () {
     const {
       inputProps,
@@ -343,6 +344,7 @@ export default class RenderForm extends Component {
    * @description handle change event on input
    * @param {*} e event
    */
+  // eslint-disable-next-line complexity
   handleOnChange (e, type) {
     const { checkValidationOnChange, onChangeCallback, formatter, confirmMatchTo, confirmMatchWith } = this.props;
     /**
@@ -357,7 +359,7 @@ export default class RenderForm extends Component {
       value = e.target.checked ? value : '';
       this.setState({
         checked: e.target.checked
-      })
+      });
     }
 
     this.setState({
@@ -392,9 +394,17 @@ export default class RenderForm extends Component {
    * Render Input Elements
    * @param {Object} props
    */
+  // eslint-disable-next-line complexity
   render () {
-    const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled,
-      isUserComponent, UserComponent } = this.props;
+    const {
+      inputProps,
+      renderLabelAfterInput,
+      optionProps,
+      selectedValue,
+      disabled,
+      isUserComponent,
+      UserComponent
+    } = this.props;
     let type, options, optionInputProps, classes, isError, value, radioBoxGroup;
 
     if (inputProps) {
@@ -413,7 +423,11 @@ export default class RenderForm extends Component {
     if (isUserComponent) {
       return (
         <Fragment>
-          <UserComponent id={this.id} onBlur={(e) => { this.handleOnBlur(e); }} onChange={(e) => { this.handleOnChange(e); }} />
+          <UserComponent
+            id={this.id}
+            onBlur={(e) => { this.handleOnBlur(e); }}
+            onChange={(e) => { this.handleOnChange(e); }}
+          />
         </Fragment>
       );
     }
@@ -438,13 +452,13 @@ export default class RenderForm extends Component {
         );
       }
       if (type === 'radio' || type === 'checkbox') {
-        let checkedValue
+        let checkedValue;
         if (type === 'radio') {
-          checkedValue = formObj[radioBoxGroup].value !== '' && formObj[radioBoxGroup].value === this.state.value
+          checkedValue = formObj[radioBoxGroup].value !== '' && formObj[radioBoxGroup].value === this.state.value;
         } else {
-          checkedValue = this.state.checked
+          checkedValue = this.state.checked;
         }
-        const classesToApply = checkedValue ? `${classes} checked` : classes
+        const classesToApply = checkedValue ? `${classes} checked` : classes;
         return (
           <Fragment>
             {!renderLabelAfterInput && this.renderLabel(type)}
