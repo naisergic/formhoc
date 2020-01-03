@@ -438,13 +438,12 @@ export default class RenderForm extends Component {
         )
       }
       if (type === 'radio' || type === 'checkbox') {
-        let checkedValue;
+        let checkedValue
         if (type === 'radio') {
           checkedValue = formObj[radioBoxGroup].value !== '' && formObj[radioBoxGroup].value === this.state.value
         } else {
           checkedValue = this.state.checked
         }
-        
         const classesToApply = checkedValue ? `${classes} checked` : classes
         return (
           <Fragment>
