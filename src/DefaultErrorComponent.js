@@ -1,7 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export const DefaultErrorComponent = (props)=>{
-  return <span>{props.children}</span>
-}
+const propTypes = {
+  children: PropTypes.any
+};
+
+export const DefaultErrorComponent = (props) => {
+  return <span>{props.children}</span>;
+};
+
+DefaultErrorComponent.propTypes = propTypes;
 
 export default DefaultErrorComponent;
