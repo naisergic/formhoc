@@ -356,8 +356,8 @@ export default class RenderForm extends Component {
     if (type === 'checkbox' || type === 'radio') {
       value = e.target.checked ? value : '';
       this.setState({
-        checked: true
-      });
+        checked: e.target.checked
+      })
     }
 
     this.setState({
@@ -438,8 +438,13 @@ export default class RenderForm extends Component {
         );
       }
       if (type === 'radio' || type === 'checkbox') {
-        const radioChecked = type === 'radio' ? formObj[radioBoxGroup].value !== '' && formObj[radioBoxGroup].value === this.state.value : false;
-        const classesToApply = radioChecked ? `${classes} radioChecked` : classes;
+        let checkedValue
+        if (type === 'radio') {
+          checkedValue = formObj[radioBoxGroup].value !== '' && formObj[radioBoxGroup].value === this.state.value
+        } else {
+          checkedValue = this.state.checked
+        }
+        const classesToApply = checkedValue ? `${classes} checked` : classes
         return (
           <Fragment>
             {!renderLabelAfterInput && this.renderLabel(type)}
@@ -450,7 +455,7 @@ export default class RenderForm extends Component {
               disabled={disabled}
               onChange={(e) => { this.handleOnChange(e, type); }}
               value={this.state.value || selectedValue || value}
-              checked={radioChecked}
+              checked={checkedValue}
             />
             {renderLabelAfterInput && this.renderLabel(type)}
             {isError && this.renderErrorMsg(this.id)}
