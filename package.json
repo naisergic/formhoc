@@ -4,7 +4,7 @@
   "description": "it is a HOC for all of the form input type it will handle error and also maintain the state of every form input type",
   "author": "Naisergic",
   "license": "MIT",
-  "repository": "https://github.com/naisergic/FormHOC.git",
+  "repository": "https://github.com/naisergic/formhoc.git",
   "keywords": [
     "react-form",
     "reactForm",
