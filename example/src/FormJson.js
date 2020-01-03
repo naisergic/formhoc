@@ -14,11 +14,11 @@ export const submitButton = {
 export const firstName = {
   inputProps: {
     type: 'input',
-    required: true,
+    required: true
   },
   labelProps: {
     label: 'First Name',
-    inputProps: { className: "labels", id: "firstNameLabel" }
+    inputProps: { className: 'labels', id: 'firstNameLabel' }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -29,16 +29,16 @@ export const firstName = {
   ],
   renderLabelAfterInput: true,
   checkValidationOnBlur: true
-}
+};
 
 export const lastName = {
   inputProps: {
     type: 'input',
-    required: true,
+    required: true
   },
   labelProps: {
     label: 'Last Name',
-    inputProps: { className: "labels", id: "lastNameLabel" }
+    inputProps: { className: 'labels', id: 'lastNameLabel' }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -49,16 +49,16 @@ export const lastName = {
   ],
   renderLabelAfterInput: true,
   checkValidationOnBlur: true
-}
+};
 
 export const email = {
   inputProps: {
     type: 'email',
-    required: true,
+    required: true
   },
   labelProps: {
     label: 'Email',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: 'labels', id: 'emailLabel' }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -69,15 +69,15 @@ export const email = {
   ],
   renderLabelAfterInput: true,
   checkValidationOnBlur: true
-}
+};
 export const password = {
   inputProps: {
     type: 'password',
-    required: true,
+    required: true
   },
   labelProps: {
     label: 'Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: 'labels', id: 'emailLabel' }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -89,41 +89,41 @@ export const password = {
   renderLabelAfterInput: true,
   checkValidationOnBlur: true,
   confirmMatchTo: {
-    id: "confirmPassword",
+    id: 'confirmPassword',
     hideErrorComponent: true,
     checkValidationOnBlur: true,
-    hideErrorComponent: true,
+    hideErrorComponent: true
   }
-}
+};
 
 export const confirmPassword = {
   inputProps: {
     type: 'password',
-    required: true,
+    required: true
   },
   labelProps: {
     label: 'Confirm Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: 'labels', id: 'emailLabel' }
   },
-  errorWrapper:  ErrorComponet,
+  errorWrapper: ErrorComponet,
   confirmMatchWith: {
-    id: "confirmPassword",
-    errorMsg: "Password Doesn't Match",
+    id: 'confirmPassword',
+    errorMsg: 'Password Doesn\'t Match',
     ErrorComponent: ErrorComponet,
-    checkValidationOnBlur: true,
+    checkValidationOnBlur: true
   },
-  renderLabelAfterInput: true,
-}
+  renderLabelAfterInput: true
+};
 export const password1 = {
   inputProps: {
     type: 'password',
-    required: true,
+    required: true
   },
   labelProps: {
     label: 'Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: 'labels', id: 'emailLabel' }
   },
-  errorWrapper:  ErrorComponet,
+  errorWrapper: ErrorComponet,
   validationsToCheck: [
     {
       regexToCheck: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
@@ -133,147 +133,146 @@ export const password1 = {
   renderLabelAfterInput: true,
   checkValidationOnBlur: true,
   confirmMatchTo: {
-    id: "confirmPassword1",
+    id: 'confirmPassword1',
     hideErrorComponent: true,
     checkValidationOnBlur: true,
-    hideErrorComponent: true,
+    hideErrorComponent: true
   }
-}
+};
 
 export const confirmPassword1 = {
   inputProps: {
     type: 'password',
-    required: true,
+    required: true
   },
   labelProps: {
     label: 'Confirm Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: 'labels', id: 'emailLabel' }
   },
   errorWrapper: ErrorComponet,
   confirmMatchWith: {
-    id: "confirmPassword1",
-    errorMsg: "Password Doesn't Match",
+    id: 'confirmPassword1',
+    errorMsg: 'Password Doesn\'t Match',
     ErrorComponent: ErrorComponet,
-    checkValidationOnBlur: true,
+    checkValidationOnBlur: true
   },
-  renderLabelAfterInput: true,
-}
+  renderLabelAfterInput: true
+};
 
 export const dropdown = {
   inputProps: {
     type: 'select',
-    id: "select1"
+    id: 'select1'
   },
   labelProps: {
     label: 'Country:',
-    inputProps: { className: "labels", id: "countryLabel" }
+    inputProps: { className: 'labels', id: 'countryLabel' }
   },
   optionProps: {
-    options: [{ value: "IN", label: "INDIA" }, { value: "US", label: "USA" }],
-    inputProps: { className: "options" }
+    options: [{ value: 'IN', label: 'INDIA' }, { value: 'US', label: 'USA' }],
+    inputProps: { className: 'options' }
   },
   ariaDescribedBy: {
-    ariaDescribedByMsg: "list of country",
+    ariaDescribedByMsg: 'list of country',
     inputProps: {
-      className: "hide",
-      id: "ariaDescribedForCountry"
+      className: 'hide',
+      id: 'ariaDescribedForCountry'
     }
   }
-}
+};
 
 export const checkBoxes1 = {
-  inputProps:{
-    type:"checkbox",
-    name:"Dog",
-    value:"Dog",
-    required:true
+  inputProps: {
+    type: 'checkbox',
+    name: 'Dog',
+    value: 'Dog',
+    required: true
   },
-  renderLabelAfterInput:true,
-  labelProps:{
-    CustomComponent: CheckBoxLabel('Dog'),
+  renderLabelAfterInput: true,
+  labelProps: {
+    CustomComponent: CheckBoxLabel('Dog')
   }
-}
+};
 
 export const checkBoxes2 = {
-  inputProps:{
-    type:"checkbox",
-    name:"Cat",
-    value:"Cat",
-    required:true
+  inputProps: {
+    type: 'checkbox',
+    name: 'Cat',
+    value: 'Cat',
+    required: true
   },
-  renderLabelAfterInput:true,
-  labelProps:{
-    CustomComponent: CheckBoxLabel('Cat'),
+  renderLabelAfterInput: true,
+  labelProps: {
+    CustomComponent: CheckBoxLabel('Cat')
   }
-}
+};
 
 export const checkBoxes3 = {
-  inputProps:{
-    type:"checkbox",
-    name:"Rat",
-    value:"Rat",
-    required:true
+  inputProps: {
+    type: 'checkbox',
+    name: 'Rat',
+    value: 'Rat',
+    required: true
   },
-  renderLabelAfterInput:true,
-  labelProps:{
-    CustomComponent: CheckBoxLabel('Rat'),
+  renderLabelAfterInput: true,
+  labelProps: {
+    CustomComponent: CheckBoxLabel('Rat')
   }
-}
+};
 
 export const radioBox1 = {
   inputProps: {
-    type:"radio",
-    name:"group1",
-    value:"male"
+    type: 'radio',
+    name: 'group1',
+    value: 'male'
   },
-  renderLabelAfterInput:true,
-  labelProps:{
-    CustomComponent: CheckBoxLabel('Male'),
+  renderLabelAfterInput: true,
+  labelProps: {
+    CustomComponent: CheckBoxLabel('Male')
   }
-}
+};
 
 export const radioBox2 = {
   inputProps: {
-    type:"radio",
-    name:"group1",
-    value:"female"
+    type: 'radio',
+    name: 'group1',
+    value: 'female'
   },
-  renderLabelAfterInput:true,
-  labelProps:{
-    CustomComponent: CheckBoxLabel('Female'),
+  renderLabelAfterInput: true,
+  labelProps: {
+    CustomComponent: CheckBoxLabel('Female')
   }
-}
+};
 
 export const radioBox3 = {
   inputProps: {
-    type:"radio",
-    name:"group2",
-    value:"male"
+    type: 'radio',
+    name: 'group2',
+    value: 'male'
   },
-  renderLabelAfterInput:true,
-  labelProps:{
-    CustomComponent: CheckBoxLabel('Male'),
+  renderLabelAfterInput: true,
+  labelProps: {
+    CustomComponent: CheckBoxLabel('Male')
   }
-}
+};
 
 export const radioBox4 = {
   inputProps: {
-    type:"radio",
-    name:"group2",
-    value:"female",
-    checked:true
+    type: 'radio',
+    name: 'group2',
+    value: 'female',
+    checked: true
   },
-  renderLabelAfterInput:true,
-  labelProps:{
-    CustomComponent: CheckBoxLabel('Female'),
+  renderLabelAfterInput: true,
+  labelProps: {
+    CustomComponent: CheckBoxLabel('Female')
   }
-}
+};
 
 export const custom = {
   UserComponent: DateComponent,
   isUserComponent: true,
-  validationsToCheck:[],
+  validationsToCheck: [],
   checkValidationOnBlur: true,
-  checkValidationFunc: ()=>{}
-}
-
+  checkValidationFunc: () => {}
+};

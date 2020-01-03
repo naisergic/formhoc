@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import RenderForm from './RenderForm'
+import React from 'react';
+import PropTypes from 'prop-types';
+import RenderForm from './RenderForm';
 
 const propTypes = {
   selectedValue: PropTypes.string,
@@ -10,13 +10,13 @@ const propTypes = {
   onChangeCallback: PropTypes.func,
   onBlurCallback: PropTypes.func,
   formatter: PropTypes.func
-}
+};
 
 const defaultProps = {
   selectedValue: '',
   inputTypeJson: {},
   disabled: false
-}
+};
 
 const FormInput = props => {
   const {
@@ -27,7 +27,7 @@ const FormInput = props => {
     onChangeCallback,
     onBlurCallback,
     formatter
-  } = props
+  } = props;
   if (inputTypeJson && typeof inputTypeJson === 'object') {
     return (
       <RenderForm
@@ -39,13 +39,13 @@ const FormInput = props => {
         onBlurCallback={onBlurCallback}
         formatter={formatter}
       />
-    )
+    );
   } else {
-    return null
+    return null;
   }
-}
+};
 
-FormInput.propTypes = propTypes
-FormInput.defaultProps = defaultProps
+FormInput.propTypes = propTypes;
+FormInput.defaultProps = defaultProps;
 
-export default FormInput
+export default FormInput;

@@ -14,10 +14,21 @@
     "sourceType": "module"
   },
   "rules": {
-    // don't force es6 functions to include space before paren
-    "space-before-function-paren": 0,
-
-    // allow specifying true explicitly for boolean props
-    "react/jsx-boolean-value": 0
+    "arrow-body-style": 0,
+    "arrow-parens": 0,
+    "complexity": ["error", {"max": 12}],
+    "indent": ["error", 2],
+    "max-statements": ["error", {"max": 100}],
+    "max-lines": ["error", { "max": 1000 }],
+    "max-len": 0,
+    "no-confusing-arrow": 0,
+    "no-console": 1,
+    "import/prefer-default-export": 0,
+    "import/no-extraneous-dependencies": 0,
+    "quotes": ["error", "single"],
+    "react/jsx-filename-extension": 0,
+    "react/jsx-boolean-value": 0,
+    "react/destructuring-assignment": 0,
+    "semi": ["error", "always"]
   }
 }
