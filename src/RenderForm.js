@@ -21,24 +21,23 @@ export default class RenderForm extends Component {
     renderLabelAfterInput: PropTypes.bool,
     inputProps: PropTypes.object,
     optionProps: PropTypes.object,
-    options: PropTypes.array,
     onAfterSubmit: PropTypes.func, // use this for cheking error after pressing submit button
-    errorWrapper: PropTypes.element,
+    errorWrapper: PropTypes.elementType,
     formatter: PropTypes.func,
     confirmMatchWith: PropTypes.object,
     confirmMatchTo: PropTypes.object,
     checkValidationFunc: PropTypes.func,
     onChangeCallback: PropTypes.func,
     onBlurCallback: PropTypes.func,
-    ariaDescribedBy: PropTypes.any,
+    ariaDescribedBy: PropTypes.object,
     validationsToCheck: PropTypes.array,
-    selectedValue: PropTypes.any,
-    labelProps: PropTypes.any,
-    checkValidationOnBlur: PropTypes.any,
-    checkValidationOnChange: PropTypes.any,
-    disabled: PropTypes.any,
+    selectedValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    labelProps: PropTypes.object,
+    checkValidationOnBlur: PropTypes.bool,
+    checkValidationOnChange: PropTypes.bool,
+    disabled: PropTypes.bool,
     isUserComponent: PropTypes.bool,
-    UserComponent: PropTypes.element
+    UserComponent: PropTypes.elementType
   }
 
   /**
@@ -47,10 +46,9 @@ export default class RenderForm extends Component {
    */
   static defaultProps = {
     renderLabelAfterInput: false,
-    inputProps: {
-      checkValidationOnChange: false,
-      checkValidationOnBlur: true
-    },
+    inputProps: {},
+    checkValidationOnChange: false,
+    checkValidationOnBlur: true,
     onChangeCallback: () => { },
     onBlurCallback: () => { }
   };
@@ -313,13 +311,12 @@ export default class RenderForm extends Component {
       formObj[id].error = true
       formObj[id].confirmError = true
       formObj[id].errorMsg = errorMsgs
-      this.forceUpdate()
     } else if (formObj[id].confirmError) {
       formObj[id].error = false
       formObj[id].confirmError = false
       formObj[id].errorMsg = ''
-      this.forceUpdate()
     }
+    this.forceUpdate()
   }
   /**
    * @function handleOnBlur
@@ -419,7 +416,7 @@ export default class RenderForm extends Component {
     }
 
     if (type) {
-      if (type !== 'select' && type !== 'submit' && type !== 'radio' && type !== 'checkbox') {
+      if (['select', 'submit', 'radio', 'checkbox'].indexOf(type) === -1) {
         return (
           <Fragment>
             {!renderLabelAfterInput && this.renderLabel(type)}
@@ -437,10 +434,11 @@ export default class RenderForm extends Component {
           </Fragment>
         )
       }
-      if (type === 'radio' || type === 'checkbox') {
+      if (['radio', 'checkbox'].indexOf(type) > -1) {
         let checkedValue
         if (type === 'radio') {
-          checkedValue = formObj[radioBoxGroup].value !== '' && formObj[radioBoxGroup].value === this.state.value
+          const formValue = formObj[radioBoxGroup].value
+          checkedValue = formValue !== '' && formValue === this.state.value
         } else {
           checkedValue = this.state.checked
         }
