@@ -263,10 +263,12 @@ export default class RenderForm extends Component {
         if (!isValidFormat) {
           formObjItem.errorMsg = errorMsg
           formObjItem.error = true
+          this.forceUpdate()
           return true
         }
         formObjItem.errorMsg = ''
         formObjItem.error = false
+        this.forceUpdate()
         return false
       })
     }
