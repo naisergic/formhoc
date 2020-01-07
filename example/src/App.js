@@ -45,7 +45,7 @@ export default class App extends Component {
       <React.Fragment>
         <ReactForm
           onSubmit={this.handleSubmit}
-          inputProps={{className:"formWrapper",name:"formWrapper"}}
+          inputProps={{className:"formWrapper",name:"formWrapper",method:"POST"}}
         >
           <div className="mb5 relative">
             <FormInput inputTypeJson={firstName}  />

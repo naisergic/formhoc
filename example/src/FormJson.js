@@ -277,8 +277,15 @@ export const radioBox4 = {
 export const custom = {
   UserComponent: DateComponent,
   isUserComponent: true,
-  validationsToCheck:[],
+  validationsToCheck:[
+    {
+      regexToCheck:/^(?!\s*$).+}/,
+      errorMsg:'Please Select Date'
+    }],
   checkValidationOnBlur: true,
-  checkValidationFunc: ()=>{}
+  checkValidationFunc: ()=>{},
+  inputProps: {
+    required: true
+  }
 }
 

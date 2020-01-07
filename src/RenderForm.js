@@ -399,7 +399,7 @@ export default class RenderForm extends Component {
     if (inputProps) {
       isError = this.checkIfError(this.id)
       type = inputProps.type
-      classes = inputProps.class ? inputProps.class : ''
+      classes = inputProps.className ? inputProps.className : ''
       classes = isError ? `${classes} error` : classes
       value = inputProps.value
       radioBoxGroup = inputProps.name || defaultRadioGroup
@@ -433,7 +433,8 @@ export default class RenderForm extends Component {
     if (isUserComponent) {
       return (
         <Fragment>
-          <UserComponent id={this.id} onBlur={(e) => { this.handleOnBlur(e) }} onChange={(e) => { this.handleOnChange(e) }} />
+          <UserComponent {...inputProps} id={this.id} className={`${classes}`} onBlur={(e) => { this.handleOnBlur(e) }} onChange={(e) => { this.handleOnChange(e) }} />
+          {this.renderErrorMsg(this.id)}
         </Fragment>
       )
     }
