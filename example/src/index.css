@@ -4,28 +4,140 @@ body {
   font-family: sans-serif;
 }
 
-.labels {
-  color: black;
-  font-size: 16px;
+.formWrapper {
+  background: #f2f2f2;
+  width: 60%;
+  padding: 20px;
+  margin: 10px auto;
 }
 
-input {
-  color: black;
+.formWrapper input {
+  padding: 16px 0 16px 16px;
+  margin: 0;
+  height: 50px;
+  background: #fff;
+  box-sizing: border-box;
   width: 100%;
-  margin: 10px 0;
-  padding: 8px 0;
+}
+
+.formWrapper input:required:focus,
+.formWrapper input:not([value=""]) {
+  padding: 16px 16px 2px;
+}
+
+.formWrapper .label {
+  position: absolute;
+  left: 0;
+  padding: 16px;
+  pointer-events: none;
+  transition: all .2s ease;
+  -moz-transition: .2s ease all;
+  -webkit-transition: all .2s ease;
+  min-width: auto;
+  font-size: 14px;
+}
+
+.formWrapper input:required:focus~label,
+.formWrapper input:not([value=""])~label {
+  font-size: 12px;
+  padding-top: 9px;
+  padding-left: 9px;
+}
+
+.formWrapper input[type=checkbox] + label {
+  display: inline-block;
+  margin: 0;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.formWrapper input[type=checkbox] {
+  display: none;
+}
+
+.formWrapper input[type=checkbox] + label:before {
+  content: "\2714";
+  border: 1px solid #000;
+  border-radius: 2px;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  padding-left: 2px;
+  padding-bottom: 3px;
+  margin-right: 2px;
+  vertical-align: bottom;
+  color: transparent;
+  transition: .2s;
+}
+
+.formWrapper input[type=checkbox]:checked + label:before {
+  background-color: MediumSeaGreen;
+  border-color: MediumSeaGreen;
+  color: #fff;
+}
+
+.formWrapper input[type="radio"]:checked,
+.formWrapper input[type="radio"]:not(:checked) {
+    display: none;
+}
+.formWrapper input[type="radio"]:checked + label,
+.formWrapper input[type="radio"]:not(:checked) + label {
+    position: relative;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    padding-top: 0;
+    padding-left: 27px;
+    margin-right: 20px;
+    
+}
+
+.formWrapper input[type="radio"]:checked + label:before,
+.formWrapper input[type="radio"]:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.formWrapper input[type="radio"]:checked + label:after,
+.formWrapper input[type="radio"]:not(:checked) + label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: MediumSeaGreen;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.formWrapper input[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+.formWrapper input[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.formWrapper  input[type=submit] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 14px 20px;
   border-radius: 4px;
-  border: 2px solid #d6d6d6;
-}
-
-input[type=checkbox] {
-  width: auto;
-  margin-right: 10px;
-}
-
-input[type=radio] {
-  width: auto;
-  margin-right: 10px;
+  cursor: pointer;
 }
 
 select {
@@ -50,6 +162,10 @@ select::-ms-expand {
   margin-bottom: 8px;
 }
 
+.mb10 {
+  margin-bottom: 16px;
+}
+
 .relative {
   position: relative;
 }
@@ -64,13 +180,6 @@ select::-ms-expand {
   border: 2px solid #e00000;
 }
 
-.form1 {
-  background: #f2f2f2;
-  width: 60%;
-  padding: 20px;
-  margin: 10px auto;
-}
-
 
 .form1  input[type=submit] {
   background-color: #4CAF50;
@@ -80,21 +189,6 @@ select::-ms-expand {
   cursor: pointer;
 }
 
-.form2 {
-  position: relative;
-  background: #f2f2f2;
-  width: 60%;
-  padding: 20px;
-  margin: 10px auto;
-}
-
-.form2 input {
-  padding: 16px 0 16px 16px;
-  margin: 0;
-  height: 50px;
-  background: #fff;
-  box-sizing: border-box;
-}
 
 .form2 label {
   position: absolute;

@@ -18,7 +18,7 @@ export const firstName = {
   },
   labelProps: {
     label: 'First Name',
-    inputProps: { className: "labels", id: "firstNameLabel" }
+    inputProps: { className: "label", id: "firstNameLabel" }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -38,7 +38,7 @@ export const lastName = {
   },
   labelProps: {
     label: 'Last Name',
-    inputProps: { className: "labels", id: "lastNameLabel" }
+    inputProps: { className: "label", id: "lastNameLabel" }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -58,7 +58,7 @@ export const email = {
   },
   labelProps: {
     label: 'Email',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: "label", id: "emailLabel" }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -77,7 +77,7 @@ export const password = {
   },
   labelProps: {
     label: 'Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: "label", id: "emailLabel" }
   },
   errorWrapper: ErrorComponet,
   validationsToCheck: [
@@ -103,7 +103,7 @@ export const confirmPassword = {
   },
   labelProps: {
     label: 'Confirm Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: "label", id: "emailLabel" }
   },
   errorWrapper:  ErrorComponet,
   confirmMatchWith: {
@@ -121,7 +121,7 @@ export const password1 = {
   },
   labelProps: {
     label: 'Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: "label", id: "emailLabel" }
   },
   errorWrapper:  ErrorComponet,
   validationsToCheck: [
@@ -147,7 +147,7 @@ export const confirmPassword1 = {
   },
   labelProps: {
     label: 'Confirm Password',
-    inputProps: { className: "labels", id: "emailLabel" }
+    inputProps: { className: "label", id: "emailLabel" }
   },
   errorWrapper: ErrorComponet,
   confirmMatchWith: {
@@ -166,7 +166,7 @@ export const dropdown = {
   },
   labelProps: {
     label: 'Country:',
-    inputProps: { className: "labels", id: "countryLabel" }
+    inputProps: { className: "label", id: "countryLabel" }
   },
   optionProps: {
     options: [{ value: "IN", label: "INDIA" }, { value: "US", label: "USA" }],
@@ -186,11 +186,12 @@ export const checkBoxes1 = {
     type:"checkbox",
     name:"Dog",
     value:"Dog",
+    id:'Dog',
     required:true
   },
   renderLabelAfterInput:true,
   labelProps:{
-    CustomComponent: CheckBoxLabel('Dog'),
+    CustomComponent: CheckBoxLabel('Dog', 'Dog'),
   }
 }
 
@@ -199,11 +200,12 @@ export const checkBoxes2 = {
     type:"checkbox",
     name:"Cat",
     value:"Cat",
+    id:'Cat',
     required:true
   },
   renderLabelAfterInput:true,
   labelProps:{
-    CustomComponent: CheckBoxLabel('Cat'),
+    CustomComponent: CheckBoxLabel('Cat','Cat'),
   }
 }
 
@@ -212,11 +214,12 @@ export const checkBoxes3 = {
     type:"checkbox",
     name:"Rat",
     value:"Rat",
+    id:'Rat',
     required:true
   },
   renderLabelAfterInput:true,
   labelProps:{
-    CustomComponent: CheckBoxLabel('Rat'),
+    CustomComponent: CheckBoxLabel('Rat','Rat'),
   }
 }
 
@@ -224,11 +227,12 @@ export const radioBox1 = {
   inputProps: {
     type:"radio",
     name:"group1",
-    value:"male"
+    value:"male",
+    id:"male"
   },
   renderLabelAfterInput:true,
   labelProps:{
-    CustomComponent: CheckBoxLabel('Male'),
+    CustomComponent: CheckBoxLabel('male','Male'),
   }
 }
 
@@ -236,11 +240,12 @@ export const radioBox2 = {
   inputProps: {
     type:"radio",
     name:"group1",
-    value:"female"
+    value:"female",
+    id:"female"
   },
   renderLabelAfterInput:true,
   labelProps:{
-    CustomComponent: CheckBoxLabel('Female'),
+    CustomComponent: CheckBoxLabel('female','Female'),
   }
 }
 
