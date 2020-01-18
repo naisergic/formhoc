@@ -223,6 +223,16 @@ export const checkBoxes3 = {
   }
 }
 
+export const checkBoxGroupError = {
+minimumRequired:2,
+errorProps:{
+  errorMsg:"Please tick any two checkboxes",
+  ErrorComponent:null,
+  renderErrorAfter:true,
+  renderErrorBefore:false
+  },
+}
+
 export const radioBox1 = {
   inputProps: {
     type:"radio",
@@ -288,4 +298,3 @@ export const custom = {
     required: true
   }
 }
-

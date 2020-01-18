@@ -9,7 +9,9 @@ const propTypes = {
   checkValidationFunc: PropTypes.func,
   onChangeCallback: PropTypes.func,
   onBlurCallback: PropTypes.func,
-  formatter: PropTypes.func
+  formatter: PropTypes.func,
+  onSubmitCallBack: PropTypes.func.isRequired,
+  parentId: PropTypes.string.isRequired
 }
 
 const defaultProps = {
@@ -26,8 +28,11 @@ const FormInput = props => {
     checkValidationFunc,
     onChangeCallback,
     onBlurCallback,
-    formatter
+    formatter,
+    onSubmitCallBack,
+    parentId
   } = props
+
   if (inputTypeJson && typeof inputTypeJson === 'object') {
     return (
       <RenderForm
@@ -38,6 +43,8 @@ const FormInput = props => {
         onChangeCallback={onChangeCallback}
         onBlurCallback={onBlurCallback}
         formatter={formatter}
+        onSubmitCallBack={onSubmitCallBack}
+        parentId={parentId}
       />
     )
   } else {

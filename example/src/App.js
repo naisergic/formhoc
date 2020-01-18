@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FormInput, ReactForm } from 'nform'
+import { FormInput, ReactForm, GroupBox } from 'nform'
 import './index.css'
 import {
   firstName,
@@ -17,7 +17,8 @@ import {
   radioBox2,
   radioBox3,
   radioBox4,
-  custom
+  custom,
+  checkBoxGroupError
 } from './FormJson';
 
 export default class App extends Component {
@@ -65,6 +66,7 @@ export default class App extends Component {
           <div className="mb10 relative">
             <FormInput inputTypeJson={confirmPassword} />
           </div>
+          <GroupBox inputTypeJson={checkBoxGroupError}>
           <div className="mb5">
             <span>Select your Favorite Pet</span>
           </div>
@@ -77,6 +79,8 @@ export default class App extends Component {
           <div className="mb10">
             <FormInput inputTypeJson={checkBoxes3} />
           </div>
+          </GroupBox>
+          <GroupBox inputTypeJson={checkBoxGroupError}>
           <div className="mb5">
             <span>Select your Gender</span>
           </div>
@@ -84,6 +88,7 @@ export default class App extends Component {
               <FormInput inputTypeJson={radioBox1} />
               <FormInput inputTypeJson={radioBox2} />
           </div>
+          </GroupBox>
           <div className="mb5">
             <FormInput
               inputTypeJson={custom}
