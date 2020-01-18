@@ -387,7 +387,6 @@ export default class RenderForm extends Component {
     }
     if (type === 'checkbox' || type === 'radio') {
       value = e.target.checked ? value : ''
-      parentGroup[parentId][id].checked = e.target.checked
       this.setState({
         checked: e.target.checked
       })
@@ -403,6 +402,7 @@ export default class RenderForm extends Component {
 
     if (formObj[id]) {
       formObj[id].value = value
+      parentGroup[parentId][id].checked = e.target.checked
     }
 
     this.checkValidations(formObj[id], checkValidationOnChange)
@@ -428,15 +428,17 @@ export default class RenderForm extends Component {
   render() {
     const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled,
       isUserComponent, UserComponent } = this.props
-    let type, options, optionInputProps, classes, isError, value, radioBoxGroup
+    let type, options, optionInputProps, classes, isError, value, radioBoxGroup, errorMsgId
 
     if (inputProps) {
-      isError = this.checkIfError(this.id)
       type = inputProps.type
+      radioBoxGroup = inputProps.name || defaultRadioGroup
+      errorMsgId = type === 'radio' ? this.getRadioBoxId(radioBoxGroup) : this.id
+
+      isError = this.checkIfError(errorMsgId)
       classes = inputProps.className ? inputProps.className : ''
       classes = isError ? `${classes} error` : classes
       value = inputProps.value
-      radioBoxGroup = inputProps.name || defaultRadioGroup
     }
     if (optionProps) {
       options = optionProps.options
@@ -453,13 +455,13 @@ export default class RenderForm extends Component {
       value: this.state.value || selectedValue || value
     }
 
-    const renderInput = (props) => {
+    const renderInput = (props, showErrorMsg = true) => {
       return (
         <Fragment>
           {!renderLabelAfterInput && this.renderLabel()}
           <input {...props} />
           {renderLabelAfterInput && this.renderLabel()}
-          {isError && this.renderErrorMsg(this.id)}
+          {showErrorMsg && isError && this.renderErrorMsg(errorMsgId)}
         </Fragment>
       )
     }
@@ -468,7 +470,7 @@ export default class RenderForm extends Component {
       return (
         <Fragment>
           <UserComponent {...inputProps} id={this.id} className={`${classes}`} onBlur={(e) => { this.handleOnBlur(e) }} onChange={(e) => { this.handleOnChange(e) }} />
-          {this.renderErrorMsg(this.id)}
+          {this.renderErrorMsg(errorMsgId)}
         </Fragment>
       )
     }
@@ -489,8 +491,9 @@ export default class RenderForm extends Component {
         }
         propsToPass.className = checkedValue ? `${classes} checked` : classes
         propsToPass.checked = checkedValue
+        const showErrorMsg = false
         return (
-          renderInput(propsToPass)
+          renderInput(propsToPass, showErrorMsg)
         )
       }
       if (type === 'select') {
@@ -528,7 +531,7 @@ export default class RenderForm extends Component {
             </select>
             {ariaDescribedBy && ariaDescribedByMsg && <span {...propsForAriaDescribedBy}>{ariaDescribedBy.ariaDescribedByMsg}</span>}
             {renderLabelAfterInput && this.renderLabel()}
-            {this.renderErrorMsg(this.id)}
+            {this.renderErrorMsg(errorMsgId)}
           </Fragment>
         )
       }

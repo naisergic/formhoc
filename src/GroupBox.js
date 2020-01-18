@@ -16,8 +16,11 @@ export default class GroupBox extends React.PureComponent {
     this.parentId = ''
   }
   onSubmitCallBack(formObj, childrenObj) {
-    const {minimumRequired, errorMsg} = this.props
-    let ticked
+    const {inputTypeJson} = this.props
+    const {errorProps, minimumRequired} = inputTypeJson || {}
+    const {errorMsg} = errorProps
+
+    let ticked = 0
     const currentParentObj = childrenObj[this.parentId]
     const keys = Object.keys(currentParentObj)
     keys.map(key => {
@@ -107,6 +110,7 @@ export default class GroupBox extends React.PureComponent {
       id = inputTypeJson.id
     }
     const {renderErrorAfter, renderErrorBefore} = errorProps || {}
+
     const updateChildren = this.getChildrenWithProps(this.props)
     return (
       <div className={className} id={id}>
@@ -119,7 +123,5 @@ export default class GroupBox extends React.PureComponent {
 }
 
 GroupBox.propTypes = {
-  minimumRequired: PropTypes.number,
-  errorMsg: PropTypes.string,
   inputTypeJson: PropTypes.object
 }
