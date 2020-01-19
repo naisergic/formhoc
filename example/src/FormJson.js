@@ -289,7 +289,7 @@ export const custom = {
   isUserComponent: true,
   validationsToCheck:[
     {
-      regexToCheck:/^(?!\s*$).+}/,
+      regexToCheck:/^(?!\s*$).+/,
       errorMsg:'Please Select Date'
     }],
   checkValidationOnBlur: true,
