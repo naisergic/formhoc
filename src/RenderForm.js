@@ -385,8 +385,12 @@ export default class RenderForm extends Component {
     if (formatter) {
       value = formatter(e.target.value)
     }
+    if (type === 'radio') {
+      id = e.target.name || defaultRadioGroup
+    }
     if (type === 'checkbox' || type === 'radio') {
       value = e.target.checked ? value : ''
+      parentGroup[parentId][id].checked = e.target.checked
       this.setState({
         checked: e.target.checked
       })
@@ -396,13 +400,8 @@ export default class RenderForm extends Component {
       value: value
     })
 
-    if (type === 'radio') {
-      id = e.target.name || defaultRadioGroup
-    }
-
     if (formObj[id]) {
       formObj[id].value = value
-      parentGroup[parentId][id].checked = e.target.checked
     }
 
     this.checkValidations(formObj[id], checkValidationOnChange)
