@@ -41,7 +41,8 @@ export default class RenderForm extends Component {
     isUserComponent: PropTypes.bool,
     UserComponent: PropTypes.elementType,
     onSubmitCallBack: PropTypes.func,
-    parentId: PropTypes.string
+    parentId: PropTypes.string,
+    renderErrorMsgAfterInput: PropTypes.bool
   }
 
   /**
@@ -54,7 +55,8 @@ export default class RenderForm extends Component {
     checkValidationOnChange: false,
     checkValidationOnBlur: true,
     onChangeCallback: () => { },
-    onBlurCallback: () => { }
+    onBlurCallback: () => { },
+    renderErrorMsgAfterInput: true
   };
 
   static contextType = FormContext;
@@ -426,7 +428,7 @@ export default class RenderForm extends Component {
    */
   render() {
     const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled,
-      isUserComponent, UserComponent } = this.props
+      isUserComponent, UserComponent, renderErrorMsgAfterInput } = this.props
     let type, options, optionInputProps, classes, isError, value, radioBoxGroup, errorMsgId
 
     if (inputProps) {
@@ -457,10 +459,11 @@ export default class RenderForm extends Component {
     const renderInput = (props, showErrorMsg = true) => {
       return (
         <Fragment>
+          {!renderErrorMsgAfterInput && showErrorMsg && isError && this.renderErrorMsg(errorMsgId)}
           {!renderLabelAfterInput && this.renderLabel()}
           <input {...props} />
           {renderLabelAfterInput && this.renderLabel()}
-          {showErrorMsg && isError && this.renderErrorMsg(errorMsgId)}
+          {renderErrorMsgAfterInput && showErrorMsg && isError && this.renderErrorMsg(errorMsgId)}
         </Fragment>
       )
     }
