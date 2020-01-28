@@ -232,6 +232,15 @@ errorProps:{
   },
 }
 
+export const radioBoxGroupError = {
+minimumRequired:1,
+errorProps:{
+  errorMsg:"Please tick any radiobox",
+  ErrorComponent:null,
+  renderErrorMsgAfterInput:true,
+  },
+}
+
 export const radioBox1 = {
   inputProps: {
     type:"radio",
