@@ -101,23 +101,19 @@ export default class GroupBox extends React.PureComponent {
   render() {
     const {error} = this.state
     const {inputTypeJson} = this.props
-    let className
-    let id
     let errorProps
     if (inputTypeJson) {
       errorProps = inputTypeJson.errorProps
-      className = inputTypeJson.className
-      id = inputTypeJson.id
     }
     const {renderErrorMsgAfterInput} = errorProps || true
 
     const updateChildren = this.getChildrenWithProps(this.props)
     return (
-      <div className={className} id={id}>
+      <>
         {!renderErrorMsgAfterInput && error && this.displayError()}
         {updateChildren}
         {renderErrorMsgAfterInput && error && this.displayError()}
-      </div>
+      </>
     )
   }
 }
