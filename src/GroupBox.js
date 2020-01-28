@@ -109,11 +109,11 @@ export default class GroupBox extends React.PureComponent {
 
     const updateChildren = this.getChildrenWithProps(this.props)
     return (
-      <>
+      <React.Fragment>
         {!renderErrorMsgAfterInput && error && this.displayError()}
         {updateChildren}
         {renderErrorMsgAfterInput && error && this.displayError()}
-      </>
+      </React.Fragment>
     )
   }
 }
