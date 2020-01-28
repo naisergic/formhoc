@@ -18,7 +18,8 @@ import {
   radioBox3,
   radioBox4,
   custom,
-  checkBoxGroupError
+  checkBoxGroupError,
+  radioBoxGroupError
 } from './FormJson';
 
 export default class App extends Component {
@@ -80,7 +81,7 @@ export default class App extends Component {
             <FormInput inputTypeJson={checkBoxes3} />
           </div>
           </GroupBox>
-          <GroupBox inputTypeJson={checkBoxGroupError}>
+          <GroupBox inputTypeJson={radioBoxGroupError}>
           <div className="mb5">
             <span>Select your Gender</span>
           </div>
