@@ -10,6 +10,8 @@ let confirmObj = {
   confirmWith: {}
 }
 let index = 0
+let parentGroup = {}
+let functionCallsOnSubmit = []
 const defaultRadioGroup = 'radio1'
 
 export default class RenderForm extends Component {
@@ -37,7 +39,9 @@ export default class RenderForm extends Component {
     checkValidationOnChange: PropTypes.bool,
     disabled: PropTypes.bool,
     isUserComponent: PropTypes.bool,
-    UserComponent: PropTypes.elementType
+    UserComponent: PropTypes.elementType,
+    onSubmitCallBack: PropTypes.func,
+    parentId: PropTypes.string
   }
 
   /**
@@ -68,6 +72,7 @@ export default class RenderForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.getId = this.getId.bind(this)
     this.getRadioBoxId = this.getRadioBoxId.bind(this)
+    this.setParentGroup = this.setParentGroup.bind(this)
     this.id = undefined
   }
 
@@ -79,12 +84,15 @@ export default class RenderForm extends Component {
       confirmMatchTo,
       confirmMatchWith,
       selectedValue,
-      isUserComponent
+      isUserComponent,
+      parentId,
+      onSubmitCallBack
     } = this.props
     let id, type, options, optionsFirstValue, isRequired, radioBoxGroup, checked
     if (!this.context || Object.keys(this.context).length <= 0) {
       throw new Error('It uses React Context API, please upgrade React to 16.8.6 or higher')
     }
+
     if (inputProps) {
       type = inputProps.type
       id = inputProps.id
@@ -96,6 +104,7 @@ export default class RenderForm extends Component {
         this.setState({value})
       }
     }
+
     if (optionProps) {
       options = optionProps.options
     }
@@ -138,6 +147,13 @@ export default class RenderForm extends Component {
         hideErrorComponent: confirmMatchWith.hideErrorComponent
       }
     }
+    if (parentId) {
+      if (type === 'checkbox') {
+        this.setParentGroup(parentId, this.id, onSubmitCallBack)
+      } else {
+        this.setParentGroup(parentId, this.getRadioBoxId(radioBoxGroup), onSubmitCallBack)
+      }
+    }
   }
 
   componentWillUnMount() {
@@ -146,6 +162,18 @@ export default class RenderForm extends Component {
     confirmObj = {
       confirmTo: {},
       confirmWith: {}
+    }
+    parentGroup = {}
+    functionCallsOnSubmit = []
+  }
+
+  setParentGroup(parentId, id, onSubmitCallBack) {
+    if (parentId && parentGroup[parentId]) {
+      parentGroup[parentId][id] = {}
+    } else if (parentId) {
+      parentGroup[parentId] = {}
+      parentGroup[parentId][id] = {}
+      functionCallsOnSubmit.push(onSubmitCallBack)
     }
   }
 
@@ -164,6 +192,11 @@ export default class RenderForm extends Component {
 
   handleSubmit(e, submitHandle) {
     e.preventDefault()
+    functionCallsOnSubmit.forEach(item => {
+      if (typeof item === 'function') {
+        formObj = item(formObj, parentGroup)
+      }
+    })
     const keys = Object.keys(formObj)
     let error
     keys.forEach(item => {
@@ -263,10 +296,12 @@ export default class RenderForm extends Component {
         if (!isValidFormat) {
           formObjItem.errorMsg = errorMsg
           formObjItem.error = true
+          this.forceUpdate()
           return true
         }
         formObjItem.errorMsg = ''
         formObjItem.error = false
+        this.forceUpdate()
         return false
       })
     }
@@ -341,7 +376,7 @@ export default class RenderForm extends Component {
    * @param {*} e event
    */
   handleOnChange(e, type) {
-    const { checkValidationOnChange, onChangeCallback, formatter, confirmMatchTo, confirmMatchWith } = this.props
+    const { checkValidationOnChange, onChangeCallback, formatter, confirmMatchTo, confirmMatchWith, parentId } = this.props
     /**
      * Todo: we need to discuss the name of method will it be onChangeCallback or onChange
      */
@@ -350,8 +385,12 @@ export default class RenderForm extends Component {
     if (formatter) {
       value = formatter(e.target.value)
     }
+    if (type === 'radio') {
+      id = e.target.name || defaultRadioGroup
+    }
     if (type === 'checkbox' || type === 'radio') {
       value = e.target.checked ? value : ''
+      parentGroup[parentId][id].checked = e.target.checked
       this.setState({
         checked: e.target.checked
       })
@@ -360,10 +399,6 @@ export default class RenderForm extends Component {
     this.setState({
       value: value
     })
-
-    if (type === 'radio') {
-      id = e.target.name || defaultRadioGroup
-    }
 
     if (formObj[id]) {
       formObj[id].value = value
@@ -392,15 +427,17 @@ export default class RenderForm extends Component {
   render() {
     const { inputProps, renderLabelAfterInput, optionProps, selectedValue, disabled,
       isUserComponent, UserComponent } = this.props
-    let type, options, optionInputProps, classes, isError, value, radioBoxGroup
+    let type, options, optionInputProps, classes, isError, value, radioBoxGroup, errorMsgId
 
     if (inputProps) {
-      isError = this.checkIfError(this.id)
       type = inputProps.type
-      classes = inputProps.class ? inputProps.class : ''
+      radioBoxGroup = inputProps.name || defaultRadioGroup
+      errorMsgId = type === 'radio' ? this.getRadioBoxId(radioBoxGroup) : this.id
+
+      isError = this.checkIfError(errorMsgId)
+      classes = inputProps.className ? inputProps.className : ''
       classes = isError ? `${classes} error` : classes
       value = inputProps.value
-      radioBoxGroup = inputProps.name || defaultRadioGroup
     }
     if (optionProps) {
       options = optionProps.options
@@ -417,13 +454,13 @@ export default class RenderForm extends Component {
       value: this.state.value || selectedValue || value
     }
 
-    const renderInput = (props) => {
+    const renderInput = (props, showErrorMsg = true) => {
       return (
         <Fragment>
           {!renderLabelAfterInput && this.renderLabel()}
           <input {...props} />
           {renderLabelAfterInput && this.renderLabel()}
-          {isError && this.renderErrorMsg(this.id)}
+          {showErrorMsg && isError && this.renderErrorMsg(errorMsgId)}
         </Fragment>
       )
     }
@@ -431,7 +468,8 @@ export default class RenderForm extends Component {
     if (isUserComponent) {
       return (
         <Fragment>
-          <UserComponent id={this.id} onBlur={(e) => { this.handleOnBlur(e) }} onChange={(e) => { this.handleOnChange(e) }} />
+          <UserComponent {...inputProps} id={this.id} className={`${classes}`} onBlur={(e) => { this.handleOnBlur(e) }} onChange={(e) => { this.handleOnChange(e) }} />
+          {this.renderErrorMsg(errorMsgId)}
         </Fragment>
       )
     }
@@ -452,8 +490,9 @@ export default class RenderForm extends Component {
         }
         propsToPass.className = checkedValue ? `${classes} checked` : classes
         propsToPass.checked = checkedValue
+        const showErrorMsg = false
         return (
-          renderInput(propsToPass)
+          renderInput(propsToPass, showErrorMsg)
         )
       }
       if (type === 'select') {
@@ -491,7 +530,7 @@ export default class RenderForm extends Component {
             </select>
             {ariaDescribedBy && ariaDescribedByMsg && <span {...propsForAriaDescribedBy}>{ariaDescribedBy.ariaDescribedByMsg}</span>}
             {renderLabelAfterInput && this.renderLabel()}
-            {this.renderErrorMsg(this.id)}
+            {this.renderErrorMsg(errorMsgId)}
           </Fragment>
         )
       }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FormInput, ReactForm } from 'nform'
+import { FormInput, ReactForm, GroupBox } from 'nform'
 import './index.css'
 import {
   firstName,
@@ -17,7 +17,8 @@ import {
   radioBox2,
   radioBox3,
   radioBox4,
-  custom
+  custom,
+  checkBoxGroupError
 } from './FormJson';
 
 export default class App extends Component {
@@ -43,22 +44,29 @@ export default class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>
-          <div className="mb5">
+        <ReactForm
+          onSubmit={this.handleSubmit}
+          inputProps={{className:"formWrapper",name:"formWrapper",method:"POST"}}
+        >
+          <div className="mb5 relative">
             <FormInput inputTypeJson={firstName}  />
           </div>
-          <div className="mb5">
+          <div className="mb5 relative">
             <FormInput inputTypeJson={lastName}  />
           </div>
-          <div className="mb5">
-            <FormInput inputTypeJson={email}  checkValidationFunc={()=>{}}/>
+          <div className="mb5 relative">
+            <FormInput
+              inputTypeJson={email} 
+              checkValidationFunc={()=>{}}
+            />
           </div>
-          <div className="mb5">
-            <FormInput inputTypeJson={password1}  />
+          <div className="mb5 relative">
+            <FormInput inputTypeJson={password}  />
           </div>
-          <div className="mb5">
-            <FormInput inputTypeJson={confirmPassword1} />
+          <div className="mb10 relative">
+            <FormInput inputTypeJson={confirmPassword} />
           </div>
+          <GroupBox inputTypeJson={checkBoxGroupError}>
           <div className="mb5">
             <span>Select your Favorite Pet</span>
           </div>
@@ -68,46 +76,30 @@ export default class App extends Component {
           <div className="mb5">
             <FormInput inputTypeJson={checkBoxes2} />
           </div>
-          <div className="mb5">
+          <div className="mb10">
             <FormInput inputTypeJson={checkBoxes3} />
           </div>
+          </GroupBox>
+          <GroupBox inputTypeJson={checkBoxGroupError}>
           <div className="mb5">
+            <span>Select your Gender</span>
+          </div>
+          <div className="mb10">
               <FormInput inputTypeJson={radioBox1} />
               <FormInput inputTypeJson={radioBox2} />
           </div>
+          </GroupBox>
           <div className="mb5">
-              <FormInput inputTypeJson={radioBox3} />
-              <FormInput inputTypeJson={radioBox4} />
-          </div>
-          <div className="mb5">
-            <FormInput inputTypeJson={custom} onBlurCallback={this.handleBlur} onChangeCallback={this.handleChange}/>
+            <FormInput
+              inputTypeJson={custom}
+              onBlurCallback={this.handleBlur}
+              onChangeCallback={this.handleChange}
+            />
           </div>
           <div className="mb5">
             <FormInput inputTypeJson={submitButton}  />
           </div>
         </ReactForm>
-        <ReactForm onSubmit={this.handleSubmit} inputProps={{className:"form1",name:"form1"}}>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={firstName}  />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={lastName}  />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={email}  checkValidationFunc={()=>{}}/>
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={password}  />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={confirmPassword} />
-          </div>
-          <div className="mb5 relative">
-            <FormInput inputTypeJson={submitButton}/>
-          </div>
-
-        </ReactForm>
-
       </React.Fragment>
     );
   }

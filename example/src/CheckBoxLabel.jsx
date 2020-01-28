@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CheckBoxLabel = (text)=>{
-   return <span>{text}</span>
+const CheckBoxLabel = (id ,text)=>{
+   return <label htmlFor={id}>{text}</label>
 }
 
 

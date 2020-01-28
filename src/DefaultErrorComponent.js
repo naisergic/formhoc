@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 export const DefaultErrorComponent = ({ children }) => {
-  return <span>{ children }</span>
+  return <span className={'errorMsg'}>{ children }</span>
 }
 
 DefaultErrorComponent.propTypes = {
