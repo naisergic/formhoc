@@ -228,8 +228,7 @@ minimumRequired:2,
 errorProps:{
   errorMsg:"Please tick any two checkboxes",
   ErrorComponent:null,
-  renderErrorAfter:true,
-  renderErrorBefore:false
+  renderErrorMsgAfterInput:true,
   },
 }
 
