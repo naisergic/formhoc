@@ -1,6 +1,6 @@
 {
   "name": "nform",
-  "version": "1.1.2",
+  "version": "1.1.1",
   "description": "it is a HOC for all of the form input type it will handle error and also maintain the state of every form input type",
   "author": "Naisergic",
   "license": "MIT",
